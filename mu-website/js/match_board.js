@@ -108,16 +108,41 @@
   /* ── SLIDER ── */
   let c1 = 0, c2 = 0;
 
+  // Slugify tên đội chuẩn hóa tiếng Việt 100% khớp với result.html
+  // Slugify đồng bộ tuyệt đối với trang result.html
+  const slugify = s => {
+    if (!s) return '';
+    let str = String(s).toLowerCase().trim();
+    str = str.replace(/[áàảãạăắằẳẵặâấầẩẫậ]/g, 'a');
+    str = str.replace(/[éèẻẽẹêếềểễệ]/g, 'e');
+    str = str.replace(/[íìỉĩị]/g, 'i');
+    str = str.replace(/[óòỏõọôốồổỗộơớờởỡợ]/g, 'o');
+    str = str.replace(/[úùủũụưứừửữự]/g, 'u');
+    str = str.replace(/[ýỳỷỹỵ]/g, 'y');
+    str = str.replace(/đ/g, 'd');
+    // Bỏ toàn bộ ký tự đặc biệt, dấu chấm, giữ lại chữ, số và khoảng trắng
+    str = str.replace(/[^a-z0-9\s]/g, '');
+    // Thay thế khoảng trắng liền nhau thành 1 dấu gạch ngang
+    str = str.replace(/\s+/g, '-');
+    return str;
+  };
+  
   function makeTrack(tid, did, getCur, setCur) {
     const tr = $(tid), dt = $(did); if (!tr || !dt) return;
     tr.innerHTML = ''; dt.innerHTML = '';
     const p     = per();
     const pages = Math.ceil(MB_MATCHES.length / p);
+    const RESULT_URL = 'pages/result.html';
+
     MB_MATCHES.forEach((m, idx) => {
+      const matchKey = slugify(m.home) + '-vs-' + slugify(m.away);
+      const targetUrl = RESULT_URL + '?match=' + matchKey;
+
       const card = document.createElement('div');
       card.className = 'mb-rc';
       card.style.flex = `0 0 calc(${100 / p}% - ${(p - 1) * 12 / p}px)`;
       card.style.animationDelay = (idx * .06) + 's';
+      card.style.cursor = 'pointer';
       card.innerHTML = `
         <div class="mb-rc-top">${m.date}</div>
         <div class="mb-rc-comp">${m.comp}</div>
@@ -143,6 +168,17 @@
           <span class="mb-badge ${m.res}">${m.res === 'w' ? 'Thắng' : m.res === 'd' ? 'Hòa' : 'Thua'}</span>
         </div>
       `;
+
+      // Phân biệt drag (kéo slider) vs click thực sự
+      var _px = 0, _moved = false;
+      card.addEventListener('pointerdown', function(e) { _px = e.clientX; _moved = false; });
+      card.addEventListener('pointermove', function(e) { if (Math.abs(e.clientX - _px) > 6) _moved = true; });
+      card.addEventListener('pointerup',   function(e) {
+        if (_moved) return;
+        try { localStorage.setItem('selectedMatch', JSON.stringify(m)); } catch(ex) {}
+        window.location.href = targetUrl;
+      });
+
       tr.appendChild(card);
     });
     for (let i = 0; i < pages; i++) {

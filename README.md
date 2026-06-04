@@ -1,4 +1,4 @@
-# MUFC
+# None BIT FC
 
 ## 👨‍💻 Thành viên nhóm
 
@@ -11,9 +11,9 @@
 
 # Mô tả đề tài
 
-Dự án xây dựng website MU FC với mục tiêu thiết kế một website giới thiệu câu lạc bộ bóng đá Manchester United theo phong cách hiện đại, trực quan và chuyên nghiệp.
+Dự án xây dựng website None BIT FC với mục tiêu thiết kế một website giới thiệu câu lạc bộ bóng đá None BIT theo phong cách hiện đại, trực quan và chuyên nghiệp.
 
-Website được phát triển nhằm giúp người dùng dễ dàng theo dõi thông tin về đội bóng, lịch sử câu lạc bộ, đội hình cầu thủ, tin tức mới nhất cũng như các hình ảnh nổi bật liên quan đến Manchester United.
+Website được phát triển nhằm giúp người dùng dễ dàng theo dõi thông tin về đội bóng, lịch sử câu lạc bộ, đội hình cầu thủ, tin tức mới nhất cũng như các hình ảnh nổi bật liên quan đến None BIT FC.
 
 Bên cạnh đó, dự án còn giúp nhóm rèn luyện kỹ năng thiết kế giao diện web, tổ chức bố cục, xây dựng website responsive và làm việc nhóm thông qua GitHub.
 
@@ -21,7 +21,7 @@ Bên cạnh đó, dự án còn giúp nhóm rèn luyện kỹ năng thiết kế
 
 # Chức năng chính
 
-- Hiển thị trang chủ giới thiệu câu lạc bộ Manchester United
+- Hiển thị trang chủ giới thiệu câu lạc bộ None BIT FC
 - Xem lịch sử hình thành và phát triển của đội bóng
 - Hiển thị đội hình cầu thủ
 - Xem tin tức bóng đá
@@ -38,5 +38,3 @@ Bên cạnh đó, dự án còn giúp nhóm rèn luyện kỹ năng thiết kế
 - JavaScript
 - Bootstrap 5
 - Git & GitHub
-
----
