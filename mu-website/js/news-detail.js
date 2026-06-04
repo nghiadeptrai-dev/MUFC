@@ -3,12 +3,12 @@ const newsDetailData = {
     tag: 'Official',
     date: '09/04/2026',
     title: 'Thầy Vũ Trọng Sinh chính thức giữ ghế Huấn luyện viên trưởng None BIT FC!',
-    img: 'https://images.unsplash.com/photo-1517927033932-bd0f9af8e0c5?auto=format&fit=crop&w=1200&q=80',
+    img: '../assessts/Thay_VTS.jpg',
     intro: 'None BIT FC vừa chính thức công bố danh sách Ban huấn luyện mới. Thầy Vũ Trọng Sinh sẽ là thuyền trưởng chèo lái con thuyền None BIT FC trong chiến dịch này.',
     content: [
       'Sự xuất hiện của thầy Vũ Trọng Sinh trên băng ghế chỉ đạo được kỳ vọng sẽ đem lại sự kỷ luật, chiều sâu chiến thuật và điểm tựa tinh thần vững chắc cho các cầu thủ.',
       'Sát cánh cùng thầy Sinh trong ban huấn luyện mùa này là các trợ lý giàu nhiệt huyết bao gồm: Trần Hậu Thành Đạt, Nguyễn Hữu Mạnh, Nguyễn Hoàng Anh và Lê Quốc Trung.',
-      'Toàn đội đang tích cực tập luyện và hướng tới một mùa giải bùng nổ để khẳng định vị thế "Niềm tự hào của Banking IT".',
+      'Toàn đội đang tích cực tập luyện và hướng tới một mùa giải bùng nổ để khẳng định vị thế "Niềm tự hào của BIT".',
       'Người hâm mộ và các bạn sinh viên trong khoa đang rất háo hức chờ đợi trận đấu ra mắt chính thức tiếp theo của thầy trên cương vị mới.'
     ]
   },
@@ -29,7 +29,7 @@ const newsDetailData = {
     tag: 'ITDE Open Cup',
     date: '04/05/2026',
     title: 'Khởi đầu thuận lợi: BIT đả bại CTV Khoa Tài Chính với tỷ số 5-2',
-    img: 'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1200&q=80',
+    img: '../assessts/Tran1.jpg',
     intro: 'Dù đối thủ chơi áp sát quyết liệt, chiến thuật hợp lý của thầy Vũ Trọng Sinh cùng sự tỏa sáng của các trụ cột trung tuyến đã giúp BIT giành trọn vẹn 3 điểm.',
     content: [
       'Trận mở màn bảng B chiến dịch ITDE Open Cup diễn ra vô cùng căng thẳng khi CTV Khoa Tài Chính chủ động chơi áp sát và không ngại va chạm.',
@@ -107,7 +107,6 @@ const renderNewsDetail = (news) => {
           <div class="news-detail-quickinfo">
             <div><strong>Chủ đề</strong><span>${news.tag}</span></div>
             <div><strong>Ngày xuất bản</strong><span>${news.date}</span></div>
-            <div><strong>Thời gian đọc</strong><span>${readTime}</span></div>
           </div>
         </div>
       </aside>
