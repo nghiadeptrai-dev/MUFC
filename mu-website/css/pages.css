@@ -426,6 +426,23 @@
   font-weight: 300;
 }
 
+/* POPUP xem vid */
+.close-modal {
+  position: fixed; /* Đổi từ absolute sang fixed */
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10000; /* Đảm bảo nằm trên cả lớp nền đen */
+  transition: color 0.3s;
+}
+
+.close-modal:hover {
+  color: #ff3333; /* Hiệu ứng đổi màu đỏ khi di chuột vào cho đẹp */
+}
+
 /* ==========================================================================
    PLAYER DETAIL PAGE - UPGRADED FOR NONE BIT FC
    ========================================================================== */
