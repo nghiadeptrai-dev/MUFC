@@ -248,7 +248,7 @@ const renderPlayerDetail = (player) => {
     <div class="player-detail-grid">
       <div class="player-detail-visual">
         <img src="${player.img}" alt="${player.alt}" loading="lazy" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg';this.style.background='var(--red-dark)';" />
-      </div>
+        </div>
       <div class="player-detail-copy">
         <span class="section-label">#${player.number} · ${player.pos}</span>
         <h1 class="section-title">${player.name}</h1>

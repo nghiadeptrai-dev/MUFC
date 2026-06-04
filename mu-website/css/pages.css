@@ -690,123 +690,230 @@
   margin-bottom: 2rem;
 }
 
-/* PLAYER DETAIL PAGE */
+/* ==========================================================================
+   PLAYER DETAIL PAGE - UPGRADED FOR NONE BIT FC
+   ========================================================================== */
+
 .player-detail-page {
   padding: 80px 0 120px;
+  background-color: #000000; /* Đảm bảo nền trang web tối hoàn toàn */
 }
 
+/* Khung bo góc lớn chứa toàn bộ thông tin */
 .player-detail-card {
-  background: linear-gradient(160deg, rgba(218, 41, 28, 0.08), rgba(13, 0, 0, 0.25));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  /* Tạo nền tối chuyển sắc đỏ mờ cực kỳ huyền bí */
+  background: linear-gradient(160deg, rgba(218, 41, 28, 0.05) 0%, rgba(15, 10, 10, 0.95) 100%);
+  border: 1px solid rgba(218, 41, 28, 0.15); /* Viền đỏ mờ tạo chiều sâu */
+  border-radius: 16px; /* Bo góc mềm mại hơn */
   overflow: hidden;
-  padding: 2rem;
+  padding: 2.5rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
+/* Chia lại tỷ lệ 40% ảnh - 60% chữ giống ảnh thực tế */
 .player-detail-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
+  grid-template-columns: 4fr 6fr; 
+  gap: 3.5rem;
   align-items: start;
 }
 
+/* Khối ảnh chân dung bên trái */
 .player-detail-visual img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 580px; /* Khống chế chiều cao ảnh không bị quá dài */
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  /* Hiệu ứng đổ bóng gắt giúp ảnh tách biệt khỏi nền tối */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(218, 41, 28, 0.05);
+  transition: transform 0.4s ease;
 }
 
+.player-detail-visual img:hover {
+  transform: scale(1.02); /* Hiệu ứng zoom nhẹ khi di chuột vào ảnh */
+}
+
+/* Khối thông tin chữ bên phải */
 .player-detail-copy {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 
+/* Thẻ phụ hiển thị số áo và vị trí (#1 . THỦ MÔN) */
+.player-detail-copy .section-label {
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ff2a3b; /* Đỏ rực nổi bật hẳn lên */
+}
+
+/* Tên cầu thủ (Altay Bayındır) */
+.player-detail-copy .section-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--red-primary, #ff2a3b);
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Đoạn mô tả tiểu sử */
 .player-detail-intro {
-  color: var(--gray-mid);
-  line-height: 1.9;
-  max-width: 42rem;
+  color: #b3b3b3;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 100%;
 }
 
+/* BẢNG THÔNG TIN CÁ NHÂN (Quốc tịch, ngày sinh...) */
 .player-detail-meta {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  padding: 1.4rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  background: rgba(20, 10, 10, 0.6); /* Nền tối hơn tạo khối tách biệt */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  transition: background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+              border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .player-detail-meta div {
   font-size: 0.95rem;
-  color: var(--white);
-  line-height: 1.7;
+  color: #b3b3b3;
+  line-height: 1.6;
 }
 
+.player-detail-meta div strong {
+  color: #888888; /* Làm mờ phần nhãn (Quốc tịch:, Ngày sinh:) để nổi bật giá trị bên cạnh */
+  font-weight: 500;
+  margin-right: 6px;
+}
+
+.player-detail-meta:hover {
+  background: rgba(218, 41, 28, 0.06);
+  border-color: rgba(218, 41, 28, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(218, 41, 28, 0.1);
+}
+
+/* KHỐI 5 Ô CHỈ SỐ THI ĐẤU (Stats Grid) */
 .player-stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(6, 1fr); /* Dùng hệ 6 cột để chia đều cực đẹp */
   gap: 1rem;
-  margin-top: 1.4rem;
+  margin-top: 1rem;
 }
 
+/* Định hình các ô chỉ số */
 .player-stat-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
-  padding: 1rem;
+  padding: 1.2rem 1rem;
   min-height: 110px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.35rem;
+  align-items: flex-start; /* Căn trái toàn bộ chữ trong ô */
+  gap: 0.4rem;
+  transition: all 0.3s ease;
+  grid-column: span 2;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
+/* Tối ưu riêng: 2 ô cuối cùng ở hàng dưới tự động căn giữa */
+.player-stat-card:nth-child(4) {
+  grid-column: 2 / span 2; /* Ô thứ 4 lùi vào 1 ô */
+}
+.player-stat-card:nth-child(5) {
+  grid-column: 4 / span 2; /* Ô thứ 5 nằm cạnh ô thứ 4 */
+}
+
+/* Hiệu ứng sáng viền đỏ khi hover vào các ô chỉ số */
+.player-stat-card:hover {
+  background: rgba(218, 41, 28, 0.05);
+  border-color: rgba(218, 41, 28, 0.3);
+  transform: translateY(-4px);
+}
+
+/* Con số chỉ số (25, 83, 7.5...) */
 .stat-value {
   font-family: var(--font-display);
-  font-size: 2rem;
-  color: var(--red-primary);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ff2a3b;
   line-height: 1;
 }
 
+/* Chữ nhãn chỉ số (APPEARANCES, SAVES...) */
 .stat-label {
   font-family: var(--font-condensed);
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gray-mid);
+  color: #888888;
 }
 
+/* Trang không tìm thấy cầu thủ */
 .player-detail-notfound {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 5rem 1rem;
 }
 
 .player-detail-notfound h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--white);
   margin-bottom: 1rem;
 }
 
 .player-detail-notfound p {
-  color: var(--gray-mid);
+  color: #888888;
   line-height: 1.8;
-  margin-bottom: 1.6rem;
+  margin-bottom: 2rem;
 }
 
-a.team-card {
+/* Nút quay lại kiểu outline thể thao */
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  background: rgba(218, 41, 28, 0.05);
+  border-color: rgba(218, 41, 28, 0.3);
+  transform: translateY(-4px);
+}
+
+/* ============================================================
+   Trang Result
+   ============================================================ */
+
+.match-card-link {
   display: block;
   text-decoration: none;
   color: inherit;
 }
-
-a.team-card .team-card-body,
-a.team-card .team-card-img {
-  pointer-events: none;
-}
-
 /* ============================================================
    RESPONSIVE
    ============================================================ */

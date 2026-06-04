@@ -340,6 +340,16 @@
 .mb-bar-fill.mb-gold{background:linear-gradient(90deg,#FBE122,#ffcc00);}
 .mb-bar-games{font-family:var(--mb-fd);font-size:.85rem;color:#a87070;text-align:center;}
 
+/* Card có thể click — dùng div+cursor:pointer để tránh overflow:hidden chặn <a> */
+.mb-rc-link {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.mb-rc-link:hover {
+  border-color: rgba(218,41,28,.35) !important;
+  transform: translateY(-2px);
+}
 /* ════════════════════
    RESPONSIVE
 ════════════════════ */
@@ -493,6 +503,17 @@
 (function(){
 'use strict';
 
+/* ══ CẤU HÌNH PATH ══
+   Board trong index.html (root)   → 'pages/result.html'
+   Board trong pages/history.html  → 'result.html'
+══════════════════════════════ */
+/* ══ PATH TỚI TRANG KẾT QUẢ ══
+   Board nhúng trong index.html (root) → 'pages/result.html'  ← đang dùng
+   Board nhúng trong pages/*.html     → 'result.html'
+═══════════════════════════════════════ */
+const MB_RESULT_PAGE = 'pages/result.html';
+
+
 /* ── DATA ── */
 const MB_MATCHES=[
   {date:'01/06/2026',comp:'Giao Hữu',home:'BIT FC',       away:'FC Kinh Tế',    score:'3 - 1',res:'w',venue:'Sân ABC',  hl:'BIT',al:'KT'},
@@ -596,12 +617,37 @@ function makeTrack(tid,did,getCur,setCur){
   tr.innerHTML='';dt.innerHTML='';
   const p=per();
   const pages=Math.ceil(MB_MATCHES.length/p);
-  MB_MATCHES.forEach((m,idx)=>{
-    const card=document.createElement('div');
-    card.className='mb-rc';
-    card.style.flex=`0 0 calc(${100/p}% - ${(p-1)*12/p}px)`;
-    card.style.animationDelay=(idx*.06)+'s';
-    card.innerHTML=`
+
+  // Tính path tới result.html dựa trên vị trí file hiện tại
+  // - Nếu đang ở /pages/xxx.html  → dùng 'result.html'
+  // - Nếu đang ở root /index.html → dùng 'pages/result.html'
+  // - Nếu mở file:// standalone   → dùng 'pages/result.html'
+  const resultBase = MB_RESULT_PAGE;
+
+  // Slugify — phải giống hệt hàm trong result.html
+  const cleanSlug = str => String(str)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
+
+  MB_MATCHES.forEach((m,idx) => {
+    const matchSlug = cleanSlug(m.home) + '-vs-' + cleanSlug(m.away);
+    const targetUrl = resultBase + '?match=' + encodeURIComponent(matchSlug);
+
+    // Dùng <div> + cursor:pointer thay vì <a> để tránh overflow:hidden của slider chặn click
+    const card = document.createElement('div');
+    card.className = 'mb-rc mb-rc-link';
+    card.style.flex = `0 0 calc(${100/p}% - ${(p-1)*12/p}px)`;
+    card.style.animationDelay = (idx*.06)+'s';
+    card.setAttribute('role', 'link');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('data-href', targetUrl);
+
+    card.innerHTML = `
       <div class="mb-rc-top">${m.date}</div>
       <div class="mb-rc-comp">${m.comp}</div>
       <div class="mb-rc-body">
@@ -626,8 +672,33 @@ function makeTrack(tid,did,getCur,setCur){
         <span class="mb-badge ${m.res}">${m.res==='w'?'Thắng':m.res==='d'?'Hòa':'Thua'}</span>
       </div>
     `;
+
+    // Click: dùng pointerdown+pointerup để bắt cả mouse lẫn touch
+    // Phân biệt drag (kéo slider) vs click thực sự bằng khoảng cách di chuyển
+    var _px = 0, _py = 0, _moved = false;
+    card.addEventListener('pointerdown', function(e){
+      _px = e.clientX; _py = e.clientY; _moved = false;
+    });
+    card.addEventListener('pointermove', function(e){
+      if(Math.abs(e.clientX-_px) > 6 || Math.abs(e.clientY-_py) > 6) _moved = true;
+    });
+    card.addEventListener('pointerup', function(e){
+      if(_moved) return;
+      try{ localStorage.setItem('selectedMatch', JSON.stringify(m)); }catch(ex){}
+      window.location.href = targetUrl;
+    });
+    // Keyboard
+    card.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){
+        e.preventDefault();
+        try{ localStorage.setItem('selectedMatch', JSON.stringify(m)); }catch(ex){}
+        window.location.href = targetUrl;
+      }
+    });
+
     tr.appendChild(card);
   });
+  
   for(let i=0;i<pages;i++){
     const d=document.createElement('div');
     d.className='mb-dot'+(i===0?' mb-on':'');
