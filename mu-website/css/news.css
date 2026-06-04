@@ -522,3 +522,7 @@
   .fixtures-tab { padding: 0.7rem 1.2rem; font-size: 0.75rem; }
   .fixtures-filters { gap: 0.4rem; }
 }
+
+/* Badge ITDE Open Cup & Giải Tứ Hùng */
+.fixture-league-badge.itde { background: rgba(255,165,0,0.2);  color: #ffb347; border: 1px solid rgba(255,165,0,0.4); }
+.fixture-league-badge.th   { background: rgba(180,0,180,0.2);  color: #e080ff; border: 1px solid rgba(200,0,200,0.35); }
