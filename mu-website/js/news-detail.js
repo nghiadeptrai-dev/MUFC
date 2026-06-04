@@ -25,10 +25,7 @@ const newsDetailData = {
       'Ban huấn luyện tỏ ra rất hài lòng về hiệu suất ghi bàn của các cầu thủ và tinh thần giữ sạch lưới cho đến khi tiếng còi mãn cuộc vang lên.'
     ]
   },
-  'chien-thang-khoa-tai-chinh': {
-    tag: 'ITDE Open Cup',
-    date: '04/06/2026',
-    title: 'Khởi đầu thuận lợi: BIT đả bại CTV Khoa Tài Chính với tỷ số 5-2',
+
   'chien-thang-khoa-tai-chinh': {
     tag: 'ITDE Open Cup',
     date: '04/06/2026',
@@ -40,14 +37,13 @@ const newsDetailData = {
       'Trận mở màn bảng B chiến dịch ITDE Open Cup diễn ra vô cùng căng thẳng khi CTV Khoa Tài Chính chủ động chơi áp sát và không ngại va chạm.',
       'Tuy nhiên, sự tỏa sáng của bộ đôi tiền vệ mang áo số 10 Nguyễn Hữu Mạnh và số 16 Nguyễn Hoàng Anh đã giúp BIT thiết lập thế trận áp đảo.',
       'Sự chắc chắn của thủ thành Nguyễn Khắc Đạt (Số 14) ở tuyến dưới cũng là điểm tựa lớn hóa giải các đợt phản công từ đối thủ.',
-      'Chiến thắng chung cuộc 5-2 giúp đội bóng của chúng ta tạm thời vươn lên ngôi đầu bảng và tràn đầy tự tin cho chặng đường kế tiếp.'
+      'Chiến thắng chung cuộc 5-2 giúp đội bóng của chúng ta tạm thời vươn lên ngôi đầu bảng và tràn đầy tự tin cho chặng đường kế tiếp.',
       'Trận mở màn bảng B chiến dịch ITDE Open Cup diễn ra vô cùng căng thẳng khi CTV Khoa Tài Chính chủ động chơi áp sát và không ngại va chạm.',
       'Tuy nhiên, sự tỏa sáng của bộ đôi tiền vệ mang áo số 10 Nguyễn Hữu Mạnh và số 16 Nguyễn Hoàng Anh đã giúp BIT thiết lập thế trận áp đảo.',
       'Sự chắc chắn của thủ thành Nguyễn Khắc Đạt (Số 14) ở tuyến dưới cũng là điểm tựa lớn hóa giải các đợt phản công từ đối thủ.',
       'Chiến thắng chung cuộc 5-2 giúp đội bóng của chúng ta tạm thời vươn lên ngôi đầu bảng và tràn đầy tự tin cho chặng đường kế tiếp.'
     ]
   },
-  'phong-van-the-duong': {
   'phong-van-the-duong': {
     tag: 'Interview',
     date: '03/06/2026',
@@ -61,7 +57,7 @@ const newsDetailData = {
       'Phát biểu trước buổi tập, đội trưởng Nguyễn Thế Dượng nhận định CLC HTTT là một đối thủ quái rơ và sở hữu lối chơi rất khó chịu.',
       'Anh nhấn mạnh tầm quan trọng của việc tuân thủ nghiêm ngặt giáo án chiến thuật của thầy Sinh và giữ vững sự tập trung cao độ.',
       'Sự trở lại của các trụ cột như Nguyễn Đức Anh (Số 37) và Lương Nhật Minh (Số 5) sẽ bổ sung sức mạnh lớn cho đội hình thi đấu.',
-      'Toàn đội đặt mục tiêu giành trọn 3 điểm trong trận đấu lúc 07:00 ngày 10/06 tại sân Tuấn Phong để sớm giành vé vào vòng trong.'
+      'Toàn đội đặt mục tiêu giành trọn 3 điểm trong trận đấu lúc 07:00 ngày 10/06 tại sân Tuấn Phong để sớm giành vé vào vòng trong.',
       'Phát biểu trước buổi tập, đội trưởng Nguyễn Thế Dượng nhận định CLC HTTT là một đối thủ quái rơ và sở hữu lối chơi rất khó chịu.',
       'Anh nhấn mạnh tầm quan trọng của việc tuân thủ nghiêm ngặt giáo án chiến thuật của thầy Sinh và giữ vững sự tập trung cao độ.',
       'Sự trở lại của các trụ cột như Nguyễn Đức Anh (Số 37) và Lương Nhật Minh (Số 5) sẽ bổ sung sức mạnh lớn cho đội hình thi đấu.',
@@ -79,7 +75,7 @@ const newsDetailData = {
       'Với lực lượng đồng đều hiện tại, HLV Vũ Trọng Sinh đang có trong tay nhiều sự lựa chọn chất lượng ở cả 3 tuyến.',
       'Hàng phòng ngự với Bùi Đức Thịnh (Số 25), Nguyễn Thành Đạt (Số 06) và Nguyễn Mạnh Đức đang duy trì được sự bọc lót rất kín kẽ.',
       'Sự cơ động của Nguyễn Huy Thái (Số 15) và Nguyễn Hà Tuấn Nghĩa (Số 07) sẽ giúp BIT dễ dàng làm chủ khu trung tuyến và chuyển đổi trạng thái nhanh.',
-      'Nhiều khả năng chiến lược gia họ Vũ sẽ tiếp tục áp dụng lối đá kiểm soát chủ động để bóp nghẹt không gian chơi bóng của đối phương.'
+      'Nhiều khả năng chiến lược gia họ Vũ sẽ tiếp tục áp dụng lối đá kiểm soát chủ động để bóp nghẹt không gian chơi bóng của đối phương.',
       'Với lực lượng đồng đều hiện tại, HLV Vũ Trọng Sinh đang có trong tay nhiều sự lựa chọn chất lượng ở cả 3 tuyến.',
       'Hàng phòng ngự với Bùi Đức Thịnh (Số 25), Nguyễn Thành Đạt (Số 06) và Nguyễn Mạnh Đức đang duy trì được sự bọc lót rất kín kẽ.',
       'Sự cơ động của Nguyễn Huy Thái (Số 15) và Nguyễn Hà Tuấn Nghĩa (Số 07) sẽ giúp BIT dễ dàng làm chủ khu trung tuyến và chuyển đổi trạng thái nhanh.',
