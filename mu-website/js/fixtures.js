@@ -1,3 +1,4 @@
+S
 /* ============================================================
    Chức năng: Tab Upcoming/Results + Bộ lọc giải đấu
    ============================================================ */
@@ -7,8 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ----------------------------------------------------------
      1. TAB: Sắp Diễn Ra / Kết Quả
   ---------------------------------------------------------- */
-  const tabs     = document.querySelectorAll('.fixtures-tab');
-  const sections = document.querySelectorAll('.fixtures-section');
+  const tabs       = document.querySelectorAll('.fixtures-tab');
+  const sections   = document.querySelectorAll('.fixtures-section');
+  const filterBtns = document.querySelectorAll('.fixtures-filters .filter-btn');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -36,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ----------------------------------------------------------
      2. BỘ LỌC GIẢI ĐẤU
   ---------------------------------------------------------- */
-  const filterBtns = document.querySelectorAll('.fixtures-filters .filter-btn');
 
   function applyLeagueFilter(league) {
     // Chỉ lọc trong section đang hiện
