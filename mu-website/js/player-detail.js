@@ -1,4 +1,24 @@
 const playersDetailData = {
+  'vu-trong-sinh': {
+    number: 'HLV',
+    name: 'Vũ Trọng Sinh',
+    pos: 'Huấn Luyện Viên Trưởng',
+    img: 'https://path-to-your-image/vu-trong-sinh.jpg', // Thay bằng link ảnh thực tế của thầy
+    alt: 'HLV Vũ Trọng Sinh',
+    nationality: 'Việt Nam',
+    birth: 'Chưa cập nhật',
+    height: '--',
+    weight: '--',
+    joined: '2025',
+    bio: 'Là người thầy dẫn dắt và định hình lối chơi cho đội bóng. Với tư duy chiến thuật nhạy bén và sự tận tâm, thầy luôn là chỗ dựa vững chắc, truyền lửa đam mê và tinh thần đoàn kết cho các cầu thủ BIT FC trên sân cỏ.',
+    stats: {
+      matches: '12',
+      wins: '8',
+      draws: '2',
+      losses: '2',
+      winRate: '66.7%'
+    }
+  },
   'bruno-fernandes': {
     number: '8',
     name: 'Bruno Fernandes',
