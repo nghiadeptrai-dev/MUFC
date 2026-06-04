@@ -5,19 +5,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manchester United FC - The Red Devils</title>
-  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" />
+  <link rel="icon" href="assessts/logoBit.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/match_board.css" />
 </head>
 
 <body>
+<!-- <div class="video-container">
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="duong-dan-video-cua-ban.mp4" type="video/mp4">
+    Trình duyệt của bạn không hỗ trợ thẻ video.
+  </video>
 
+  <div class="content">
+    <h1>None Bit FC</h1>
+    <p>DNA Công Nghệ - Phá Đảo Sân Phủi</p>
+  </div>
+</div> -->
   <!-- PRELOADER -->
   <div id="preloader">
-    <img class="pre-logo" src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg"
-      alt="Manchester United FC" />
-    <div class="pre-text">MANCHESTER UNITED FC</div>
-    <div class="pre-sub">The Red Devils</div>
+    <img class="pre-logo" src="assessts/logoBit.png" alt="BIT FC" />
+    <div class="pre-text">NONE BIT FC</div>
+    <div class="pre-sub">The Pride of Banking IT</div>
     <div class="pre-bar-wrap">
       <div class="pre-bar"></div>
     </div>
@@ -26,9 +39,8 @@
   <!-- NAVBAR -->
   <nav id="navbar">
     <a href="index.html" class="nav-logo">
-      <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg"
-        alt="Manchester United FC Logo" />
-      <span>Manchester United FC</span>
+      <img src="assessts/logoBit.png" alt="BIT FC Logo" />
+      <span>BIT FC</span>
     </a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Trang chủ</a></li>
@@ -58,43 +70,163 @@
       <div class="hero-bg"></div>
       <div class="hero-particles"></div>
       <div class="hero-content">
-        <img class="hero-logo" src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg"
-          alt="Manchester United FC" />
-        <div class="hero-eyebrow">Est. 1878 · Manchester, England</div>
-        <h1 class="hero-title">MAN <span>UNITED</span><br />FOOTBALL CLUB</h1>
-        <p class="hero-subtitle">The Red Devils – Old Trafford</p>
+        <img class="hero-logo" src="assessts/logoBit.png" alt="BIT FC" />
+        <div class="hero-eyebrow">Est. 2010 · BIT FC, VIETNAM</div>
+        <h1 class="hero-title">NONE <span>BIT</span><br /><span style="color:var(--white); font-size: 7rem;">ĐỘI BÓNG</span></h1>
+        <p class="hero-subtitle">BIT FC – The Pride of Banking IT</p>
         <div class="hero-actions">
           <a href="#about" class="btn btn-primary">Khám Phá Ngay</a>
           <a href="pages/team.html" class="btn btn-outline">Đội Hình</a>
         </div>
       </div>
-      <div class="hero-scroll">Scroll Down</div>
     </section>
+
+    <!-- ═══════════════════════════════════════════
+         MATCH BOARD — bit_fc_dark_board_v2
+    ════════════════════════════════════════════ -->
+    <section class="mb-section" id="matchboard">
+      <div class="mb-col" id="mbCol">
+
+        <!-- TABS -->
+        <div class="mb-tab-wrap">
+          <button class="mb-tb mb-left"  id="mb-t-match" onclick="mbSw('match')">GIAO HỮU NỘI BỘ · 2025/26</button>
+          <button class="mb-tb mb-right" id="mb-t-std"   onclick="mbSw('std')">VUA PHÁ LƯỚI</button>
+        </div>
+
+        <!-- ── MATCH PANEL ── -->
+        <div id="mb-p-match">
+          <div class="mb-card">
+            <div class="mb-match-bar">
+              <div class="mb-bar-team">BIT FC</div>
+              <div class="mb-bar-vs">VS</div>
+              <div class="mb-bar-team mb-right">Khoa Học FC</div>
+            </div>
+            <div class="mb-matchup-row">
+
+              <!-- Home -->
+              <div class="mb-side">
+                <div class="mb-logo-circle mb-home">
+                  <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="31" cy="31" r="29" fill="#DA291C"/>
+                    <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
+                    <text x="31" y="29" font-family="Oswald,sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">BIT</text>
+                    <text x="31" y="41" font-family="Oswald,sans-serif" font-size="10" fill="rgba(255,255,255,.75)" text-anchor="middle">FC</text>
+                  </svg>
+                </div>
+                <div class="mb-t-name">BIT FC</div>
+              </div>
+
+              <!-- Countdown -->
+              <div class="mb-cd-center">
+                <div class="mb-cd-label">Bắt đầu sau</div>
+                <div class="mb-cd-row">
+                  <div class="mb-cd-u">
+                    <div class="mb-cd-n" id="mb-d">--</div>
+                    <div class="mb-cd-lbl">NGÀY</div>
+                  </div>
+                  <div class="mb-cd-sep">:</div>
+                  <div class="mb-cd-u">
+                    <div class="mb-cd-n" id="mb-h">--</div>
+                    <div class="mb-cd-lbl">GIỜ</div>
+                  </div>
+                  <div class="mb-cd-sep">:</div>
+                  <div class="mb-cd-u">
+                    <div class="mb-cd-n" id="mb-m">--</div>
+                    <div class="mb-cd-lbl">PHÚT</div>
+                  </div>
+                  <div class="mb-cd-sep">:</div>
+                  <div class="mb-cd-u">
+                    <div class="mb-cd-n" id="mb-s">--</div>
+                    <div class="mb-cd-lbl">GIÂY</div>
+                  </div>
+                </div>
+                <div class="mb-cd-date">Chủ Nhật, 14/06/2026<br/>15:30 · Sân ABC, Cầu Giấy</div>
+              </div>
+
+              <!-- Away -->
+              <div class="mb-side">
+                <div class="mb-logo-circle">
+                  <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="31" cy="31" r="29" fill="#1a1a2e"/>
+                    <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5" stroke-dasharray="4 3"/>
+                    <text x="31" y="27" font-family="Oswald,sans-serif" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">KHOA</text>
+                    <text x="31" y="39" font-family="Oswald,sans-serif" font-size="9" fill="rgba(255,255,255,.65)" text-anchor="middle">HỌC FC</text>
+                  </svg>
+                </div>
+                <div class="mb-t-name">Khoa Học FC</div>
+              </div>
+
+            </div>
+            <div class="mb-divider"></div>
+          </div>
+
+          <div class="mb-section-inner">
+            <div class="mb-res-heading">
+              <div class="mb-res-title">TRẬN ĐẤU</div>
+              <div class="mb-arrows">
+                <button class="mb-arr" onclick="mbSlide1(-1)">&#8249;</button>
+                <button class="mb-arr" onclick="mbSlide1(1)">&#8250;</button>
+              </div>
+            </div>
+            <div class="mb-slider-outer">
+              <div class="mb-slider-track" id="mb-track1"></div>
+            </div>
+            <div class="mb-dots" id="mb-dots1"></div>
+          </div>
+        </div><!-- /mb-p-match -->
+
+        <!-- ── STANDINGS PANEL ── -->
+        <div id="mb-p-std" style="display:none;">
+          <div class="mb-std-card">
+            <div class="mb-std-bar">VUA PHÁ LƯỚI · MÙA 2025/26</div>
+            <div class="mb-std-head">
+              <span>#</span>
+              <span>Cầu Thủ · Đội</span>
+              <span>Bàn / % KL</span>
+              <span>Trận</span>
+            </div>
+            <div id="mb-std-body"></div>
+          </div>
+
+          <div class="mb-section-inner">
+            <div class="mb-res-heading">
+              <div class="mb-res-title">TRẬN ĐẤU</div>
+              <div class="mb-arrows">
+                <button class="mb-arr" onclick="mbSlide2(-1)">&#8249;</button>
+                <button class="mb-arr" onclick="mbSlide2(1)">&#8250;</button>
+              </div>
+            </div>
+            <div class="mb-slider-outer">
+              <div class="mb-slider-track" id="mb-track2"></div>
+            </div>
+            <div class="mb-dots" id="mb-dots2"></div>
+          </div>
+        </div><!-- /mb-p-std -->
+
+      </div><!-- /mb-col -->
+    </section>
+    <!-- /MATCH BOARD -->
 
     <!-- ABOUT -->
     <section class="about-section" id="about">
       <div class="container">
         <div class="about-grid">
           <div class="about-image-wrap fade-in">
-            <img
-              src="https://images2.minutemediacdn.com/image/upload/c_crop,x_0,y_71,w_819,h_460/c_fill,w_720,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/si/01krv262qyfnfr3cyq0q.jpg"
-              alt="Old Trafford – Nhà hát của những giấc mơ" />
+            <img src="assessts/TeamImage.jpg" alt="Old Trafford – Nhà hát của những giấc mơ" />
             <div class="about-image-tag">
-              <span>Old Trafford</span>
-              <small>Theatre of Dreams</small>
+              <span>NONE BIT</span>
+              <small>Thành Lập 2010</small>
             </div>
           </div>
           <div class="about-text fade-in">
             <span class="section-label">Câu Chuyện Của Chúng Tôi</span>
             <div class="gold-divider"></div>
             <h2 class="section-title">Hơn Cả Một<br />Câu Lạc Bộ</h2>
-            <p>Được thành lập năm 1878 với cái tên Newton Heath, Manchester United đã vươn mình trở thành câu lạc bộ vĩ
-              đại nhất nước Anh và một trong những thương hiệu bóng đá lớn nhất thế giới.</p>
-            <p>Từ Busby Babes đến Treble 1999 huyền thoại của Sir Alex Ferguson, mỗi trận đấu tại Old Trafford — "Nhà
-              hát của những giấc mơ" — là nơi lịch sử được viết nên và những huyền thoại được sinh ra.</p>
+            <p>Được thành lập bởi những anh em mang trong mình DNA công nghệ, None Bit FC đã vươn mình bứt phá khỏi những dòng code khô khan để trở thành một thế lực đáng gờm trên các mặt sân phủi và là biểu tượng của tinh thần chiến đấu không giới hạn.</p>
+            <p>Từ những trận cầu "giao lưu trà đá" thuở sơ khai đến những chiến dịch tăng tốc nảy lửa, mỗi trận đấu trên mặt cỏ nhân tạo — "Nhà hát của những gã du mục IT" — là một lần hệ thống được đẩy lên mức tối đa, nơi anh em kề vai sát cánh giải mã thế trận và những huyền thoại được sinh ra.</p>
             <div class="about-stats">
               <div class="stat-item">
-                <div class="stat-number">1878</div>
+                <div class="stat-number">2010</div>
                 <div class="stat-label">Thành Lập</div>
               </div>
               <div class="stat-item">
@@ -102,8 +234,8 @@
                 <div class="stat-label">Danh Hiệu</div>
               </div>
               <div class="stat-item">
-                <div class="stat-number">74.5K</div>
-                <div class="stat-label">Sức Chứa SVĐ</div>
+                <div class="stat-number">10.4K</div>
+                <div class="stat-label">Fan Hâm Mộ</div>
               </div>
             </div>
           </div>
@@ -122,17 +254,12 @@
           </div>
           <a href="pages/team.html" class="btn btn-outline fade-in">Xem Đội Hình</a>
         </div>
-        <div class="players-slider">
-          <button class="slider-btn slider-btn-prev" aria-label="Trước">‹</button>
-          <div class="players-slider-frame">
-            <div class="players-layer players-layer-back">
-              <div class="players-track"></div>
-            </div>
-            <div class="players-layer players-layer-front">
-              <div class="player-card player-card-large"></div>
-            </div>
+        <div class="players-3d-slider">
+          <button class="slider-btn slider-btn-prev" aria-label="Trước" id="prevBtn">‹</button>
+          <div class="perspective-container" id="player-track">
+            <!-- JavaScript sẽ tự động chèn các thẻ cầu thủ (player-card) vào đây -->
           </div>
-          <button class="slider-btn slider-btn-next" aria-label="Tiếp">›</button>
+          <button class="slider-btn slider-btn-next" aria-label="Tiếp" id="nextBtn">›</button>
         </div>
       </div>
     </section>
@@ -146,7 +273,6 @@
           <h2 class="section-title">Danh Hiệu Tiêu Biểu</h2>
         </div>
         <div class="trophies-grid">
-
           <div class="trophy-card fade-in">
             <div class="trophy-year">20</div>
             <div class="trophy-info">
@@ -154,7 +280,6 @@
               <p>CLB vô địch giải quốc nội Anh nhiều nhất lịch sử — kỷ lục 20 chức vô địch.</p>
             </div>
           </div>
-
           <div class="trophy-card fade-in">
             <div class="trophy-year">3</div>
             <div class="trophy-info">
@@ -162,7 +287,6 @@
               <p>Nhà vô địch châu Âu các năm 1968, 1999 và 2008 — đỉnh cao vinh quang lục địa.</p>
             </div>
           </div>
-
           <div class="trophy-card fade-in">
             <div class="trophy-year">12</div>
             <div class="trophy-info">
@@ -170,7 +294,6 @@
               <p>12 lần đăng quang cúp FA — giải đấu lâu đời nhất thế giới.</p>
             </div>
           </div>
-
           <div class="trophy-card fade-in">
             <div class="trophy-year">1999</div>
             <div class="trophy-info">
@@ -178,7 +301,6 @@
               <p>Premier League + FA Cup + Champions League trong cùng một mùa — kỳ tích bất tử.</p>
             </div>
           </div>
-
           <div class="trophy-card fade-in">
             <div class="trophy-year">1</div>
             <div class="trophy-info">
@@ -186,7 +308,6 @@
               <p>Nhà vô địch thế giới năm 2008, khẳng định vị thế CLB hàng đầu hành tinh.</p>
             </div>
           </div>
-
           <div class="trophy-card fade-in">
             <div class="trophy-year">6</div>
             <div class="trophy-info">
@@ -194,7 +315,6 @@
               <p>6 lần vô địch EFL Cup — danh hiệu gần nhất năm 2023 dưới thời Erik ten Hag.</p>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -212,9 +332,7 @@
         </div>
         <div class="gallery-preview-grid">
           <div class="gallery-preview-item fade-in">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Old_Trafford_inside_20060726_1.jpg/1280px-Old_Trafford_inside_20060726_1.jpg"
-              alt="Old Trafford" loading="lazy" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Old_Trafford_inside_20060726_1.jpg/1280px-Old_Trafford_inside_20060726_1.jpg" alt="Old Trafford" loading="lazy" />
             <div class="gallery-item-overlay"><span>Nhà hát của những giấc mơ</span></div>
           </div>
           <div class="gallery-preview-item fade-in">
@@ -253,8 +371,7 @@
             <div class="news-card-body">
               <div class="news-tag">Báo Cáo Trận Đấu</div>
               <h3>Man United ngược dòng kịch tính 3-2 trong Derby Manchester</h3>
-              <p>Một đêm không thể quên tại Old Trafford khi The Red Devils lội ngược dòng ngoạn mục trước Man City...
-              </p>
+              <p>Một đêm không thể quên tại Old Trafford khi The Red Devils lội ngược dòng ngoạn mục trước Man City...</p>
             </div>
             <div class="news-card-footer">
               <span class="news-date">20 Th11, 2024</span>
@@ -316,17 +433,17 @@
             </div>
             <div class="contact-item">
               <div class="label">Hotline / Zalo</div>
-              <div class="value"><a href="tel:0912345678">0912.345.678</a><br /><small
-                  style="color:var(--gray-mid);font-size:0.78rem;">Mr. Quản Lý (24/7)</small></div>
+              <div class="value">
+                <a href="tel:0912345678">0912.345.678</a><br />
+                <small style="color:var(--gray-mid);font-size:0.78rem;">Mr. Quản Lý (24/7)</small>
+              </div>
             </div>
             <div class="contact-item">
               <div class="label">Email Hợp Tác</div>
               <div class="value"><a href="mailto:contact@mufc.vn">contact@mufc.vn</a></div>
             </div>
             <div style="margin-top:1.5rem;">
-              <div class="label"
-                style="font-family:var(--font-condensed);font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gray-mid);margin-bottom:0.8rem;">
-                Follow Us</div>
+              <div class="label" style="font-family:var(--font-condensed);font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gray-mid);margin-bottom:0.8rem;">Follow Us</div>
               <div class="footer-socials">
                 <a href="#" title="Facebook">f</a>
                 <a href="#" title="Instagram">in</a>
@@ -369,9 +486,8 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-logo">
-        <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg"
-          alt="Manchester United FC" />
-        <div class="footer-logo-text">MANCHESTER UNITED FC<span>The Red Devils</span></div>
+        <img src="assessts/logoBit.png" alt="NONE BIT FC" />
+        <div class="footer-logo-text">NONE BIT FC<span>The Pride of Banking IT</span></div>
       </div>
       <nav class="footer-links">
         <a href="index.html">Trang chủ</a>
@@ -389,11 +505,13 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Manchester United Football Club. All rights reserved.</p>
+      <p>© 2026 NONE BIT Football Club. All rights reserved.</p>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
-</body>
+  <script src="js/Slider.js"></script>
+  <script src="js/match_board.js"></script>
 
+</body>
 </html>

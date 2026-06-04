@@ -1,0 +1,745 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║          BIT FC — DARK MATCH BOARD v2                       ║
+  ║  Cách dùng:                                                  ║
+  ║  1. Standalone  : Mở file này trực tiếp trên trình duyệt    ║
+  ║  2. Embed vào index.html:                                    ║
+  ║     - Copy phần <section class="mb-section">...</section>    ║
+  ║       vào vị trí mong muốn trong index.html                  ║
+  ║     - Copy <style> vào home.css                              ║
+  ║     - Copy <script> vào js/match_board.js                    ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BIT FC — Dark Match Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── RESET (chỉ dùng khi standalone) ── */
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#0a0000;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px 60px;}
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     SECTION — copy từ đây khi embed
+════════════════════════════════════════ -->
+<section class="mb-section" id="matchboard">
+<style>
+/* ════════════════════════════════════════════════════════════
+   BIT FC DARK MATCH BOARD — CSS
+   Paste toàn bộ khối này vào home.css
+════════════════════════════════════════════════════════════ */
+:root{
+  --mb-red:    #DA291C;
+  --mb-dark:   #8B0000;
+  --mb-black:  #0d0000;
+  --mb-card:   #1a0000;
+  --mb-gold:   #FBE122;
+  --mb-dim:    #6b3333;
+  --mb-text:   #e8d0d0;
+  --mb-fd:     'Oswald', sans-serif;
+  --mb-fc:     'Barlow Condensed', sans-serif;
+}
+
+/* ── Wrapper section ── */
+.mb-section{
+  width:100%;
+  background:#0d0000;
+  padding:0 20px;
+}
+
+/* ── Inner column ── */
+.mb-col{
+  max-width:660px;
+  margin:0 auto;
+  /* Scroll reveal */
+  opacity:0;
+  transform:translateY(36px);
+  transition:opacity .65s ease, transform .65s ease;
+}
+.mb-col.mb-visible{opacity:1;transform:translateY(0);}
+
+/* ════════════════════
+   TABS
+════════════════════ */
+.mb-tab-wrap{display:flex;width:100%;}
+.mb-tb{
+  flex:1;padding:12px 0;text-align:center;cursor:pointer;
+  border:none;outline:none;
+  font-family:var(--mb-fc);font-weight:700;font-size:.72rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  transition:background .2s, color .2s;
+  position:relative;
+}
+/* Tab trái — nhọn phải */
+.mb-tb.mb-left{
+  background:var(--mb-red);color:#fff;
+  clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 100%, 0 100%);
+}
+.mb-tb.mb-left.mb-off{background:#5a0a06;color:rgba(255,255,255,.4);}
+/* Tab phải — nhọn trái */
+.mb-tb.mb-right{
+  background:var(--mb-card);color:rgba(255,255,255,.4);
+  clip-path:polygon(14px 0, 100% 0, 100% 100%, 0 100%);
+}
+.mb-tb.mb-right.mb-act{background:var(--mb-red);color:#fff;}
+
+/* ════════════════════
+   MAIN CARD
+════════════════════ */
+.mb-card{
+  background:var(--mb-card);
+  border:1px solid rgba(218,41,28,.22);border-top:none;
+  border-radius:0 0 8px 8px;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,.65), 0 0 0 1px rgba(218,41,28,.07);
+}
+
+/* Match Bar header */
+.mb-match-bar{
+  background:linear-gradient(90deg,#DA291C 0%,#8B0000 40%,#8B0000 60%,#DA291C 100%);
+  display:flex;align-items:center;overflow:hidden;position:relative;
+}
+.mb-match-bar::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,rgba(0,0,0,.08) 0,rgba(0,0,0,.08) 1px,transparent 1px,transparent 10px);
+  pointer-events:none;
+}
+.mb-bar-team{
+  flex:1;padding:11px 18px;
+  font-family:var(--mb-fd);font-weight:600;font-size:.88rem;
+  letter-spacing:.06em;text-transform:uppercase;color:#fff;
+  position:relative;z-index:1;
+}
+.mb-bar-team.mb-right{text-align:right;}
+.mb-bar-vs{
+  font-family:var(--mb-fd);font-size:2rem;font-weight:700;
+  color:var(--mb-gold);padding:6px 20px;letter-spacing:.05em;
+  text-shadow:0 0 16px rgba(251,225,34,.55);
+  flex:none;position:relative;z-index:1;
+  font-style:italic;
+}
+
+/* Matchup row */
+.mb-matchup-row{
+  display:flex;align-items:center;justify-content:center;
+  padding:22px 24px 20px;background:var(--mb-black);
+}
+.mb-side{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;}
+
+/* Logo circles */
+.mb-logo-circle{
+  width:78px;height:78px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(218,41,28,.45);background:var(--mb-card);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 4px rgba(218,41,28,.1), 0 4px 20px rgba(0,0,0,.5);
+}
+.mb-logo-circle.mb-home{
+  border-color:var(--mb-red);
+  box-shadow:0 0 0 4px rgba(218,41,28,.2), 0 0 22px rgba(218,41,28,.4), 0 4px 20px rgba(0,0,0,.5);
+  animation:mbGlow 2.5s ease-in-out infinite;
+}
+@keyframes mbGlow{
+  0%,100%{box-shadow:0 0 0 4px rgba(218,41,28,.2),0 0 20px rgba(218,41,28,.3);}
+  50%    {box-shadow:0 0 0 6px rgba(218,41,28,.1),0 0 34px rgba(218,41,28,.55);}
+}
+.mb-logo-circle svg{width:62px;height:62px;}
+.mb-t-name{
+  font-family:var(--mb-fd);font-size:.82rem;font-weight:600;
+  color:rgba(255,255,255,.85);letter-spacing:.06em;
+  text-transform:uppercase;text-align:center;
+}
+
+/* Countdown */
+.mb-cd-center{
+  display:flex;flex-direction:column;align-items:center;
+  gap:8px;flex:1.1;padding:0 6px;
+}
+.mb-cd-label{
+  font-family:var(--mb-fc);font-size:.65rem;
+  letter-spacing:.25em;text-transform:uppercase;color:var(--mb-dim);
+}
+.mb-cd-row{display:flex;align-items:flex-start;gap:4px;}
+.mb-cd-u{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.mb-cd-n{
+  font-family:var(--mb-fd);font-size:2.4rem;font-weight:700;
+  color:var(--mb-red);line-height:1;min-width:52px;text-align:center;
+  text-shadow:0 0 12px rgba(218,41,28,.4);
+  transition:transform .12s ease, opacity .12s ease;
+}
+.mb-cd-n.mb-flip{transform:scaleY(0);opacity:.2;}
+.mb-cd-lbl{
+  font-family:var(--mb-fc);font-size:.54rem;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--mb-dim);
+}
+.mb-cd-sep{
+  font-family:var(--mb-fd);font-size:2rem;
+  color:rgba(218,41,28,.5);padding-top:4px;
+  animation:mbBlink 1s step-end infinite;
+}
+@keyframes mbBlink{0%,100%{opacity:1;}50%{opacity:.1;}}
+.mb-cd-date{
+  font-family:var(--mb-fc);font-size:.66rem;
+  color:var(--mb-dim);letter-spacing:.08em;
+  text-align:center;margin-top:2px;line-height:1.55;
+}
+
+/* Card divider */
+.mb-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(218,41,28,.3),transparent);
+  margin:0 24px;
+}
+
+/* ════════════════════
+   RESULTS SECTION
+════════════════════ */
+.mb-section-inner{padding:20px 18px 20px;}
+.mb-res-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.mb-res-title{
+  font-family:var(--mb-fd);font-size:1.35rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:#fff;
+}
+.mb-arrows{display:flex;gap:8px;}
+.mb-arr{
+  width:34px;height:34px;border-radius:50%;
+  border:1.5px solid rgba(218,41,28,.35);
+  background:rgba(218,41,28,.06);
+  color:rgba(255,255,255,.7);cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .18s, border-color .18s, transform .18s;
+}
+.mb-arr:hover{background:var(--mb-red);border-color:var(--mb-red);color:#fff;transform:scale(1.1);}
+
+/* Slider */
+.mb-slider-outer{overflow:hidden;}
+.mb-slider-track{
+  display:flex;gap:12px;
+  transition:transform .42s cubic-bezier(.4,0,.2,1);
+}
+
+/* Result card */
+.mb-rc{
+  flex:0 0 calc(50% - 6px);
+  background:var(--mb-card);border:1px solid rgba(218,41,28,.16);
+  border-radius:8px;padding:14px 14px 12px;
+  overflow:hidden;position:relative;
+  transition:border-color .2s, transform .18s;
+}
+.mb-rc:hover{border-color:rgba(218,41,28,.35);transform:translateY(-2px);}
+/* Gạch đỏ trên đầu */
+.mb-rc::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#DA291C,#8B0000);
+}
+/* Mũi tên nhọn giữa */
+.mb-rc::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:0;height:0;
+  border-left:6px solid transparent;border-right:6px solid transparent;
+  border-top:6px solid var(--mb-red);
+  z-index:2;
+}
+.mb-rc-top{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mb-dim);margin-bottom:3px;}
+.mb-rc-comp{font-size:.6rem;letter-spacing:.15em;color:rgba(218,41,28,.75);margin-bottom:9px;font-weight:600;text-transform:uppercase;}
+.mb-rc-body{display:flex;align-items:center;gap:6px;}
+.mb-rc-logo{
+  width:34px;height:34px;border-radius:50%;background:var(--mb-black);
+  border:1px solid rgba(218,41,28,.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;
+}
+.mb-rc-logo svg{width:28px;height:28px;}
+.mb-rc-tname{
+  font-family:var(--mb-fd);font-size:.76rem;flex:1;
+  text-transform:uppercase;color:var(--mb-text);letter-spacing:.03em;
+}
+.mb-rc-tname.mb-r{text-align:right;}
+.mb-rc-score{
+  font-family:var(--mb-fd);font-size:1.4rem;font-weight:700;color:#fff;
+  background:var(--mb-black);padding:3px 8px;border-radius:4px;
+  border:1px solid rgba(255,255,255,.08);flex-shrink:0;letter-spacing:.05em;
+}
+.mb-rc-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:8px;padding-top:7px;border-top:1px solid rgba(255,255,255,.04);
+}
+.mb-rc-ven{font-size:.56rem;color:var(--mb-dim);letter-spacing:.1em;}
+.mb-badge{
+  font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:2px 7px;border-radius:2px;font-weight:700;
+}
+.mb-badge.w{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.2);}
+.mb-badge.d{background:rgba(251,225,34,.08);color:#FBE122;border:1px solid rgba(251,225,34,.18);}
+.mb-badge.l{background:rgba(218,41,28,.14);color:#f87171;border:1px solid rgba(218,41,28,.25);}
+
+/* Dots */
+.mb-dots{display:flex;justify-content:center;gap:5px;margin-top:12px;}
+.mb-dot{width:20px;height:3px;border-radius:2px;background:rgba(218,41,28,.2);cursor:pointer;transition:all .22s;}
+.mb-dot.mb-on{background:var(--mb-red);width:28px;}
+
+/* ════════════════════
+   STANDINGS — VUA PHÁ LƯỚI
+════════════════════ */
+.mb-std-card{
+  background:var(--mb-card);border-radius:0 0 8px 8px;
+  border:1px solid rgba(218,41,28,.22);border-top:none;
+  overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.65);
+}
+.mb-std-bar{
+  background:linear-gradient(90deg,#DA291C,#8B0000);
+  padding:11px 18px;
+  font-family:var(--mb-fc);font-size:.62rem;
+  letter-spacing:.4em;text-transform:uppercase;color:#fff;
+  position:relative;overflow:hidden;
+}
+.mb-std-bar::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,rgba(0,0,0,.1) 0,rgba(0,0,0,.1) 1px,transparent 1px,transparent 10px);
+  pointer-events:none;
+}
+.mb-std-head{
+  display:grid;grid-template-columns:28px 1fr 56px 34px;
+  padding:7px 16px;font-size:.58rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--mb-dim);
+  border-bottom:1px solid rgba(218,41,28,.15);
+}
+.mb-std-head span{text-align:center;}
+.mb-std-head span:nth-child(2),
+.mb-std-head span:nth-child(3){text-align:left;}
+.mb-std-row{
+  display:grid;grid-template-columns:28px 1fr 56px 34px;
+  padding:9px 16px;border-bottom:1px solid rgba(255,255,255,.04);
+  align-items:center;transition:background .15s;
+  opacity:0;transform:translateX(-8px);
+  animation:mbRowIn .3s ease forwards;
+}
+@keyframes mbRowIn{to{opacity:1;transform:translateX(0);}}
+.mb-std-row:hover{background:rgba(218,41,28,.07);}
+.mb-std-row.mb-me{background:rgba(218,41,28,.12);border-left:3px solid var(--mb-red);}
+.mb-rk{font-family:var(--mb-fd);font-size:.95rem;color:rgba(218,41,28,.3);text-align:center;}
+.mb-rk.mb-hi{color:var(--mb-red);}
+.mb-club-cell{display:flex;align-items:center;gap:7px;}
+.mb-clogo{
+  width:22px;height:22px;border-radius:50%;background:var(--mb-black);
+  border:1px solid rgba(218,41,28,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mb-fd);font-size:.42rem;color:var(--mb-text);flex-shrink:0;
+}
+.mb-cname{
+  font-family:var(--mb-fc);font-weight:700;font-size:.82rem;
+  text-transform:uppercase;color:var(--mb-text);letter-spacing:.03em;
+}
+.mb-cname.mb-me{color:var(--mb-red);}
+.mb-bar-cell{display:flex;flex-direction:column;gap:3px;}
+.mb-bar-top{display:flex;align-items:center;gap:6px;}
+.mb-bar-goals{font-family:var(--mb-fd);font-size:.95rem;font-weight:700;}
+.mb-bar-pct{font-family:var(--mb-fd);font-size:.7rem;font-weight:600;}
+.mb-bar-wrap{height:5px;background:rgba(218,41,28,.15);border-radius:3px;overflow:hidden;}
+.mb-bar-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,#DA291C,#ff5544);
+  width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);
+}
+.mb-bar-fill.mb-gold{background:linear-gradient(90deg,#FBE122,#ffcc00);}
+.mb-bar-games{font-family:var(--mb-fd);font-size:.85rem;color:#a87070;text-align:center;}
+
+/* ════════════════════
+   RESPONSIVE
+════════════════════ */
+@media(max-width:600px){
+  .mb-section-inner{padding:16px 14px;}
+  .mb-matchup-row{padding:18px 14px 16px;}
+  .mb-logo-circle{width:64px;height:64px;}
+  .mb-logo-circle svg{width:52px;height:52px;}
+  .mb-cd-n{font-size:2rem;min-width:42px;}
+  .mb-bar-vs{font-size:1.6rem;padding:6px 12px;}
+}
+@media(max-width:420px){
+  .mb-tb{font-size:.62rem;letter-spacing:.14em;padding:11px 0;}
+  .mb-cd-n{font-size:1.65rem;min-width:36px;}
+  .mb-cd-sep{font-size:1.5rem;}
+  .mb-logo-circle{width:54px;height:54px;}
+  .mb-logo-circle svg{width:44px;height:44px;}
+  .mb-bar-vs{font-size:1.3rem;padding:6px 8px;}
+  .mb-std-head,
+  .mb-std-row{grid-template-columns:24px 1fr 52px 28px;padding-left:10px;padding-right:10px;}
+}
+</style>
+
+<div class="mb-col" id="mbCol">
+
+  <!-- TABS -->
+  <div class="mb-tab-wrap">
+    <button class="mb-tb mb-left" id="mb-t-match" onclick="mbSw('match')">GIAO HỮU NỘI BỘ · 2025/26</button>
+    <button class="mb-tb mb-right" id="mb-t-std" onclick="mbSw('std')">VUA PHÁ LƯỚI</button>
+  </div>
+
+  <!-- ── MATCH PANEL ── -->
+  <div id="mb-p-match">
+    <div class="mb-card">
+      <div class="mb-match-bar">
+        <div class="mb-bar-team">BIT FC</div>
+        <div class="mb-bar-vs">VS</div>
+        <div class="mb-bar-team mb-right">Khoa Học FC</div>
+      </div>
+      <div class="mb-matchup-row">
+
+        <div class="mb-side">
+          <div class="mb-logo-circle mb-home">
+            <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="31" cy="31" r="29" fill="#DA291C"/>
+              <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <text x="31" y="29" font-family="Oswald,sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">BIT</text>
+              <text x="31" y="41" font-family="Oswald,sans-serif" font-size="10" fill="rgba(255,255,255,.75)" text-anchor="middle">FC</text>
+            </svg>
+          </div>
+          <div class="mb-t-name">BIT FC</div>
+        </div>
+
+        <div class="mb-cd-center">
+          <div class="mb-cd-label">Bắt đầu sau</div>
+          <div class="mb-cd-row">
+            <div class="mb-cd-u">
+              <div class="mb-cd-n" id="mb-d">--</div>
+              <div class="mb-cd-lbl">NGÀY</div>
+            </div>
+            <div class="mb-cd-sep">:</div>
+            <div class="mb-cd-u">
+              <div class="mb-cd-n" id="mb-h">--</div>
+              <div class="mb-cd-lbl">GIỜ</div>
+            </div>
+            <div class="mb-cd-sep">:</div>
+            <div class="mb-cd-u">
+              <div class="mb-cd-n" id="mb-m">--</div>
+              <div class="mb-cd-lbl">PHÚT</div>
+            </div>
+            <div class="mb-cd-sep">:</div>
+            <div class="mb-cd-u">
+              <div class="mb-cd-n" id="mb-s">--</div>
+              <div class="mb-cd-lbl">GIÂY</div>
+            </div>
+          </div>
+          <div class="mb-cd-date">Chủ Nhật, 14/06/2026<br/>15:30 · Sân ABC, Cầu Giấy</div>
+        </div>
+
+        <div class="mb-side">
+          <div class="mb-logo-circle">
+            <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="31" cy="31" r="29" fill="#1a1a2e"/>
+              <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <text x="31" y="27" font-family="Oswald,sans-serif" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">KHOA</text>
+              <text x="31" y="39" font-family="Oswald,sans-serif" font-size="9" fill="rgba(255,255,255,.65)" text-anchor="middle">HỌC FC</text>
+            </svg>
+          </div>
+          <div class="mb-t-name">Khoa Học FC</div>
+        </div>
+
+      </div>
+      <div class="mb-divider"></div>
+    </div>
+
+    <div class="mb-section-inner">
+      <div class="mb-res-heading">
+        <div class="mb-res-title">TRẬN ĐẤU</div>
+        <div class="mb-arrows">
+          <button class="mb-arr" onclick="mbSlide1(-1)">&#8249;</button>
+          <button class="mb-arr" onclick="mbSlide1(1)">&#8250;</button>
+        </div>
+      </div>
+      <div class="mb-slider-outer">
+        <div class="mb-slider-track" id="mb-track1"></div>
+      </div>
+      <div class="mb-dots" id="mb-dots1"></div>
+    </div>
+  </div><!-- /p-match -->
+
+  <!-- ── STANDINGS PANEL ── -->
+  <div id="mb-p-std" style="display:none;">
+    <div class="mb-std-card">
+      <div class="mb-std-bar">VUA PHÁ LƯỚI · MÙA 2025/26</div>
+      <div class="mb-std-head">
+        <span>#</span>
+        <span>Cầu Thủ · Đội</span>
+        <span>Bàn / % KL</span>
+        <span>Trận</span>
+      </div>
+      <div id="mb-std-body"></div>
+    </div>
+
+    <div class="mb-section-inner">
+      <div class="mb-res-heading">
+        <div class="mb-res-title">TRẬN ĐẤU</div>
+        <div class="mb-arrows">
+          <button class="mb-arr" onclick="mbSlide2(-1)">&#8249;</button>
+          <button class="mb-arr" onclick="mbSlide2(1)">&#8250;</button>
+        </div>
+      </div>
+      <div class="mb-slider-outer">
+        <div class="mb-slider-track" id="mb-track2"></div>
+      </div>
+      <div class="mb-dots" id="mb-dots2"></div>
+    </div>
+  </div><!-- /p-std -->
+
+</div><!-- /mb-col -->
+</section>
+<!-- ════════════════════════════════════════
+     KẾT THÚC SECTION
+════════════════════════════════════════ -->
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   BIT FC DARK MATCH BOARD — JS
+   Paste toàn bộ khối này vào js/match_board.js
+   (hoặc thêm <script src="js/match_board.js"> trước </body>)
+════════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
+
+/* ── DATA ── */
+const MB_MATCHES=[
+  {date:'01/06/2026',comp:'Giao Hữu',home:'BIT FC',       away:'FC Kinh Tế',    score:'3 - 1',res:'w',venue:'Sân ABC',  hl:'BIT',al:'KT'},
+  {date:'25/05/2026',comp:'Giao Hữu',home:'Ngoại Thương', away:'BIT FC',        score:'1 - 1',res:'d',venue:'Sân NTU',  hl:'NT', al:'BIT'},
+  {date:'18/05/2026',comp:'Giao Hữu',home:'BIT FC',       away:'Bách Khoa FC',  score:'2 - 0',res:'w',venue:'Sân ABC',  hl:'BIT',al:'BK'},
+  {date:'10/05/2026',comp:'Giao Hữu',home:'Luật FC',      away:'BIT FC',        score:'2 - 0',res:'l',venue:'Sân HLU',  hl:'LU', al:'BIT'},
+  {date:'04/05/2026',comp:'Giao Hữu',home:'BIT FC',       away:'Thương Mại FC', score:'4 - 2',res:'w',venue:'Sân ABC',  hl:'BIT',al:'TM'},
+  {date:'27/04/2026',comp:'Giao Hữu',home:'Sư Phạm FC',   away:'BIT FC',        score:'1 - 2',res:'w',venue:'Sân ĐHSP',hl:'SP', al:'BIT'},
+];
+
+const MB_SCORERS=[
+  {r:1,name:'Nguyễn Đức Anh', team:'BIT FC',        goals:11,games:10,gold:true},
+  {r:2,name:'Trần Minh Khoa', team:'BIT FC',        goals:8, games:10,gold:false},
+  {r:3,name:'Lê Hải Đăng',    team:'Bách Khoa FC',  goals:6, games:9, gold:false},
+  {r:4,name:'Phạm Tuấn Kiệt', team:'FC Kinh Tế',    goals:5, games:10,gold:false},
+  {r:5,name:'Vũ Bảo Long',    team:'Ngoại Thương',  goals:4, games:10,gold:false},
+  {r:6,name:'Đỗ Công Minh',   team:'Sư Phạm FC',    goals:3, games:8, gold:false},
+  {r:7,name:'Hoàng Văn Sơn',  team:'Luật FC',       goals:2, games:7, gold:false},
+];
+
+const MB_NEXT_MATCH=new Date('2026-06-14T15:30:00+07:00');
+const MB_MAX_GOALS=MB_SCORERS[0].goals;
+const MB_TOTAL_GOALS=MB_SCORERS.reduce((a,s)=>a+s.goals,0);
+
+/* ── HELPERS ── */
+const p2=n=>String(n).padStart(2,'0');
+const $=id=>document.getElementById(id);
+const per=()=>window.innerWidth<=480?1:2;
+
+/* ── COUNTDOWN (flip digit) ── */
+const _prev={d:null,h:null,m:null,s:null};
+function flipDigit(id,val){
+  const el=$(id);if(!el)return;
+  const v=p2(val);
+  const k=id.replace('mb-','');
+  if(_prev[k]===v)return;
+  el.classList.add('mb-flip');
+  setTimeout(()=>{el.textContent=v;el.classList.remove('mb-flip');},110);
+  _prev[k]=v;
+}
+function startCD(){
+  function tick(){
+    const diff=MB_NEXT_MATCH-Date.now();
+    if(diff<0){['mb-d','mb-h','mb-m','mb-s'].forEach(id=>{const e=$(id);if(e)e.textContent='00';});return;}
+    flipDigit('mb-d',Math.floor(diff/864e5));
+    flipDigit('mb-h',Math.floor(diff%864e5/36e5));
+    flipDigit('mb-m',Math.floor(diff%36e5/6e4));
+    flipDigit('mb-s',Math.floor(diff%6e4/1e3));
+  }
+  tick();setInterval(tick,1000);
+}
+
+/* ── BUILD STANDINGS ── */
+function buildStd(){
+  const b=$('mb-std-body');if(!b)return;
+  b.innerHTML='';
+  MB_SCORERS.forEach((p,i)=>{
+    const pct=Math.round((p.goals/MB_TOTAL_GOALS)*100);
+    const barW=Math.round((p.goals/MB_MAX_GOALS)*100);
+    const isG=p.gold;
+    const row=document.createElement('div');
+    row.className='mb-std-row'+(isG?' mb-me':'');
+    row.style.animationDelay=(i*.07)+'s';
+    row.innerHTML=`
+      <span class="mb-rk${i<3?' mb-hi':''}">${p.r}</span>
+      <span>
+        <div class="mb-club-cell">
+          <div class="mb-clogo">${p.name.split(' ').pop().slice(0,2).toUpperCase()}</div>
+          <div>
+            <div class="mb-cname${isG?' mb-me':''}">${p.name}</div>
+            <div style="font-size:.6rem;color:#6b3333;letter-spacing:.08em;">${p.team}</div>
+          </div>
+        </div>
+      </span>
+      <span>
+        <div class="mb-bar-cell">
+          <div class="mb-bar-top">
+            <span class="mb-bar-goals" style="color:${isG?'#FBE122':'#DA291C'}">${p.goals}</span>
+            <span class="mb-bar-pct" style="color:${isG?'rgba(251,225,34,.75)':'rgba(218,41,28,.7)'}">${pct}%</span>
+          </div>
+          <div class="mb-bar-wrap">
+            <div class="mb-bar-fill${isG?' mb-gold':''}" data-idx="${i}" style="width:0%"></div>
+          </div>
+        </div>
+      </span>
+      <span class="mb-bar-games">${p.games}</span>
+    `;
+    b.appendChild(row);
+    setTimeout(()=>{
+      const fill=b.querySelector(`[data-idx="${i}"]`);
+      if(fill)fill.style.width=barW+'%';
+    },150+i*90);
+  });
+}
+
+/* ── SLIDER ── */
+let c1=0,c2=0;
+
+function makeTrack(tid,did,getCur,setCur){
+  const tr=$(tid),dt=$(did);if(!tr||!dt)return;
+  tr.innerHTML='';dt.innerHTML='';
+  const p=per();
+  const pages=Math.ceil(MB_MATCHES.length/p);
+  MB_MATCHES.forEach((m,idx)=>{
+    const card=document.createElement('div');
+    card.className='mb-rc';
+    card.style.flex=`0 0 calc(${100/p}% - ${(p-1)*12/p}px)`;
+    card.style.animationDelay=(idx*.06)+'s';
+    card.innerHTML=`
+      <div class="mb-rc-top">${m.date}</div>
+      <div class="mb-rc-comp">${m.comp}</div>
+      <div class="mb-rc-body">
+        <div class="mb-rc-logo">
+          <svg viewBox="0 0 28 28">
+            <circle cx="14" cy="14" r="13" fill="#DA291C"/>
+            <text x="14" y="18" font-family="Oswald" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">${m.hl}</text>
+          </svg>
+        </div>
+        <div class="mb-rc-tname">${m.home}</div>
+        <div class="mb-rc-score">${m.score}</div>
+        <div class="mb-rc-tname mb-r">${m.away}</div>
+        <div class="mb-rc-logo">
+          <svg viewBox="0 0 28 28">
+            <circle cx="14" cy="14" r="13" fill="#1a1a2e"/>
+            <text x="14" y="18" font-family="Oswald" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">${m.al}</text>
+          </svg>
+        </div>
+      </div>
+      <div class="mb-rc-foot">
+        <span class="mb-rc-ven">${m.venue}</span>
+        <span class="mb-badge ${m.res}">${m.res==='w'?'Thắng':m.res==='d'?'Hòa':'Thua'}</span>
+      </div>
+    `;
+    tr.appendChild(card);
+  });
+  for(let i=0;i<pages;i++){
+    const d=document.createElement('div');
+    d.className='mb-dot'+(i===0?' mb-on':'');
+    d.onclick=(function(pp){return function(){goTo(tid,did,pp,getCur,setCur);};})(i);
+    dt.appendChild(d);
+  }
+  goTo(tid,did,0,getCur,setCur);
+}
+
+function goTo(tid,did,p,getCur,setCur){
+  const pv=per();
+  const pages=Math.ceil(MB_MATCHES.length/pv);
+  p=Math.max(0,Math.min(p,pages-1));
+  setCur(p);
+  const cards=document.querySelectorAll('#'+tid+' .mb-rc');
+  if(!cards.length)return;
+  const step=(cards[0].offsetWidth+12)*pv;
+  $(tid).style.transform='translateX(-'+(p*step)+'px)';
+  document.querySelectorAll('#'+did+' .mb-dot')
+    .forEach((d,i)=>d.className='mb-dot'+(i===p?' mb-on':''));
+}
+
+window.mbSlide1=function(dir){goTo('mb-track1','mb-dots1',c1+dir,()=>c1,v=>c1=v);};
+window.mbSlide2=function(dir){goTo('mb-track2','mb-dots2',c2+dir,()=>c2,v=>c2=v);};
+
+/* ── TAB SWITCH (fade) ── */
+window.mbSw=function(tab){
+  const isM=tab==='match';
+  const pm=$('mb-p-match'),ps=$('mb-p-std');
+  const tm=$('mb-t-match'),ts=$('mb-t-std');
+  const hide=isM?ps:pm, show=isM?pm:ps;
+
+  hide.style.transition='opacity .18s';hide.style.opacity='0';
+  setTimeout(()=>{
+    hide.style.display='none';
+    show.style.display='block';show.style.opacity='0';
+    void show.offsetHeight;
+    show.style.transition='opacity .22s';show.style.opacity='1';
+    if(!isM){buildStd();makeTrack('mb-track2','mb-dots2',()=>c2,v=>c2=v);}
+  },160);
+
+  if(tm)tm.className='mb-tb mb-left'+(isM?'':' mb-off');
+  if(ts)ts.className='mb-tb mb-right'+(isM?'':' mb-act');
+};
+
+/* ── SWIPE ── */
+function addSwipe(outerSel,slideFn){
+  const el=document.querySelector(outerSel);if(!el)return;
+  let sx=0;
+  el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+  el.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>36)slideFn(dx<0?1:-1);
+  });
+}
+
+/* ── SCROLL REVEAL ── */
+function initReveal(){
+  const el=$('mbCol');if(!el)return;
+  if('IntersectionObserver' in window){
+    const obs=new IntersectionObserver(([e])=>{
+      if(e.isIntersecting){el.classList.add('mb-visible');obs.disconnect();}
+    },{threshold:.08});
+    obs.observe(el);
+  } else {
+    el.classList.add('mb-visible');
+  }
+}
+
+/* ── RESIZE ── */
+let mbResizeTimer;
+window.addEventListener('resize',function(){
+  clearTimeout(mbResizeTimer);
+  mbResizeTimer=setTimeout(function(){
+    makeTrack('mb-track1','mb-dots1',()=>c1,v=>c1=v);
+    if($('mb-p-std')&&$('mb-p-std').style.display!=='none'){
+      makeTrack('mb-track2','mb-dots2',()=>c2,v=>c2=v);
+    }
+  },200);
+});
+
+/* ── INIT ── */
+function init(){
+  if(!$('mbCol'))return;
+  mbSw('match');
+  makeTrack('mb-track1','mb-dots1',()=>c1,v=>c1=v);
+  startCD();
+  initReveal();
+  addSwipe('#mb-track1',window.mbSlide1);
+  addSwipe('#mb-track2',window.mbSlide2);
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',init);
+}else{
+  init();
+}
+
+})();
+</script>
+
+</body>
+</html>

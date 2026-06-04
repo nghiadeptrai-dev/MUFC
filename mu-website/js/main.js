@@ -1,18 +1,22 @@
 /* ============================================================
-   CHELSEA FC - GLOBAL JS
+   MANCHESTER UNITED FC - GLOBAL JS & 3D SLIDER
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ---- PRELOADER ----
-  const preloader = document.getElementById('preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      setTimeout(() => preloader.classList.add('hidden'), 1800);
-    });
-    // fallback
-    setTimeout(() => preloader.classList.add('hidden'), 3000);
+
+// ---- PRELOADER ----
+const preloader = document.getElementById('preloader');
+if (preloader) {
+  const hidePreloader = () => preloader.classList.add('hidden');
+
+  if (document.readyState === 'complete') {
+    setTimeout(hidePreloader, 800);
+  } else {
+    window.addEventListener('load', () => setTimeout(hidePreloader, 800));
+    setTimeout(hidePreloader, 3500);
   }
+}
 
   // ---- NAVBAR SCROLL ----
   const navbar = document.getElementById('navbar');
@@ -83,6 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ============================================================
+  // ---- 3D COVERFLOW SLIDER LOGIC ----
+  // ============================================================
   const playersData = [
     {
       number: '8',
@@ -142,141 +149,126 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  const track = document.querySelector('.players-track');
-  const frontCard = document.querySelector('.player-card-large');
-  const prevPlayer = document.querySelector('.slider-btn-prev');
-  const nextPlayer = document.querySelector('.slider-btn-next');
+  const track = document.getElementById('player-track');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
 
-  let activeIndex = 0;
-  let currentSlide = playersData.length;
-  const totalCopies = 3;
-  const playersLength = playersData.length;
+  if (track) {
+    const totalPlayers = playersData.length;
+    let currentIndex = Math.floor(totalPlayers / 2);
 
-  const createCard = (player) => {
-    const card = document.createElement('article');
-    card.className = 'player-card';
-    card.innerHTML = `
-      <img src="${player.img}" alt="${player.alt}" loading="lazy"
-        onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg';this.style.padding='30px';this.style.background='#4A0000'" />
-      <div class="player-card-info">
-        <div class="player-number">${player.number}</div>
-        <div class="player-name">${player.name}</div>
-        <div class="player-pos">${player.pos}</div>
+    // 1. Tạo HTML (Đã bổ sung thẻ shine-container cho hiệu ứng ánh sáng)
+    track.innerHTML = playersData.map((player, index) => `
+      <div class="player-3d-card" data-index="${index}">
+        <div class="glass-card">
+          <div class="glass-card-bg"></div>
+          
+          <div class="shine-container">
+            <div class="shine-layer"></div>
+          </div>
+
+          <div class="player-3d-number">
+            <div class="player-3d-number-inner">
+              <span>${player.number}</span>
+            </div>
+          </div>
+          <div class="player-3d-img-wrap">
+            <img src="${player.img}" alt="${player.alt}" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg';">
+          </div>
+          <div class="player-3d-info">
+            <div class="player-3d-info-inner">
+              <h3>${player.name}</h3>
+              <div class="player-3d-pos">
+                <div class="line"></div>
+                <p>${player.pos}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    `;
-    return card;
-  };
+    `).join('');
 
-  const renderTrack = () => {
-    if (!track) return;
-    track.innerHTML = '';
-    for (let copy = 0; copy < totalCopies; copy += 1) {
-      playersData.forEach((player) => {
-        track.appendChild(createCard(player));
+    const cards = document.querySelectorAll('.player-3d-card');
+
+    // 2. Cập nhật Slide với Toán học Modulo (Chạy vô tận)
+    const updateSlider = () => {
+      cards.forEach((card, index) => {
+        // Tính toán khoảng cách offset chạy vòng tròn
+        let offset = (index - currentIndex) % totalPlayers;
+        
+        // Điều chỉnh offset để luôn phân bổ đều 2 bên (- và +)
+        if (offset > Math.floor(totalPlayers / 2)) {
+          offset -= totalPlayers;
+        } else if (offset < -Math.floor(totalPlayers / 2)) {
+          offset += totalPlayers;
+        }
+
+        const absOffset = Math.abs(offset);
+        
+        let translateX = 0, translateZ = 0, rotateY = 0;
+        let scale = 1, blur = 0, opacity = 1;
+        let zIndex = 20 - absOffset;
+
+        if (offset === 0) {
+          // Thẻ Active (Ở Giữa)
+          card.classList.add('is-active');
+        } else {
+          // Thẻ vệ tinh
+          card.classList.remove('is-active');
+          const direction = offset > 0 ? 1 : -1;
+          
+          if (absOffset === 1) {
+            translateX = 300 * direction; translateZ = -100; rotateY = -25 * direction; scale = 0.85; blur = 3;
+          } else if (absOffset === 2) {
+            translateX = 600 * direction; translateZ = -200; rotateY = -50 * direction; scale = 0.70; blur = 3;
+          } else if (absOffset === 3) {
+            translateX = 900 * direction; translateZ = -300; rotateY = -75 * direction; scale = 0.55; blur = 3; opacity = 0; 
+          } else {
+            // Các thẻ bị giấu phía sau cùng (di chuyển tàng hình)
+            translateX = 1200 * direction; translateZ = -400; scale = 0; opacity = 0;
+          }
+        }
+
+        card.style.transform = `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+        card.style.zIndex = zIndex;
+        card.style.filter = `brightness(${offset === 0 ? 1 : 0.4}) blur(${blur}px)`;
+        card.style.opacity = opacity;
+      });
+    };
+
+    // 3. Sự kiện Click (Áp dụng Modulo để + / - vô tận)
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        // Lùi vô tận
+        currentIndex = (currentIndex - 1 + totalPlayers) % totalPlayers;
+        updateSlider();
       });
     }
-  };
 
-  const renderFrontCard = (index) => {
-    if (!frontCard || !playersData[index]) return;
-    const player = playersData[index];
-    frontCard.innerHTML = `
-      <img src="${player.img}" alt="${player.alt}" loading="lazy"
-        onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg';this.style.padding='30px';this.style.background='#4A0000'" />
-      <div class="player-card-info">
-        <div class="player-number">${player.number}</div>
-        <div class="player-name">${player.name}</div>
-        <div class="player-pos">${player.pos}</div>
-      </div>
-    `;
-  };
-
-  const updateTrack = (instant = false) => {
-    if (!track) return;
-    const card = track.querySelector('.player-card');
-    const trackWrapper = track.parentElement;
-    if (!card || !trackWrapper) return;
-
-    const gapValue = parseFloat(getComputedStyle(track).gap) || 24;
-    const itemWidth = card.offsetWidth;
-    const step = itemWidth + gapValue;
-    const containerWidth = trackWrapper.clientWidth;
-    const offset = (containerWidth - itemWidth) / 2;
-    const positionX = -currentSlide * step + offset;
-
-    if (instant) {
-      track.style.transition = 'none';
-    } else {
-      track.style.transition = 'transform 0.45s ease';
-    }
-
-    track.style.transform = `translateX(${positionX}px)`;
-
-    if (instant) {
-      requestAnimationFrame(() => {
-        track.style.transition = 'transform 0.45s ease';
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        // Tiến vô tận
+        currentIndex = (currentIndex + 1) % totalPlayers;
+        updateSlider();
       });
     }
-  };
 
-  const normalizeSlide = () => {
-    if (!track) return;
-    if (currentSlide >= playersLength * 2) {
-      currentSlide -= playersLength;
-      updateTrack(true);
-    }
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        if (currentIndex !== index) {
+          currentIndex = index;
+          updateSlider();
+        } else {
+          const slug = playersData[index].name
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d").replace(/ /g, '-');
+          
+          window.location.href = `pages/player-detail.html?slug=${slug}`;
+        }
+      });
+    });
 
-    if (currentSlide < playersLength) {
-      currentSlide += playersLength;
-      updateTrack(true);
-    }
-  };
-
-  const moveSlide = (direction) => {
-    activeIndex = (activeIndex + direction + playersLength) % playersLength;
-    currentSlide += direction;
-    renderFrontCard(activeIndex);
-    updateTrack(false);
-  };
-
-  if (track && frontCard) {
-    renderTrack();
-    renderFrontCard(activeIndex);
-    updateTrack(true);
-
-    track.addEventListener('transitionend', normalizeSlide);
+    updateSlider();
   }
-
-  if (prevPlayer) {
-    prevPlayer.addEventListener('click', () => moveSlide(-1));
-  }
-
-  if (nextPlayer) {
-    nextPlayer.addEventListener('click', () => moveSlide(1));
-  }
-
-  let autoplayTimer = null;
-  const sliderRoot = document.querySelector('.players-slider');
-
-  const startAutoplay = () => {
-    if (autoplayTimer) return;
-    autoplayTimer = window.setInterval(() => moveSlide(1), 4500);
-  };
-
-  const stopAutoplay = () => {
-    if (autoplayTimer) {
-      window.clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
-  };
-
-  if (sliderRoot) {
-    sliderRoot.addEventListener('mouseenter', stopAutoplay);
-    sliderRoot.addEventListener('mouseleave', startAutoplay);
-    sliderRoot.addEventListener('touchstart', stopAutoplay, { passive: true });
-    sliderRoot.addEventListener('touchend', startAutoplay);
-  }
-
-  startAutoplay();
-
 });
