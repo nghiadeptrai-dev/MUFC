@@ -8,7 +8,7 @@ const newsDetailData = {
     content: [
       'Sự xuất hiện của thầy Vũ Trọng Sinh trên băng ghế chỉ đạo được kỳ vọng sẽ đem lại sự kỷ luật, chiều sâu chiến thuật và điểm tựa tinh thần vững chắc cho các cầu thủ.',
       'Sát cánh cùng thầy Sinh trong ban huấn luyện mùa này là các trợ lý giàu nhiệt huyết bao gồm: Trần Hậu Thành Đạt, Nguyễn Hữu Mạnh, Nguyễn Hoàng Anh và Lê Quốc Trung.',
-      'Toàn đội đang tích cực tập luyện và hướng tới một mùa giải bùng nổ để khẳng định vị thế "Niềm tự hào của Banking IT".',
+      'Toàn đội đang tích cực tập luyện và hướng tới một mùa giải bùng nổ để khẳng định vị thế "Niềm tự hào của BIT".',
       'Người hâm mộ và các bạn sinh viên trong khoa đang rất háo hức chờ đợi trận đấu ra mắt chính thức tiếp theo của thầy trên cương vị mới.'
     ]
   },
@@ -107,7 +107,6 @@ const renderNewsDetail = (news) => {
           <div class="news-detail-quickinfo">
             <div><strong>Chủ đề</strong><span>${news.tag}</span></div>
             <div><strong>Ngày xuất bản</strong><span>${news.date}</span></div>
-            <div><strong>Thời gian đọc</strong><span>${readTime}</span></div>
           </div>
         </div>
       </aside>
