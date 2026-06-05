@@ -77,9 +77,18 @@ export const getAllMatches = wrap(async () => {
 // LẮNG NGHE TOÀN BỘ TRẬN ĐẤU (REALTIME)
 // ─────────────────────────────────────────────────────────
 export const listenAllMatches = (callback) => {
+  const cacheKey = "matches_all";
+  const cachedStr = sessionStorage.getItem(cacheKey);
+  if (cachedStr) {
+    try {
+      callback(JSON.parse(cachedStr));
+    } catch(e){}
+  }
+
   const q = query(colRef(), orderBy("date", "desc"));
   return onSnapshot(q, (snap) => {
     const matches = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    sessionStorage.setItem(cacheKey, JSON.stringify(matches));
     callback(matches);
   }, (err) => {
     console.error("[MatchController] listenAllMatches error:", err);

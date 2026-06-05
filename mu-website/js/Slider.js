@@ -73,6 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Khôi phục sự kiện click cho các thẻ
     cards.forEach((card, index) => {
+      card.addEventListener('mouseenter', () => {
+        import("../controllers/PlayerController.js").then(m => {
+          if (m.getPlayerById) m.getPlayerById(players[index].id);
+        });
+      }, { once: true });
+
       card.addEventListener('click', () => {
         if (currentIndex !== index) {
           currentIndex = index;

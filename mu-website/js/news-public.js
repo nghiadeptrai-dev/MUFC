@@ -52,6 +52,12 @@ function initNewsListener() {
       
       const imgUrl = a.coverUrl || '../assessts/logoBit.png';
 
+      card.addEventListener("mouseenter", () => {
+        import("../controllers/NewsController.js").then(m => {
+          if (m.getNewsById) m.getNewsById(a.id);
+        });
+      }, { once: true });
+
       card.innerHTML = `
         <div class="news-page-card-image">
           <img src="${imgUrl}" alt="${a.title}" loading="lazy" onerror="this.src='../assessts/logoBit.png';" />

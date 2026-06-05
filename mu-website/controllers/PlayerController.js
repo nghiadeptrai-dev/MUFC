@@ -109,9 +109,18 @@ export const getPlayerById = wrap(async (playerId) => {
 // LẮNG NGHE TOÀN BỘ CẦU THỦ (REALTIME)
 // ─────────────────────────────────────────────────────────
 export const listenAllPlayers = (callback) => {
+  const cacheKey = "players_all";
+  const cachedStr = sessionStorage.getItem(cacheKey);
+  if (cachedStr) {
+    try {
+      callback(JSON.parse(cachedStr));
+    } catch(e){}
+  }
+
   const q = query(colRef(), orderBy("number", "asc"));
   return onSnapshot(q, (snap) => {
     const players = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    sessionStorage.setItem(cacheKey, JSON.stringify(players));
     callback(players);
   }, (err) => {
     console.error("[PlayerController] listenAllPlayers error:", err);

@@ -345,6 +345,14 @@ export const getPublishedNewsPaginated = wrap(async (limitCount = 6, lastDoc = n
 // LẮNG NGHE BÀI BÁO ĐÃ PUBLISH (REALTIME, DÙNG LIMIT DẦN LÊN THAY VÌ PHÂN TRANG)
 // ─────────────────────────────────────────────────────────
 export const listenPublishedNews = (limitCount = 6, callback) => {
+  const cacheKey = `news_pub_${limitCount}`;
+  const cachedStr = sessionStorage.getItem(cacheKey);
+  if (cachedStr) {
+    try {
+      callback(JSON.parse(cachedStr));
+    } catch(e){}
+  }
+
   const q = query(
     colRef(),
     where("status", "==", "published"),
@@ -354,9 +362,9 @@ export const listenPublishedNews = (limitCount = 6, callback) => {
 
   return onSnapshot(q, (snap) => {
     const results = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    // Do realtime khó đồng bộ mốc startAfter nếu data mới xen vào giữa, 
-    // ta dùng cách tăng dần limitCount.
-    callback({ results, hasMore: snap.docs.length === limitCount });
+    const payload = { results, hasMore: snap.docs.length === limitCount };
+    sessionStorage.setItem(cacheKey, JSON.stringify(payload));
+    callback(payload);
   }, (err) => {
     console.error("[NewsController] listenPublishedNews error:", err);
     callback({ error: err.message });
