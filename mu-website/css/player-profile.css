@@ -154,7 +154,7 @@
   font-size: 0.85rem;
   letter-spacing: 0.4em;
   color: var(--red-primary); /* Một chút xanh dương nhạt để giống ảnh gốc, hoặc bạn đổi về var(--gray-mid) */
-  margin-top: 0.8rem;
+  margin-top: 1.8rem;
   margin-bottom: 2.5rem;
 }
 

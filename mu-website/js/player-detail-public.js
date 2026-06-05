@@ -92,44 +92,6 @@ function renderDetail(p) {
       </div>
     </div>
 
-    <div class="profile-moments-section">
-      <div class="moments-header">
-        <h2>KHOẢNH KHẮC <span class="highlight">CẦU THỦ</span></h2>
-        <div class="moments-tabs">
-          <button class="active">TẤT CẢ</button>
-          <button>HÌNH ẢNH</button>
-          <button>VIDEO</button>
-        </div>
-      </div>
-
-      <div class="moments-slider">
-        
-        <div class="moment-item">
-          <img src="https://images.unsplash.com/photo-1517927033932-bd0f9af8e0c5?w=800&q=80" alt="Video" />
-          <div class="moment-type-badge video">VIDEO <i class="ti ti-player-play"></i></div>
-          <div class="moment-title">Pha xử lý đẳng cấp trong trận Derby</div>
-        </div>
-
-        <div class="moment-item">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80" alt="Ảnh" />
-          <div class="moment-type-badge photo">PHOTO <i class="ti ti-photo"></i></div>
-          <div class="moment-title">Đường chuyền dài chuẩn xác</div>
-        </div>
-
-        <div class="moment-item">
-          <img src="https://images.unsplash.com/photo-1521412644187-c49fa049e84d?w=800&q=80" alt="Ảnh" />
-          <div class="moment-type-badge photo">PHOTO <i class="ti ti-photo"></i></div>
-          <div class="moment-title">Tranh chấp bóng quyết liệt</div>
-        </div>
-
-        <div class="moment-item">
-          <img src="https://images.unsplash.com/photo-1509223197845-458d87318791?w=800&q=80" alt="Video" />
-          <div class="moment-type-badge video">VIDEO <i class="ti ti-player-play"></i></div>
-          <div class="moment-title">Bàn thắng chốt hạ cảm xúc</div>
-        </div>
-
-      </div>
-    </div>
   `;
   
   document.title = `${p.name} - BIT FC`;
