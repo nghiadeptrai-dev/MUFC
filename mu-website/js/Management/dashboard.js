@@ -416,3 +416,23 @@ function initNavItems() {
     });
   });
 }
+
+/* ── HAMBURGER ── */
+const hamburger = document.getElementById('hamburger-btn');
+const sidebar   = document.querySelector('.sidebar');
+const overlay   = document.getElementById('sidebar-overlay');
+
+if (hamburger && sidebar && overlay) {
+  hamburger.addEventListener('click', () => {
+    const isOpen = sidebar.classList.contains('open');
+    hamburger.classList.toggle('open', !isOpen);
+    sidebar.classList.toggle('open', !isOpen);
+    overlay.classList.toggle('visible', !isOpen);
+  });
+
+  overlay.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+  });
+}

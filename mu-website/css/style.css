@@ -258,7 +258,7 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.2rem;
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--transition), visibility var(--transition);
@@ -271,7 +271,7 @@ img {
 
 .mobile-nav a {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: clamp(1.4rem, 6vw, 2rem);
   letter-spacing: 0.1em;
   color: var(--gray-light);
   transition: color var(--transition);

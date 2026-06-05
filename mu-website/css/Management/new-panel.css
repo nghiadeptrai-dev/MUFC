@@ -504,7 +504,7 @@ table.news-table tbody td { font-family: var(--font-condensed); font-size: 12px;
 }
 @media (max-width: 480px) {
   .col-cat { display: none; }
-  .toolbar-spacer { display: none; }
+  .toolbar-spacer { display: block; flex: 1; }
   .btn-add span { display: none; }
   .btn-add { padding: 8px 12px; }
   .count-sep ~ .pub-count,

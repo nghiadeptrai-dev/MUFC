@@ -507,7 +507,9 @@
    ============================================================ */
 @media (max-width: 900px) {
   .news-page-grid { grid-template-columns: 1fr; }
+  .news-detail-hero { grid-template-columns: 1fr; gap: 1rem; }
   .news-detail-grid { grid-template-columns: 1fr; padding: 0; }
+  .news-detail-visual img { min-height: 250px; height: auto; }
 
   .fixture-main {
     grid-template-columns: 1fr;

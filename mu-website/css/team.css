@@ -391,7 +391,7 @@
 
 @media (max-width: 768px) {
   .team-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
-  .team-card-number { font-size: clamp(3.5rem, 16vw, 5.5rem); }
+  .team-card-number { font-size: clamp(1.8rem, 8vw, 2.6rem); }
 }
 
 @media (max-width: 400px) {

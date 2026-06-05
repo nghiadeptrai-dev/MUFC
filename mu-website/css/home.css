@@ -89,6 +89,11 @@
   color: var(--red-primary);
 }
 
+.hero-title .hero-title-large {
+  color: var(--white);
+  font-size: clamp(3.5rem, 8vw, 7rem);
+}
+
 .hero-subtitle {
   font-family: var(--font-condensed);
   font-size: clamp(0.85rem, 1.5vw, 1rem);
@@ -429,9 +434,9 @@ background:
 
 .player-3d-info h3 {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: clamp(1.4rem, 6vw, 2.2rem);
   color: var(--white);
-  line-height: 1;
+  line-height: 1.1;
   text-transform: uppercase;
   text-shadow: 0 4px 8px rgba(0,0,0,0.5);
   margin-bottom: 0.3rem;
@@ -491,12 +496,22 @@ background:
 .slider-btn-next { right: 1rem; }
 
 @media (max-width: 900px) {
-  .player-3d-card { width: 280px; height: 420px; }
+  .player-3d-card { 
+    width: 280px; 
+    height: 420px; 
+    margin-left: -140px; 
+    margin-top: -210px; 
+  }
   .slider-btn { width: 40px; height: 40px; font-size: 1.4rem; }
 }
 
 @media (max-width: 600px) {
-  .player-3d-card { width: 240px; height: 360px; }
+  .player-3d-card { 
+    width: 240px; 
+    height: 360px; 
+    margin-left: -120px; 
+    margin-top: -180px; 
+  }
   .slider-btn-prev { left: 0; }
   .slider-btn-next { right: 0; }
 }
@@ -1004,7 +1019,20 @@ background:
 @media (max-width: 768px) {
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .about-image-tag { display: none; }
-  .trophies-grid { grid-template-columns: 1fr; }
+  .trophies-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 0.8rem; 
+  }
+  .trophy-card {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: center;
+  }
+  .trophy-year { min-width: auto; font-size: 1.8rem; margin-bottom: 0.2rem; }
+  .trophy-info p { font-size: 0.75rem; }
+  
   .gallery-preview-grid { column-count: 2; }
   .news-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -1020,9 +1048,10 @@ background:
     width: 32px;
     height: 32px;
     font-size: 1rem;
+    z-index: 100;
   }
-  .slider-btn.prev { left: 5px; }
-  .slider-btn.next { right: 5px; }
+  .slider-btn-prev { left: -5px; }
+  .slider-btn-next { right: -5px; }
   
   /* Resize lightbox buttons on mobile */
   .lightbox-nav {

@@ -941,8 +941,13 @@ a.team-card .team-card-img {
   .btn-next { right: 0.5rem; }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
+  .news-detail-hero { grid-template-columns: 1fr; gap: 1rem; }
   .news-detail-grid { grid-template-columns: 1fr; }
+  .news-detail-visual img { min-height: 250px; height: auto; }
+}
+
+@media (max-width: 700px) {
   .player-detail-grid { grid-template-columns: 1fr; }
   .player-detail-meta { grid-template-columns: 1fr; }
   .player-stats-grid { grid-template-columns: 1fr 1fr; }
