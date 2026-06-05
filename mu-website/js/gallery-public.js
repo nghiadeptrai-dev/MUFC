@@ -1,4 +1,5 @@
 import { listenAllGalleryItems } from "../controllers/GalleryController.js";
+import { listenAllPhotos } from "../controllers/PhotoController.js";
 
 const galleryContainer = document.getElementById("gallery-masonry-container");
 const filterBtns = document.querySelectorAll(".gallery-filter-btn");
@@ -9,6 +10,16 @@ const lightboxClose = document.getElementById("lightbox-close");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxVideoContainer = document.getElementById("lightbox-video-container");
 const lightboxIframe = document.getElementById("lightbox-iframe");
+const btnPrev = document.getElementById("lightbox-prev");
+const btnNext = document.getElementById("lightbox-next");
+
+// STATE
+let allVideos = [];
+let allPhotos = [];
+let allMediaList = []; // Merged and sorted array
+let currentFilteredList = []; // The list currently displayed
+let currentLightboxIndex = 0;
+let currentFilter = "all";
 
 // Lấy Thumbnail YouTube
 function getYouTubeThumbnail(id) {
@@ -16,23 +27,58 @@ function getYouTubeThumbnail(id) {
   return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 }
 
-async function initGallery() {
-  listenAllGalleryItems((res) => {
-    if (res.error) {
-      galleryContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--red-mid);">Lỗi tải dữ liệu. Vui lòng thử lại.</div>`;
-      return;
-    }
-    
-    // Thêm class nháy sáng nhẹ để người dùng biết vừa có data mới
-    galleryContainer.classList.remove("flash-update");
-    void galleryContainer.offsetWidth; // trigger reflow
-    galleryContainer.classList.add("flash-update");
+// Hàm lấy timestamp từ Firestore field
+function getTimestamp(doc) {
+  if (!doc.createdAt) return 0;
+  if (doc.createdAt.toMillis) return doc.createdAt.toMillis();
+  if (doc.createdAt.seconds) return doc.createdAt.seconds * 1000;
+  return new Date(doc.createdAt).getTime() || 0;
+}
 
-    renderGallery(res);
-    setupFilters(res);
+function initGallery() {
+  // Parse URL parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterParam = urlParams.get('filter');
+  if (filterParam) {
+    currentFilter = filterParam;
+    filterBtns.forEach(b => {
+      if (b.dataset.filter === filterParam) b.classList.add("active");
+      else b.classList.remove("active");
+    });
+  }
+
+  galleryContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--gray-mid);"><div class="spinner"></div> Đang tải dữ liệu...</div>`;
+
+  // Listen to Videos
+  listenAllGalleryItems((res) => {
+    if (!res.error) allVideos = res.map(v => ({ ...v, mediaType: 'video' }));
+    mergeAndRender();
+  });
+
+  // Listen to Photos
+  listenAllPhotos((res) => {
+    if (!res.error) allPhotos = res.map(p => ({ ...p, mediaType: 'photo' }));
+    mergeAndRender();
   });
   
+  setupFilters();
   setupLightbox();
+}
+
+function mergeAndRender() {
+  // Merge and sort descending by date
+  allMediaList = [...allVideos, ...allPhotos].sort((a, b) => getTimestamp(b) - getTimestamp(a));
+  applyFilterAndRender();
+}
+
+function applyFilterAndRender() {
+  if (currentFilter === "all") {
+    currentFilteredList = allMediaList;
+  } else {
+    currentFilteredList = allMediaList.filter(item => item.mediaType === currentFilter);
+  }
+
+  renderGallery(currentFilteredList);
 }
 
 function renderGallery(items) {
@@ -44,20 +90,24 @@ function renderGallery(items) {
     return;
   }
 
+  galleryContainer.classList.remove("flash-update");
+  void galleryContainer.offsetWidth; // trigger reflow
+  galleryContainer.classList.add("flash-update");
+
   let html = '';
-  items.forEach(item => {
-    // Dù category là gì (ảnh hay video), ta thống nhất mọi highlight lưu dạng youtube link đều là video
-    // Trừ khi có phát triển tính năng tải ảnh riêng sau này. Hiện tại dùng videoId.
-    const isVideo = !!item.videoId; 
-    const thumbUrl = item.thumbnail || (item.videoId ? getYouTubeThumbnail(item.videoId) : '');
+  items.forEach((item, index) => {
+    const isVideo = item.mediaType === 'video';
+    const thumbUrl = item.thumbnail || (isVideo ? getYouTubeThumbnail(item.videoId) : item.url);
+    const title = item.title || 'Untitled';
+    const tag = item.tag || '';
     
     html += `
-      <div class="gallery-item fade-in" data-category="${item.category}" data-type="${isVideo ? 'video' : 'photo'}" data-src="${item.videoId || thumbUrl}">
-        <img src="${thumbUrl}" alt="${item.title}" loading="lazy" />
+      <div class="gallery-item fade-in" data-index="${index}">
+        <img src="${thumbUrl}" alt="${title}" loading="lazy" onerror="this.src='../assessts/logoBit.png';" />
         ${isVideo ? '<div class="vid-badge">▶</div>' : ''}
         <div class="gallery-overlay">
-          <div class="g-tag">${isVideo ? 'Video' : 'Photo'} ${item.tag ? '· ' + item.tag : ''}</div>
-          <div class="g-title">${item.title}</div>
+          <div class="g-tag">${isVideo ? 'Video' : 'Photo'} ${tag ? '· ' + tag : ''}</div>
+          <div class="g-title">${title}</div>
         </div>
       </div>
     `;
@@ -68,71 +118,75 @@ function renderGallery(items) {
   // Hiệu ứng Fade In
   setTimeout(() => {
     document.querySelectorAll(".gallery-item.fade-in").forEach((el, i) => {
-      setTimeout(() => el.classList.add("visible"), i * 60);
+      setTimeout(() => el.classList.add("visible"), i * 40);
     });
     
-    // Gắn event mở lightbox sau khi render xong
     attachItemEvents();
-  }, 100);
+  }, 50);
 }
 
-function setupFilters(allItems) {
+function setupFilters() {
   filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       filterBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       
-      const filter = btn.dataset.filter;
-      const itemsDOM = document.querySelectorAll(".gallery-item");
+      currentFilter = btn.dataset.filter;
+      applyFilterAndRender();
       
-      itemsDOM.forEach(item => {
-        if (filter === "all") {
-          item.style.display = "block";
-          setTimeout(() => item.classList.add("visible"), 50);
-        } else {
-          // Lọc theo loại (giả định thẻ filter là: all, video, photo)
-          // Hoặc có thể mở rộng lọc theo data-category
-          if (item.dataset.type === filter || item.dataset.category.toLowerCase() === filter.toLowerCase()) {
-             item.style.display = "block";
-             setTimeout(() => item.classList.add("visible"), 50);
-          } else {
-             item.style.display = "none";
-             item.classList.remove("visible");
-          }
-        }
-      });
+      // Update URL without reloading
+      const url = new URL(window.location);
+      if (currentFilter === "all") url.searchParams.delete("filter");
+      else url.searchParams.set("filter", currentFilter);
+      window.history.pushState({}, '', url);
     });
   });
 }
 
 function attachItemEvents() {
-  const items = document.querySelectorAll('.gallery-item');
-  items.forEach(item => {
+  const itemsDOM = document.querySelectorAll('.gallery-item');
+  itemsDOM.forEach(item => {
     item.addEventListener('click', () => {
-      const type = item.dataset.type;
-      const src = item.dataset.src;
-      
-      if (type === 'video') {
-        // Src là videoId
-        lightboxImg.style.display = 'none';
-        lightboxVideoContainer.style.display = 'block';
-        lightboxIframe.src = `https://www.youtube.com/embed/${src}?autoplay=1`;
-      } else {
-        // Trực tiếp hiện ảnh nếu có
-        lightboxVideoContainer.style.display = 'none';
-        lightboxIframe.src = "";
-        lightboxImg.src = src;
-        lightboxImg.style.display = 'block';
-      }
-      
+      currentLightboxIndex = parseInt(item.dataset.index, 10);
+      showLightboxItem(currentLightboxIndex);
       lightbox.classList.add('show');
-      document.body.style.overflow = 'hidden'; // Ngăn cuộn trang
+      document.body.style.overflow = 'hidden';
     });
   });
 }
 
+function showLightboxItem(index) {
+  const item = currentFilteredList[index];
+  if (!item) return;
+
+  if (item.mediaType === 'video') {
+    lightboxImg.style.display = 'none';
+    lightboxVideoContainer.style.display = 'block';
+    lightboxIframe.src = `https://www.youtube.com/embed/${item.videoId}?autoplay=1`;
+  } else {
+    lightboxVideoContainer.style.display = 'none';
+    lightboxIframe.src = "";
+    lightboxImg.src = item.url;
+    lightboxImg.style.display = 'block';
+  }
+}
+
+function navigateLightbox(direction) {
+  if (currentFilteredList.length === 0) return;
+  currentLightboxIndex += direction;
+  
+  // Loop
+  if (currentLightboxIndex < 0) currentLightboxIndex = currentFilteredList.length - 1;
+  if (currentLightboxIndex >= currentFilteredList.length) currentLightboxIndex = 0;
+  
+  showLightboxItem(currentLightboxIndex);
+}
+
 function setupLightbox() {
   lightboxClose.addEventListener('click', closeLightbox);
+  btnPrev.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(-1); });
+  btnNext.addEventListener('click', (e) => { e.stopPropagation(); navigateLightbox(1); });
+
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) {
       closeLightbox();
@@ -143,7 +197,6 @@ function setupLightbox() {
 function closeLightbox() {
   lightbox.classList.remove('show');
   document.body.style.overflow = 'auto';
-  // Dừng video khi đóng lightbox
   setTimeout(() => {
     lightboxIframe.src = "";
     lightboxImg.src = "";

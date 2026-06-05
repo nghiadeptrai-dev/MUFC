@@ -20,6 +20,35 @@ const LOGIN_URL = "../../Login.html"; // ← đổi nếu path khác
 // 1. Ẩn trang ngay lập tức — tránh flash nội dung cho user chưa auth
 document.documentElement.style.visibility = "hidden";
 
+// Tiêm Preloader vào trang
+if (document.body) {
+  const preloaderStyle = document.createElement('style');
+  preloaderStyle.innerHTML = `
+  #preloader { position: fixed; inset: 0; background: #0a0000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease; visibility: visible !important; opacity: 1 !important; }
+  #preloader.hidden { opacity: 0 !important; visibility: hidden !important; pointer-events: none; }
+  #preloader .pre-logo { width: 300px; animation: preLogoSpin 1.5s ease-in-out infinite alternate; filter: drop-shadow(0 0 24px rgba(218, 41, 28, 0.9)); }
+  #preloader .pre-text { font-family: Oswald, sans-serif; font-size: 2.4rem; letter-spacing: 0.3em; color: #DA291C; margin-top: 1.5rem; animation: fadeInUp 0.8s ease both; }
+  #preloader .pre-sub { font-family: "Barlow Condensed", sans-serif; font-size: 0.9rem; letter-spacing: 0.5em; color: #a87070; margin-top: 0.4rem; text-transform: uppercase; }
+  #preloader .pre-bar-wrap { width: 200px; height: 2px; background: #3a1a1a; margin-top: 2.5rem; border-radius: 1px; overflow: hidden; }
+  #preloader .pre-bar { height: 100%; background: #DA291C; border-radius: 1px; animation: preBar 1.8s ease forwards; }
+  @keyframes preLogoSpin { from { transform: scale(0.9) rotate(-4deg); } to { transform: scale(1.05) rotate(4deg); } }
+  @keyframes preBar { from { width: 0; } to { width: 100%; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 768px) { #preloader .pre-logo { width: 220px; } #preloader .pre-text { font-size: 1.8rem; } #preloader .pre-sub { font-size: 0.75rem; } }
+  `;
+  document.head.appendChild(preloaderStyle);
+
+  const preloaderHTML = `
+    <div id="preloader">
+      <img class="pre-logo" src="../../assessts/logoBit.png" alt="NONE BIT FC" />
+      <div class="pre-text">NONE BIT FC</div>
+      <div class="pre-sub">The Pride of Banking IT</div>
+      <div class="pre-bar-wrap"><div class="pre-bar"></div></div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', preloaderHTML);
+}
+
 // 2. Lắng nghe trạng thái auth (Firebase trả về trong ~200–400ms)
 const unsubscribe = onAuthChange((user) => {
   unsubscribe(); // chỉ cần check 1 lần lúc load
@@ -33,6 +62,12 @@ const unsubscribe = onAuthChange((user) => {
 
   // Đã đăng nhập → hiện trang
   document.documentElement.style.visibility = "";
+
+  // Ẩn preloader sau 800ms
+  setTimeout(() => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) preloader.classList.add('hidden');
+  }, 800);
 
   // Expose user ra global để các script khác trong trang dùng nếu cần
   window.__currentUser = user;

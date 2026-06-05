@@ -1577,7 +1577,8 @@ table.staff-table tbody tr:hover .staff-avatar-wrap {
     display: none;
   }
   .toolbar-spacer {
-    display: none;
+    display: block;
+    flex: 1;
   }
   .btn-add span {
     display: none;

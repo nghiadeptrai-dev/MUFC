@@ -1679,7 +1679,8 @@ table.players-table tbody td {
     display: none;
   }
   .toolbar-spacer {
-    display: none;
+    display: block;
+    flex: 1;
   }
   .btn-add span {
     display: none;

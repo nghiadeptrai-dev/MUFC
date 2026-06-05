@@ -104,7 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── 3. Hàm cập nhật hiệu ứng 3D Coverflow ──
   const updateSlider = () => {
     cards.forEach((card, index) => {
-      const offset = index - currentIndex;
+      let offset = index - currentIndex;
+      
+      // Xử lý offset theo vòng tròn (infinite loop)
+      const half = Math.floor(players.length / 2);
+      if (offset > half) {
+        offset -= players.length;
+      } else if (offset < -half) {
+        offset += players.length;
+      }
+      
       const absOffset = Math.abs(offset);
       
       let translateX = 0;
@@ -129,21 +138,22 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.remove('is-active');
         const direction = offset > 0 ? 1 : -1;
         
-        // Thông số cấu hình giống hệt code F12 của Chelsea
+        const isMobile = window.innerWidth <= 700;
+
         if (absOffset === 1) {
-          translateX = 300 * direction;
+          translateX = (isMobile ? 80 : 300) * direction;
           translateZ = -100;
           rotateY = -25 * direction;
           scale = 0.85;
           blur = 3;
         } else if (absOffset === 2) {
-          translateX = 600 * direction;
+          translateX = (isMobile ? 150 : 600) * direction;
           translateZ = -200;
           rotateY = -50 * direction;
           scale = 0.7;
           blur = 3;
         } else if (absOffset === 3) {
-          translateX = 900 * direction;
+          translateX = (isMobile ? 220 : 900) * direction;
           translateZ = -300;
           rotateY = -75 * direction;
           scale = 0.55;
@@ -151,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
           opacity = 0; // Ẩn dần ở vị trí số 3
         } else {
           // Các thẻ nằm ngoài khung hình
-          translateX = 1200 * direction;
+          translateX = (isMobile ? 300 : 1200) * direction;
           translateZ = -400;
           scale = 0;
           opacity = 0;
@@ -212,4 +222,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Gọi hàm chạy lần đầu + bắt đầu auto-play
   updateSlider();
   startAutoPlay();
+
+  // Resize listener
+  window.addEventListener('resize', () => {
+    updateSlider();
+  });
 });

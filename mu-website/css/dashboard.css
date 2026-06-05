@@ -1281,7 +1281,7 @@ button { cursor: pointer; border: none; outline: none; }
   .content { padding: 10px 12px; gap: 10px; }
 
   /* Stats 1 cột */
-  .stats-grid { grid-template-columns: 1fr; gap: 8px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .stat-card { padding: 12px 14px; }
   .stat-value { font-size: 30px; }
 
