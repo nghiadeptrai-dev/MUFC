@@ -15,9 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
           sec.classList.add('hidden');
         }
       });
-      filterBtns.forEach(b => b.classList.remove('active'));
+      /*filterBtns.forEach(b => b.classList.remove('active'));
       document.querySelector('.filter-btn[data-league="all"]').classList.add('active');
-      applyLeagueFilter('all');
+      applyLeagueFilter('all');*/
+      const activeFilter = document.querySelector('.fixtures-filters .filter-btn.active');
+      const currentLeague = activeFilter ? activeFilter.dataset.league : 'all';
+      applyLeagueFilter(currentLeague);
     });
   });
 
