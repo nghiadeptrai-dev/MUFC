@@ -107,6 +107,7 @@
 
 .hero-actions {
   margin-top: 2.5rem;
+  padding-bottom: 10em;
   display: flex;
   gap: 1rem;
   justify-content: center;
