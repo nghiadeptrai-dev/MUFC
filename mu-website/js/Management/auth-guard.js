@@ -83,7 +83,7 @@ const unsubscribe = onAuthChange((user) => {
 
       document.getElementById('logout-confirm-btn').addEventListener('click', async () => {
         await logout();
-        window.location.replace('/index.html');
+        window.location.replace('/mu-website/index.html');
       });
     }
   };
