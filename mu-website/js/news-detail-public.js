@@ -1,4 +1,4 @@
-import { getPublishedNewsBySlug } from "../controllers/NewsController.js";
+import { getNewsById } from "../controllers/NewsController.js";
 
 function formatDate(ts) {
   if (!ts) return "—";
@@ -83,15 +83,15 @@ const renderNewsDetail = (news) => {
 
 const initNewsDetailPage = async () => {
   const searchParams = new URLSearchParams(window.location.search);
-  const slug = searchParams.get('slug');
-  if (!slug) {
+  const id = searchParams.get('id');
+  if (!id) {
     renderNewsNotFound();
     return;
   }
 
-  // Lấy dữ liệu từ Firestore dựa trên Slug
-  const news = await getPublishedNewsBySlug(slug);
-  if (news.error) {
+  // Lấy dữ liệu từ Firestore dựa trên ID
+  const news = await getNewsById(id);
+  if (news.error || news.status !== 'published') {
     renderNewsNotFound();
     return;
   }

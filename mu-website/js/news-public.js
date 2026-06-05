@@ -47,7 +47,7 @@ function initNewsListener() {
     res.results.forEach((a, index) => {
       const dateStr = formatDate(a.publishedAt);
       const card = document.createElement("a");
-      card.href = `news-detail.html?slug=${a.slug}`;
+      card.href = `news-detail.html?id=${a.id}`;
       card.className = "news-page-card fade-in";
       
       const imgUrl = a.coverUrl || '../assessts/logoBit.png';
