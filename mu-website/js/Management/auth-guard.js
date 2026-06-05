@@ -15,7 +15,7 @@
 
 import { onAuthChange, logout } from "../../controllers/AuthenticationController.js";
 
-const LOGIN_URL = "/mu-website/Login.html"; // ← đổi nếu path khác
+const LOGIN_URL = "../../Login.html"; // ← đổi nếu path khác
 
 // 1. Ẩn trang ngay lập tức — tránh flash nội dung cho user chưa auth
 document.documentElement.style.visibility = "hidden";
