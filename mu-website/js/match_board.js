@@ -2,37 +2,121 @@
    BIT FC DARK MATCH BOARD — JS
    File: js/match_board.js
 ════════════════════════════════════════════════════════════ */
-(function () {
+
+import { listenAllMatches } from "../controllers/MatchController.js";
+import { getAllPlayers } from "../controllers/PlayerController.js";
+
+(async function () {
   'use strict';
 
-  /* ── DATA ── */
-  const MB_MATCHES = [
-    { date: '01/06/2026', comp: 'Giao Hữu', home: 'BIT FC',       away: 'FC Kinh Tế',    score: '3 - 1', res: 'w', venue: 'Sân ABC',  hl: 'BIT', al: 'KT'  },
-    { date: '25/05/2026', comp: 'Giao Hữu', home: 'Ngoại Thương', away: 'BIT FC',        score: '1 - 1', res: 'd', venue: 'Sân NTU',  hl: 'NT',  al: 'BIT' },
-    { date: '18/05/2026', comp: 'Giao Hữu', home: 'BIT FC',       away: 'Bách Khoa FC',  score: '2 - 0', res: 'w', venue: 'Sân ABC',  hl: 'BIT', al: 'BK'  },
-    { date: '10/05/2026', comp: 'Giao Hữu', home: 'Luật FC',      away: 'BIT FC',        score: '2 - 0', res: 'l', venue: 'Sân HLU',  hl: 'LU',  al: 'BIT' },
-    { date: '04/05/2026', comp: 'Giao Hữu', home: 'BIT FC',       away: 'Thương Mại FC', score: '4 - 2', res: 'w', venue: 'Sân ABC',  hl: 'BIT', al: 'TM'  },
-    { date: '27/04/2026', comp: 'Giao Hữu', home: 'Sư Phạm FC',   away: 'BIT FC',        score: '1 - 2', res: 'w', venue: 'Sân ĐHSP', hl: 'SP',  al: 'BIT' },
-  ];
+  let allMatches = [];
+  let allPlayers = [];
+  try {
+    const p = await getAllPlayers();
+    allPlayers = Array.isArray(p) ? p : [];
+  } catch (err) {
+    console.error("Lỗi lấy cầu thủ", err);
+  }
 
-  const MB_SCORERS = [
-    { r: 1, name: 'Nguyễn Đức Anh', team: 'BIT FC',       goals: 11, games: 10, gold: true  },
-    { r: 2, name: 'Trần Minh Khoa', team: 'BIT FC',       goals: 8,  games: 10, gold: false },
-    { r: 3, name: 'Lê Hải Đăng',    team: 'Bách Khoa FC', goals: 6,  games: 9,  gold: false },
-    { r: 4, name: 'Phạm Tuấn Kiệt', team: 'FC Kinh Tế',   goals: 5,  games: 10, gold: false },
-    { r: 5, name: 'Vũ Bảo Long',    team: 'Ngoại Thương', goals: 4,  games: 10, gold: false },
-    { r: 6, name: 'Đỗ Công Minh',   team: 'Sư Phạm FC',   goals: 3,  games: 8,  gold: false },
-    { r: 7, name: 'Hoàng Văn Sơn',  team: 'Luật FC',      goals: 2,  games: 7,  gold: false },
-  ];
+  listenAllMatches((matches) => {
+    if (matches.error) {
+      console.error(matches.error);
+      allMatches = [];
+    } else {
+      allMatches = matches;
+    }
+    renderAll();
+  });
 
-  const MB_NEXT_MATCH = new Date('2026-06-14T15:30:00+07:00');
-  const MB_MAX_GOALS   = MB_SCORERS[0].goals;
-  const MB_TOTAL_GOALS = MB_SCORERS.reduce((a, s) => a + s.goals, 0);
+  let remarkMatch = null;
+  let publicMatches = [];
+  let MB_SCORERS = [];
+  let MB_MAX_GOALS = 1;
+  let MB_TOTAL_GOALS = 1;
+  let MB_NEXT_MATCH = new Date();
+
+  function renderAll() {
+    remarkMatch = allMatches.find(m => m.isRemark) || allMatches[0];
+    publicMatches = allMatches.filter(m => m.isPublic).slice(0, 2);
+    if (publicMatches.length === 0) publicMatches = allMatches.slice(0, 6);
+
+    MB_SCORERS = allPlayers
+      .filter(p => p.goals > 0)
+      .sort((a, b) => b.goals - a.goals)
+      .map((p, idx) => ({
+        r: idx + 1,
+        name: p.name,
+        team: 'BIT FC',
+        goals: p.goals,
+        games: p.appearances || 0,
+        gold: idx === 0
+      }));
+
+    MB_MAX_GOALS   = MB_SCORERS.length ? MB_SCORERS[0].goals : 1;
+    MB_TOTAL_GOALS = MB_SCORERS.reduce((a, s) => a + s.goals, 0) || 1;
+
+    if (remarkMatch && remarkMatch.date) {
+      const dParts = remarkMatch.date.split('-');
+      const tParts = (remarkMatch.time || "00:00").split(':');
+      if (dParts.length === 3) {
+        MB_NEXT_MATCH = new Date(dParts[0], dParts[1] - 1, dParts[2], tParts[0] || 0, tParts[1] || 0, 0);
+      } else {
+        MB_NEXT_MATCH = new Date("invalid");
+      }
+    }
+    
+    // Update view if already initialized
+    if (window.mbIsInit) {
+      bindRemarkMatch();
+      buildStd();
+      makeTrack('mb-track1', 'mb-dots1', () => window.c1||0, v => window.c1 = v);
+      if (document.getElementById('mb-p-std') && document.getElementById('mb-p-std').style.display !== 'none') {
+        makeTrack('mb-track2', 'mb-dots2', () => window.c2||0, v => window.c2 = v);
+      }
+      startCD(); // Khởi động lại đếm ngược/tỉ số
+    }
+  }
 
   /* ── HELPERS ── */
   const p2  = n  => String(n).padStart(2, '0');
   const $   = id => document.getElementById(id);
   const per = () => window.innerWidth <= 480 ? 1 : 2;
+
+  // Render HTML SVG fallback cho Logo
+  function getLogoHtml(logoUrl, shortName, isHome) {
+    if (logoUrl) return `<img src="${logoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
+    const bg = isHome ? "#DA291C" : "#1a1a2e";
+    return `
+      <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="31" cy="31" r="29" fill="${bg}"/>
+        <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="31" y="34" font-family="Oswald,sans-serif" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">${shortName || '??'}</text>
+      </svg>
+    `;
+  }
+
+  // Đổ dữ liệu vào Remark Card trên HTML
+  function bindRemarkMatch() {
+    if (!remarkMatch) {
+      const rmCard = $('mb-remark-card');
+      if (rmCard) rmCard.style.display = 'none';
+      return;
+    }
+    
+    const rmCard = $('mb-remark-card');
+    if (rmCard) rmCard.style.display = 'block';
+
+    if ($('rm-home-bar')) $('rm-home-bar').textContent = remarkMatch.home;
+    if ($('rm-away-bar')) $('rm-away-bar').textContent = remarkMatch.away;
+    if ($('rm-home-name')) $('rm-home-name').textContent = remarkMatch.home;
+    if ($('rm-away-name')) $('rm-away-name').textContent = remarkMatch.away;
+    
+    if ($('rm-home-logo-wrap')) $('rm-home-logo-wrap').innerHTML = getLogoHtml(remarkMatch.homeLogo, remarkMatch.homeShort, true);
+    if ($('rm-away-logo-wrap')) $('rm-away-logo-wrap').innerHTML = getLogoHtml(remarkMatch.awayLogo, remarkMatch.awayShort, false);
+
+    const dStr = (remarkMatch.date||"").split('-').reverse().join('/');
+    if ($('rm-datetime')) $('rm-datetime').innerHTML = `${dStr}<br/>${remarkMatch.time||""} · ${remarkMatch.venue||""}`;
+  }
 
   /* ── COUNTDOWN (flip digit) ── */
   const _prev = { d: null, h: null, m: null, s: null };
@@ -48,18 +132,65 @@
   }
 
   function startCD() {
+    if (!remarkMatch) return;
+    
+    const cdCenter = document.querySelector('.mb-cd-center');
+    if (!cdCenter) return;
+    
+    let scoreDiv = document.getElementById('mb-cd-score');
+    if (!scoreDiv) {
+      scoreDiv = document.createElement('div');
+      scoreDiv.id = 'mb-cd-score';
+      scoreDiv.style.fontFamily = 'var(--mb-fd)';
+      scoreDiv.style.fontSize = '3.5rem';
+      scoreDiv.style.fontWeight = '700';
+      scoreDiv.style.color = '#fff';
+      scoreDiv.style.letterSpacing = '4px';
+      scoreDiv.style.textAlign = 'center';
+      scoreDiv.style.margin = '5px 0';
+      scoreDiv.style.display = 'none';
+      
+      const cdRow = document.querySelector('.mb-cd-row');
+      if (cdRow) cdRow.parentNode.insertBefore(scoreDiv, cdRow.nextSibling);
+    }
+
     function tick() {
       const diff = MB_NEXT_MATCH - Date.now();
-      if (diff < 0) {
+      const label = document.querySelector('.mb-cd-label');
+      const row = document.querySelector('.mb-cd-row');
+      const scoreEl = document.getElementById('mb-cd-score');
+      
+      if (isNaN(diff)) {
+        if (label) label.textContent = 'Bắt đầu sau';
+        if (row) row.style.display = 'flex';
+        if (scoreEl) scoreEl.style.display = 'none';
         ['mb-d', 'mb-h', 'mb-m', 'mb-s'].forEach(id => { const e = $(id); if (e) e.textContent = '00'; });
         return;
       }
+
+      if (diff <= 0) {
+        if (label) label.textContent = 'TỈ SỐ';
+        if (row) row.style.display = 'none';
+        if (scoreEl) {
+          scoreEl.style.display = 'block';
+          scoreEl.textContent = remarkMatch.score || "? - ?";
+        }
+        return;
+      }
+      
+      if (label) label.textContent = 'Bắt đầu sau';
+      if (row) row.style.display = 'flex';
+      if (scoreEl) scoreEl.style.display = 'none';
+      
       flipDigit('mb-d', Math.floor(diff / 864e5));
       flipDigit('mb-h', Math.floor(diff % 864e5 / 36e5));
       flipDigit('mb-m', Math.floor(diff % 36e5  / 6e4));
       flipDigit('mb-s', Math.floor(diff % 6e4   / 1e3));
     }
-    tick(); setInterval(tick, 1000);
+    
+    if (window.cdInterval) clearInterval(window.cdInterval);
+    tick();
+    window.cdInterval = setInterval(tick, 1000);
   }
 
   /* ── BUILD STANDINGS ── */
@@ -108,79 +239,45 @@
   /* ── SLIDER ── */
   let c1 = 0, c2 = 0;
 
-  // Slugify tên đội chuẩn hóa tiếng Việt 100% khớp với result.html
-  // Slugify đồng bộ tuyệt đối với trang result.html
-  const slugify = s => {
-    if (!s) return '';
-    let str = String(s).toLowerCase().trim();
-    str = str.replace(/[áàảãạăắằẳẵặâấầẩẫậ]/g, 'a');
-    str = str.replace(/[éèẻẽẹêếềểễệ]/g, 'e');
-    str = str.replace(/[íìỉĩị]/g, 'i');
-    str = str.replace(/[óòỏõọôốồổỗộơớờởỡợ]/g, 'o');
-    str = str.replace(/[úùủũụưứừửữự]/g, 'u');
-    str = str.replace(/[ýỳỷỹỵ]/g, 'y');
-    str = str.replace(/đ/g, 'd');
-    // Bỏ toàn bộ ký tự đặc biệt, dấu chấm, giữ lại chữ, số và khoảng trắng
-    str = str.replace(/[^a-z0-9\s]/g, '');
-    // Thay thế khoảng trắng liền nhau thành 1 dấu gạch ngang
-    str = str.replace(/\s+/g, '-');
-    return str;
-  };
-  
   function makeTrack(tid, did, getCur, setCur) {
     const tr = $(tid), dt = $(did); if (!tr || !dt) return;
     tr.innerHTML = ''; dt.innerHTML = '';
     const p     = per();
-    const pages = Math.ceil(MB_MATCHES.length / p);
-    const RESULT_URL = 'pages/result.html';
-
-    MB_MATCHES.forEach((m, idx) => {
-      const matchKey = slugify(m.home) + '-vs-' + slugify(m.away);
-      const targetUrl = RESULT_URL + '?match=' + matchKey;
-
+    const pages = Math.ceil(publicMatches.length / p);
+    
+    publicMatches.forEach((m, idx) => {
       const card = document.createElement('div');
       card.className = 'mb-rc';
       card.style.flex = `0 0 calc(${100 / p}% - ${(p - 1) * 12 / p}px)`;
       card.style.animationDelay = (idx * .06) + 's';
-      card.style.cursor = 'pointer';
+      
+      const homeLogo = m.homeLogo ? `<img src="${m.homeLogo}" style="width:100%;height:100%;object-fit:cover" />` : `<svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#DA291C"/><text x="14" y="18" font-family="Oswald" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">${m.homeShort||''}</text></svg>`;
+      const awayLogo = m.awayLogo ? `<img src="${m.awayLogo}" style="width:100%;height:100%;object-fit:cover" />` : `<svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#1a1a2e"/><text x="14" y="18" font-family="Oswald" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">${m.awayShort||''}</text></svg>`;
+      
+      const dStr = (m.date||"").split('-').reverse().join('/');
+      let resText = "Chưa rõ", resClass = "";
+      if(m.result === 'w'){ resText = "Thắng"; resClass = "w"; }
+      if(m.result === 'd'){ resText = "Hòa"; resClass = "d"; }
+      if(m.result === 'l'){ resText = "Thua"; resClass = "l"; }
+
       card.innerHTML = `
-        <div class="mb-rc-top">${m.date}</div>
+        <div class="mb-rc-top">${dStr}</div>
         <div class="mb-rc-comp">${m.comp}</div>
         <div class="mb-rc-body">
-          <div class="mb-rc-logo">
-            <svg viewBox="0 0 28 28">
-              <circle cx="14" cy="14" r="13" fill="#DA291C"/>
-              <text x="14" y="18" font-family="Oswald" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">${m.hl}</text>
-            </svg>
-          </div>
+          <div class="mb-rc-logo">${homeLogo}</div>
           <div class="mb-rc-tname">${m.home}</div>
-          <div class="mb-rc-score">${m.score}</div>
+          <div class="mb-rc-score">${m.score||"-"}</div>
           <div class="mb-rc-tname mb-r">${m.away}</div>
-          <div class="mb-rc-logo">
-            <svg viewBox="0 0 28 28">
-              <circle cx="14" cy="14" r="13" fill="#1a1a2e"/>
-              <text x="14" y="18" font-family="Oswald" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">${m.al}</text>
-            </svg>
-          </div>
+          <div class="mb-rc-logo">${awayLogo}</div>
         </div>
         <div class="mb-rc-foot">
-          <span class="mb-rc-ven">${m.venue}</span>
-          <span class="mb-badge ${m.res}">${m.res === 'w' ? 'Thắng' : m.res === 'd' ? 'Hòa' : 'Thua'}</span>
+          <span class="mb-rc-ven">${m.venue||""}</span>
+          <span class="mb-badge ${resClass}">${resText}</span>
         </div>
       `;
-
-      // Phân biệt drag (kéo slider) vs click thực sự
-      var _px = 0, _moved = false;
-      card.addEventListener('pointerdown', function(e) { _px = e.clientX; _moved = false; });
-      card.addEventListener('pointermove', function(e) { if (Math.abs(e.clientX - _px) > 6) _moved = true; });
-      card.addEventListener('pointerup',   function(e) {
-        if (_moved) return;
-        try { localStorage.setItem('selectedMatch', JSON.stringify(m)); } catch(ex) {}
-        window.location.href = targetUrl;
-      });
-
       tr.appendChild(card);
     });
+
     for (let i = 0; i < pages; i++) {
       const d  = document.createElement('div');
       d.className = 'mb-dot' + (i === 0 ? ' mb-on' : '');
@@ -192,7 +289,7 @@
 
   function goTo(tid, did, p, getCur, setCur) {
     const pv    = per();
-    const pages = Math.ceil(MB_MATCHES.length / pv);
+    const pages = Math.ceil(publicMatches.length / pv);
     p = Math.max(0, Math.min(p, pages - 1));
     setCur(p);
     const cards = document.querySelectorAll('#' + tid + ' .mb-rc');
@@ -264,7 +361,9 @@
 
   /* ── INIT ── */
   function init() {
+    window.mbIsInit = true;
     if (!$('mbCol')) return;
+    bindRemarkMatch();
     mbSw('match');
     makeTrack('mb-track1', 'mb-dots1', () => c1, v => c1 = v);
     startCD();

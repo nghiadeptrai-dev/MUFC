@@ -143,7 +143,7 @@ button { cursor: pointer; border: none; outline: none; }
   gap: 10px;
   padding: 9px 16px;
   font-family: var(--font-condensed);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
@@ -1344,4 +1344,116 @@ button { cursor: pointer; border: none; outline: none; }
 
   /* Badges */
   .badge, .result-badge, .media-type-badge { font-size: 9px; padding: 2px 6px; }
+}
+
+/* ============================================================
+   MODAL OVERLAY & LOGOUT POPUP
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+.modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.delete-card {
+  background: #120104;
+  border: 1px solid rgba(218, 41, 28, 0.4);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(218, 41, 28, 0.2);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+.modal-overlay.open .delete-card {
+  transform: translateY(0) scale(1);
+}
+
+.delete-body {
+  padding: 28px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.delete-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(218, 41, 28, 0.12);
+  border: 1px solid rgba(218, 41, 28, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--red-mid);
+}
+.delete-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.delete-msg {
+  font-family: var(--font-condensed);
+  font-size: 12px;
+  color: var(--gray-mid);
+  line-height: 1.7;
+}
+.delete-footer {
+  padding: 14px 24px 20px;
+  display: flex;
+  gap: 10px;
+}
+.btn-cancel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: var(--font-condensed);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.btn-del-confirm {
+  flex: 1;
+  background: var(--red-primary);
+  border: 1px solid var(--red-mid);
+  color: #fff;
+  font-family: var(--font-condensed);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+.btn-del-confirm:hover {
+  background: var(--red-mid);
+  box-shadow: 0 0 20px rgba(218, 41, 28, 0.4);
 }

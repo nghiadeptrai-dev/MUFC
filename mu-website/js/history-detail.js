@@ -4,7 +4,7 @@ const historyDetailData = {
     year: '2023',
     title: 'Ruben Amorim khởi đầu kỷ nguyên tấn công mới của MU',
     img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80',
-    intro: 'Sự xuất hiện của Ruben Amorim mở ra một chương lịch sử mới cho Manchester United với hệ thống 3-4-3 tấn công và đậm chất châu Âu.',
+    intro: 'Sự xuất hiện của Ruben Amorim mở ra một chương lịch sử mới cho BIT FC với hệ thống 3-4-3 tấn công và đậm chất châu Âu.',
     content: [
       'Kể từ khi Amorim nhậm chức, MU đã xây dựng lại bản sắc vận hành, đặt sự linh hoạt và kiểm soát bóng lên hàng đầu.',
       'Thay đổi lớn nhất nằm ở cơ cấu đội hình: wing-back áp sát biên, tiền vệ trung tâm sáng tạo và 3 tiền đạo liên tục hoán đổi vị trí.',
@@ -54,7 +54,7 @@ const historyDetailData = {
   '1999-treble': {
     tag: 'Huyền thoại',
     year: '1999',
-    title: 'Kỳ tích The Treble huyền thoại của Manchester United',
+    title: 'Kỳ tích The Treble huyền thoại của BIT FC',
     img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80',
     intro: 'Mùa giải 1998/99 là đỉnh cao lịch sử khi MU giành Premier League, FA Cup và Champions League cùng một mùa.',
     content: [
@@ -82,7 +82,7 @@ const historyDetailData = {
     year: '1958',
     title: 'Thảm họa Munich và sức mạnh phục hưng của Busby Babes',
     img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80',
-    intro: 'Tai nạn máy bay Munich là vết thương lớn nhất trong lịch sử CLB, nhưng cũng khơi dậy tinh thần bất khuất của Manchester United.',
+    intro: 'Tai nạn máy bay Munich là vết thương lớn nhất trong lịch sử CLB, nhưng cũng khơi dậy tinh thần bất khuất của BIT FC.',
     content: [
       'Vụ tai nạn cướp đi 23 mạng sống, trong đó có 8 cầu thủ trẻ tài năng của MU, khiến bóng đá thế giới bàng hoàng.',
       'Sir Matt Busby và những người còn lại kiên cường xây dựng lại đội bóng từ tro tàn.',
@@ -93,12 +93,12 @@ const historyDetailData = {
   '1878-newton-heath': {
     tag: 'Khởi nguồn',
     year: '1878',
-    title: 'Manchester United khởi sinh từ Newton Heath LYR FC',
+    title: 'BIT FC khởi sinh từ Newton Heath LYR FC',
     img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80',
     intro: 'Bắt đầu từ một đội bóng của công nhân đường sắt, Newton Heath trở thành tiền thân cho một trong những CLB vĩ đại nhất thế giới.',
     content: [
       'Khởi nguồn tại Newton Heath năm 1878, đội bóng nhanh chóng trở thành một biểu tượng địa phương của Manchester.',
-      'Năm 1902, câu lạc bộ đổi tên thành Manchester United và bắt đầu hành trình hướng tới sân khấu lớn.',
+      'Năm 1902, câu lạc bộ đổi tên thành BIT FC và bắt đầu hành trình hướng tới sân khấu lớn.',
       'Những năm đầu hình thành nền móng cho tinh thần cống hiến, quyết tâm và tình yêu bóng đá của CLB.',
       'Từ nguồn gốc khiêm nhường đó, MU phát triển thành một đế chế toàn cầu với hàng triệu người hâm mộ.'
     ]
@@ -115,7 +115,7 @@ const renderHistoryDetail = (historyItem) => {
   detail.innerHTML = `
     <div class="news-detail-hero">
       <div class="news-detail-visual">
-        <img src="${historyItem.img}" alt="${historyItem.title}" loading="lazy" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg';" />
+        <img src="${historyItem.img}" alt="${historyItem.title}" loading="lazy" onerror="this.src='../assessts/logoBit.png';" />
       </div>
       <div class="news-detail-header">
         <span class="section-label">${historyItem.tag}</span>

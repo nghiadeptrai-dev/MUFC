@@ -1,9 +1,9 @@
 /**
  * Login.js
- * Nối DOM (login.html) ↔ AuthenticationController.js ↔ Firebase
+ * Nối DOM (Login.html) ↔ AuthenticationController.js ↔ Firebase
  *
  * Import cách dùng:
- *   <script type="module" src="Login.js"></script>
+ *   <script type="module" src="../../js/Management/Login.js"></script>
  */
 
 import {
@@ -14,24 +14,49 @@ import {
   onAuthChange,
 } from "../../controllers/Authenticationcontroller.js";
 
+// ─── CONFIG ──────────────────────────────────────────────
+const DEFAULT_REDIRECT = "/mu-website/pages/Management/dashboard.html";
+
 // ─── DOM REFS ────────────────────────────────────────────
-const emailInput   = document.getElementById("input-email");
-const passwordInput= document.getElementById("input-password");
-const eyeToggle    = document.getElementById("eye-toggle");
-const eyeIcon      = document.getElementById("eye-icon");
-const rememberWrap = document.getElementById("remember-wrap");
-const chkBox       = document.getElementById("chk-box");
-const loginBtn     = document.getElementById("login-btn");
-const googleBtn    = document.getElementById("google-btn");
-const facebookBtn  = document.getElementById("facebook-btn");
-const forgotBtn    = document.getElementById("forgot-btn");
-const errorBanner  = document.getElementById("error-banner");
+const emailInput    = document.getElementById("input-email");
+const passwordInput = document.getElementById("input-password");
+const eyeToggle     = document.getElementById("eye-toggle");
+const eyeIcon       = document.getElementById("eye-icon");
+const rememberWrap  = document.getElementById("remember-wrap");
+const chkBox        = document.getElementById("chk-box");
+const loginBtn      = document.getElementById("login-btn");
+const googleBtn     = document.getElementById("google-btn");
+const facebookBtn   = document.getElementById("facebook-btn");
+const forgotBtn     = document.getElementById("forgot-btn");
+const errorBanner   = document.getElementById("error-banner");
 
 // ─── STATE ───────────────────────────────────────────────
 let rememberMe = false;
 
+// ─── REDIRECT HELPER — hỗ trợ returnUrl ─────────────────
+function getRedirectUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const returnUrl = params.get("returnUrl");
+  // Chỉ chấp nhận relative URL (tránh open redirect attack)
+  if (returnUrl && returnUrl.startsWith("/")) {
+    return decodeURIComponent(returnUrl);
+  }
+  return DEFAULT_REDIRECT;
+}
+
+function onSuccess(user) {
+  console.log("Đăng nhập thành công:", user.email);
+  window.location.href = getRedirectUrl();
+}
+
 // ─── HELPERS ─────────────────────────────────────────────
-function showError(msg) {
+function showError(msg, isSuccess = false) {
+  errorBanner.removeAttribute("style");
+  if (isSuccess) {
+    errorBanner.style.borderLeftColor = "#4ade80";
+    errorBanner.style.color           = "#4ade80";
+    errorBanner.style.background      = "rgba(74,222,128,.08)";
+  }
   errorBanner.textContent = msg;
   errorBanner.classList.add("visible");
 }
@@ -39,26 +64,16 @@ function showError(msg) {
 function clearError() {
   errorBanner.textContent = "";
   errorBanner.classList.remove("visible");
+  errorBanner.removeAttribute("style");
 }
 
 function setLoading(loading) {
   loginBtn.disabled    = loading;
   googleBtn.disabled   = loading;
   facebookBtn.disabled = loading;
-
-  if (loading) {
-    loginBtn.innerHTML =
-      '<span class="btn-spinner"></span>Đang xác thực...';
-  } else {
-    loginBtn.innerHTML = "Vào sân &nbsp;→";
-  }
-}
-
-function onSuccess(user) {
-  // Redirect sau khi đăng nhập thành công
-  // Thay đổi URL theo route của dự án bạn
-  console.log("Đăng nhập thành công:", user.email);
-  window.location.href = "/dashboard.html"; // ← đổi nếu cần
+  loginBtn.innerHTML   = loading
+    ? '<span class="btn-spinner"></span>Đang xác thực...'
+    : "Vào sân &nbsp;→";
 }
 
 // ─── VALIDATE ────────────────────────────────────────────
@@ -150,16 +165,8 @@ forgotBtn.addEventListener("click", async (e) => {
   const { success, error } = await resetPassword(email);
   if (error) { showError(error); return; }
 
-  // Hiện thông báo tạm bằng cách đổi màu banner sang xanh
-  errorBanner.style.borderLeftColor = "#4ade80";
-  errorBanner.style.color           = "#4ade80";
-  errorBanner.style.background      = "rgba(74,222,128,.08)";
-  showError("Email đặt lại mật khẩu đã được gửi. Kiểm tra hộp thư nhé!");
-
-  setTimeout(() => {
-    clearError();
-    errorBanner.removeAttribute("style");
-  }, 5000);
+  showError("Email đặt lại mật khẩu đã được gửi. Kiểm tra hộp thư nhé!", true);
+  setTimeout(clearError, 5000);
 });
 
 // ─── TOGGLE REMEMBER ME ──────────────────────────────────
@@ -170,15 +177,15 @@ rememberWrap.addEventListener("click", () => {
 
 // ─── TOGGLE SHOW/HIDE PASSWORD ───────────────────────────
 eyeToggle.addEventListener("click", () => {
-  const isHidden = passwordInput.type === "password";
+  const isHidden       = passwordInput.type === "password";
   passwordInput.type   = isHidden ? "text" : "password";
   eyeIcon.className    = isHidden ? "ti ti-eye-off" : "ti ti-eye";
 });
-console.log("nut:" ,eyeToggle);
-// ─── AUTH OBSERVER — chuyển trang nếu đã đăng nhập ───────
-onAuthChange((user) => {
+
+// ─── AUTH OBSERVER — nếu đã đăng nhập thì redirect luôn ──
+const unsubscribe = onAuthChange((user) => {
   if (user) {
-    // User đã có session → redirect thẳng, không cần login lại
-    window.location.href = "/dashboard.html"; // ← đổi nếu cần
+    unsubscribe(); // dừng observer sau khi đã redirect
+    window.location.href = getRedirectUrl();
   }
 });

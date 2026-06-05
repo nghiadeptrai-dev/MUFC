@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BIT FC — Dashboard</title>
+<link rel="icon" href="../../assessts/logoBit.png" />
 
   <!-- Tabler Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
@@ -12,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script type="module" src="../../js/Management/auth-guard.js"></script>
 
   <!-- Dashboard CSS -->
   <link rel="stylesheet" href="../../css/dashboard.css" />
@@ -28,7 +30,7 @@
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-crest">
-        <img src="../../assessts/logoBit.png" alt="BIT FC Logo" />
+        <img src="../../assessts/logoBit.png" alt="NONE BIT FC Logo" />
       </div>
       <div class="logo-text">
         <div class="logo-name">BIT FC</div>
@@ -37,24 +39,24 @@
     </div>
 
     <div class="nav-section-label">Chính</div>
-    <div class="nav-item active" data-page="dashboard">
+    <div class="nav-item active" data-page="dashboard" onclick="window.location.href='dashboard.html'">
       <i class="ti ti-layout-dashboard" aria-hidden="true"></i>Tổng quan
     </div>
-    <div class="nav-item" data-page="players">
+    <div class="nav-item" data-page="players" onclick="window.location.href='players-panel.html'">
       <i class="ti ti-users" aria-hidden="true"></i>Cầu thủ
     </div>
-    <div class="nav-item" data-page="staff">
+    <div class="nav-item" data-page="staff" onclick="window.location.href='staff-panel.html'">
       <i class="ti ti-user-circle" aria-hidden="true"></i>Ban huấn luyện
     </div>
-    <div class="nav-item" data-page="matches">
+    <div class="nav-item" data-page="matches" onclick="window.location.href='match-panel.html'">
       <i class="ti ti-calendar" aria-hidden="true"></i>Lịch thi đấu
     </div>
 
     <div class="nav-section-label">Truyền thông</div>
-    <div class="nav-item" data-page="highlights">
+    <div class="nav-item" data-page="highlights" onclick="window.location.href='gallery-panel.html'">
       <i class="ti ti-player-play" aria-hidden="true"></i>Highlights
     </div>
-    <div class="nav-item" data-page="news">
+    <div class="nav-item" data-page="news" onclick="window.location.href='new-panel.html'">
       <i class="ti ti-news" aria-hidden="true"></i>Tin tức &amp; Báo
     </div>
     <div class="nav-item" data-page="gallery">
@@ -83,7 +85,7 @@
     <header class="topbar">
       <div class="topbar-left">
         <div class="greet" id="topbar-greet">Xin chào, Admin</div>
-        <div class="page-title" id="topbar-title">Tổng quan <span>BIT FC</span></div>
+        <div class="page-title" id="topbar-title">Tổng quan <span>NONE BIT FC</span></div>
       </div>
       <div class="topbar-right">
         <div class="date-chip">
@@ -225,6 +227,6 @@
 
 <!-- DATA & SCRIPTS -->
 <script src="../../FakeData/data.js"></script>
-<script src="../../js/dashboard.js"></script>
+<script src="../../js/Management/dashboard.js"></script>
 </body>
 </html>

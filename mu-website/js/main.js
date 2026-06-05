@@ -1,5 +1,5 @@
 /* ============================================================
-   MANCHESTER UNITED FC - GLOBAL JS & 3D SLIDER
+   BIT FC - GLOBAL JS & 3D SLIDER
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -173,7 +173,7 @@ if (preloader) {
             </div>
           </div>
           <div class="player-3d-img-wrap">
-            <img src="${player.img}" alt="${player.alt}" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg';">
+            <img src="${player.img}" alt="${player.alt}" onerror="this.src='../assessts/logoBit.png';">
           </div>
           <div class="player-3d-info">
             <div class="player-3d-info-inner">

@@ -1,4 +1,9 @@
-/* ── VARIABLES (giữ nguyên vibe dashboard) ── */
+/* ═══════════════════════════════════════════════════
+   BIT FC — STAFF PANEL CSS
+   Kế thừa đúng vibe từ players-panel.css
+═══════════════════════════════════════════════════ */
+
+/* ── VARIABLES ── */
 :root {
   --red-primary: #da291c;
   --red-dark: #8b0000;
@@ -22,6 +27,7 @@
   --sidebar-width: 220px;
   --topbar-height: 60px;
 }
+
 *,
 *::before,
 *::after {
@@ -346,7 +352,7 @@ button {
 }
 
 /* ── TOOLBAR ── */
-.players-toolbar {
+.staff-toolbar {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -479,16 +485,16 @@ button {
   overflow: auto;
 }
 
-table.players-table {
+table.staff-table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
-table.players-table thead tr {
+table.staff-table thead tr {
   background: rgba(218, 41, 28, 0.08);
   border-bottom: 1px solid rgba(218, 41, 28, 0.2);
 }
-table.players-table thead th {
+table.staff-table thead th {
   font-family: var(--font-condensed);
   font-size: 13px;
   font-weight: 700;
@@ -500,36 +506,36 @@ table.players-table thead th {
   white-space: nowrap;
   user-select: none;
 }
-table.players-table thead th.sortable {
+table.staff-table thead th.sortable {
   cursor: pointer;
   transition: color var(--transition);
 }
-table.players-table thead th.sortable:hover {
+table.staff-table thead th.sortable:hover {
   color: var(--white);
 }
-table.players-table thead th .sort-icon {
+table.staff-table thead th .sort-icon {
   margin-left: 4px;
   opacity: 0.4;
   font-size: 13px;
 }
-table.players-table thead th.sort-asc .sort-icon,
-table.players-table thead th.sort-desc .sort-icon {
+table.staff-table thead th.sort-asc .sort-icon,
+table.staff-table thead th.sort-desc .sort-icon {
   opacity: 1;
   color: var(--gold);
 }
 
-table.players-table tbody tr {
+table.staff-table tbody tr {
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   transition: background var(--transition);
 }
-table.players-table tbody tr:last-child {
+table.staff-table tbody tr:last-child {
   border-bottom: none;
 }
-table.players-table tbody tr:hover {
+table.staff-table tbody tr:hover {
   background: rgba(218, 41, 28, 0.05);
 }
 
-table.players-table tbody td {
+table.staff-table tbody td {
   font-family: var(--font-condensed);
   font-size: 12px;
   color: rgba(255, 255, 255, 0.75);
@@ -538,71 +544,70 @@ table.players-table tbody td {
 }
 
 /* col widths */
-.col-num {
-  width: 52px;
+.col-avatar {
+  width: 60px;
 }
-.col-player {
+.col-name {
   width: auto;
 }
-.col-pos {
-  width: 130px;
+.col-role {
+  width: 140px;
 }
 .col-nat {
   width: 110px;
 }
-.col-stats {
-  width: 60px;
-  text-align: center !important;
+.col-joined {
+  width: 120px;
+}
+.col-phone {
+  width: 130px;
 }
 .col-status {
-  width: 110px;
+  width: 100px;
 }
 .col-action {
-  width: 96px;
+  width: 90px;
   text-align: center !important;
 }
 
-/* Jersey number cell */
-.jersey-num {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 700;
-  color: rgba(218, 41, 28, 0.55);
-  text-align: center;
-}
-
-/* Player cell */
-.player-cell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.player-avatar {
-  width: 34px;
-  height: 34px;
+/* ── STAFF AVATAR (circle) ── */
+.staff-avatar-wrap {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  object-fit: cover;
-  object-position: top;
-  border: 1.5px solid rgba(218, 41, 28, 0.35);
+  overflow: hidden;
+  border: 2px solid rgba(218, 41, 28, 0.35);
   background: var(--red-deep);
-  flex-shrink: 0;
-}
-.player-avatar-fallback {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--red-dark);
-  border: 1.5px solid rgba(218, 41, 28, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--white);
-  flex-shrink: 0;
+  transition: border-color var(--transition);
 }
-.player-name-text {
+table.staff-table tbody tr:hover .staff-avatar-wrap {
+  border-color: rgba(218, 41, 28, 0.65);
+}
+.staff-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.staff-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--red-dark), var(--red-deep));
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1px;
+}
+
+/* Name cell */
+.staff-name-text {
   font-family: var(--font-condensed);
   font-size: 13px;
   font-weight: 700;
@@ -612,16 +617,17 @@ table.players-table tbody td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 200px;
 }
-.player-joined {
+.staff-joined-text {
   font-family: var(--font-condensed);
   font-size: 13px;
   color: var(--gray-mid);
   margin-top: 1px;
 }
 
-/* Position badge */
-.pos-badge {
+/* ── ROLE BADGE (mỗi vai trò một màu) ── */
+.role-badge {
   display: inline-block;
   font-family: var(--font-condensed);
   font-size: 13px;
@@ -629,39 +635,41 @@ table.players-table tbody td {
   padding: 2px 8px;
   border-radius: 2px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
   white-space: nowrap;
 }
-.pos-gk {
-  background: rgba(96, 165, 250, 0.12);
-  color: #60a5fa;
-  border: 1px solid rgba(96, 165, 250, 0.25);
-}
-.pos-def {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-  border: 1px solid rgba(34, 197, 94, 0.25);
-}
-.pos-mid {
-  background: rgba(251, 225, 34, 0.1);
-  color: var(--gold);
-  border: 1px solid rgba(251, 225, 34, 0.25);
-}
-.pos-fwd {
+/* HLV Trưởng — Đỏ primary */
+.role-head {
   background: rgba(218, 41, 28, 0.12);
   color: var(--red-mid);
   border: 1px solid rgba(218, 41, 28, 0.28);
 }
-
-/* Stat cell */
-.stat-cell {
-  font-family: var(--font-display);
-  font-size: 14px;
+/* Quản lý — Gold */
+.role-mgr {
+  background: rgba(251, 225, 34, 0.1);
   color: var(--gold);
-  text-align: center;
+  border: 1px solid rgba(251, 225, 34, 0.25);
+}
+/* Bác sĩ / Y tế — Xanh lá */
+.role-med {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+/* Trợ lý HLV — Xanh dương */
+.role-asst {
+  background: rgba(96, 165, 250, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.25);
+}
+/* HLV Thủ Môn — Tím */
+.role-gk {
+  background: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.25);
 }
 
-/* Status badge */
+/* ── STATUS BADGE ── */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -689,24 +697,16 @@ table.players-table tbody td {
 .status-active::before {
   background: #22c55e;
 }
-.status-injured {
-  background: rgba(251, 225, 34, 0.1);
-  color: var(--gold);
-  border: 1px solid rgba(251, 225, 34, 0.25);
+.status-inactive {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
-.status-injured::before {
-  background: var(--gold);
-}
-.status-suspend {
-  background: rgba(232, 67, 67, 0.12);
-  color: var(--red-mid);
-  border: 1px solid rgba(232, 67, 67, 0.28);
-}
-.status-suspend::before {
-  background: var(--red-mid);
+.status-inactive::before {
+  background: rgba(255, 255, 255, 0.4);
 }
 
-/* Action buttons */
+/* ── ACTION BUTTONS ── */
 .action-btns {
   display: flex;
   align-items: center;
@@ -743,7 +743,7 @@ table.players-table tbody td {
   box-shadow: 0 0 10px rgba(218, 41, 28, 0.3);
 }
 
-/* Empty state */
+/* ── TABLE EMPTY ── */
 .table-empty {
   padding: 60px 20px;
   text-align: center;
@@ -835,7 +835,9 @@ table.players-table tbody td {
   color: rgba(255, 255, 255, 0.25);
 }
 
-/* ── MODAL OVERLAY ── */
+/* ══════════════════════════════════════════
+   MODAL OVERLAY
+══════════════════════════════════════════ */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -857,24 +859,26 @@ table.players-table tbody td {
   visibility: visible;
 }
 
-/* ── FORM MODAL ── */
-.modal-card {
+/* ══════════════════════════════════════════
+   FORM MODAL — Staff
+══════════════════════════════════════════ */
+.staff-modal-card {
   background: #120104;
   border: 2px solid rgba(218, 41, 28, 0.3);
   border-radius: 8px;
   width: 100%;
   max-width: 900px;
-  max-height: 90vh;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   box-shadow:
     0 24px 80px rgba(0, 0, 0, 0.7),
     var(--shadow-glow);
   transform: translateY(20px) scale(0.97);
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
 }
-.modal-overlay.open .modal-card {
+.modal-overlay.open .staff-modal-card {
   transform: translateY(0) scale(1);
 }
 
@@ -915,16 +919,15 @@ table.players-table tbody td {
   color: var(--white);
 }
 
-/* ── FORM LAYOUT: 2-COLUMN (LEFT AVATAR, RIGHT INPUTS) ── */
-.players-modal-layout {
+/* 2-column layout inside modal */
+.staff-modal-layout {
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: 0;
   flex: 1;
   overflow: hidden;
 }
-
-.players-modal-left {
+.staff-modal-left {
   border-right: 1px solid rgba(218, 41, 28, 0.15);
   padding: 20px 18px;
   overflow-y: auto;
@@ -932,19 +935,188 @@ table.players-table tbody td {
   flex-direction: column;
   gap: 0;
 }
-
-.players-modal-right {
-  padding: 20px 24px;
+.staff-modal-right {
+  padding: 20px 22px;
   overflow-y: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 24px;
-  align-content: start;
 }
 
-/* Section title spans full width */
+/* ══════════════════════════════════════════
+   COVER / AVATAR UPLOAD AREA
+══════════════════════════════════════════ */
+.cover-upload-area {
+  border: 2px dashed rgba(218, 41, 28, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
+  transition:
+    border-color var(--transition),
+    background var(--transition);
+  background: rgba(218, 41, 28, 0.04);
+}
+.cover-upload-area:hover,
+.cover-upload-area.dragover {
+  border-color: rgba(218, 41, 28, 0.7);
+  background: rgba(218, 41, 28, 0.08);
+}
+
+.cover-preview-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 120px;
+}
+.cover-preview-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.cover-preview-wrap:hover img {
+  transform: scale(1.03);
+}
+
+.cover-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px;
+  text-align: center;
+  color: rgba(218, 41, 28, 0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cover-placeholder i {
+  font-size: 32px;
+  margin-bottom: 4px;
+  transition:
+    color var(--transition),
+    transform var(--transition);
+}
+.cover-upload-area:hover .cover-placeholder i {
+  color: rgba(218, 41, 28, 0.75);
+  transform: translateY(-3px);
+}
+.cover-placeholder span {
+  font-family: var(--font-condensed);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--gray-mid);
+  line-height: 1.5;
+}
+.cover-placeholder small {
+  font-family: var(--font-condensed);
+  font-size: 13px;
+  color: rgba(168, 112, 112, 0.5);
+}
+
+.cover-actions {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid rgba(218, 41, 28, 0.15);
+}
+.cover-action-btn {
+  flex: 1;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: var(--font-condensed);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--gray-mid);
+  border: none;
+  transition: var(--transition);
+}
+.cover-action-btn:first-child {
+  border-right: 1px solid rgba(218, 41, 28, 0.15);
+}
+.cover-action-btn:hover {
+  background: rgba(218, 41, 28, 0.08);
+  color: var(--white);
+}
+.cover-action-btn.danger:hover {
+  background: rgba(218, 41, 28, 0.15);
+  color: var(--red-mid);
+}
+.cover-action-btn i {
+  font-size: 13px;
+}
+
+/* Avatar size info */
+.avatar-size-info {
+  font-family: var(--font-condensed);
+  font-size: 13px;
+  color: rgba(168, 112, 112, 0.55);
+  text-align: center;
+  margin-top: 5px;
+  min-height: 15px;
+  letter-spacing: 0.4px;
+  transition: color 0.2s;
+}
+.avatar-size-info.ok {
+  color: rgba(34, 197, 94, 0.7);
+}
+.avatar-size-info.warn {
+  color: rgba(251, 225, 34, 0.7);
+}
+.avatar-size-info.error {
+  color: rgba(232, 67, 67, 0.85);
+}
+
+/* ── STATUS TOGGLE (modal) ── */
+.status-toggle-wrap {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(218, 41, 28, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.status-toggle-btn {
+  flex: 1;
+  padding: 8px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: var(--font-condensed);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.35);
+  transition: var(--transition);
+}
+.status-toggle-btn i {
+  font-size: 13px;
+}
+.status-toggle-btn.active[data-val="active"] {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+.status-toggle-btn.active[data-val="inactive"] {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ══════════════════════════════════════════
+   FORM ELEMENTS
+══════════════════════════════════════════ */
 .form-section-title {
-  grid-column: 1 / -1;
   font-family: var(--font-condensed);
   font-size: 12px;
   font-weight: 700;
@@ -953,23 +1125,14 @@ table.players-table tbody td {
   text-transform: uppercase;
   padding-bottom: 6px;
   border-bottom: 1px solid rgba(218, 41, 28, 0.2);
-  margin-top: 14px;
-  margin-bottom: 4px;
-}
-.form-section-title:first-child {
-  margin-top: 0;
+  margin-bottom: 12px;
 }
 
-/* Each form-group is one cell in the 2-col grid */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 5px;
   margin-bottom: 12px;
-}
-/* Full-width group spans both columns */
-.form-group.full {
-  grid-column: 1 / -1;
 }
 
 .form-label {
@@ -1023,6 +1186,7 @@ table.players-table tbody td {
   background-color: rgba(255, 255, 255, 0.04);
   padding-right: 28px;
 }
+/* Fix dropdown option nền trắng */
 .form-select option {
   background: #1a0406;
   color: #fff;
@@ -1031,191 +1195,15 @@ table.players-table tbody td {
 .form-textarea {
   resize: vertical;
   min-height: 70px;
+  line-height: 1.6;
+}
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-/* ══════════════════════════════════════════
-   AVATAR UPLOAD ZONE
-══════════════════════════════════════════ */
-.avatar-upload-zone {
-  border: 2px dashed rgba(218, 41, 28, 0.3);
-  border-radius: 6px;
-  overflow: hidden;
-  transition:
-    border-color var(--transition),
-    background var(--transition);
-  background: rgba(218, 41, 28, 0.03);
-  cursor: pointer;
-}
-.avatar-upload-zone:hover,
-.avatar-upload-zone.dragover {
-  border-color: rgba(218, 41, 28, 0.65);
-  background: rgba(218, 41, 28, 0.07);
-}
-.avatar-upload-zone.has-image {
-  border-style: solid;
-  border-color: rgba(218, 41, 28, 0.4);
-}
-
-/* Preview wrapper — portrait ratio to match player cards */
-.avatar-preview-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  min-height: 120px;
-}
-.avatar-preview-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-  transition: transform 0.3s ease;
-}
-.avatar-upload-zone:hover .avatar-preview-wrap img {
-  transform: scale(1.03);
-}
-
-/* Placeholder (shown when no image) */
-.avatar-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 20px;
-  text-align: center;
-  color: rgba(218, 41, 28, 0.45);
-  pointer-events: none;
-}
-.avatar-placeholder i {
-  font-size: 30px;
-  margin-bottom: 4px;
-  transition:
-    color var(--transition),
-    transform var(--transition);
-}
-.avatar-upload-zone:hover .avatar-placeholder i {
-  color: rgba(218, 41, 28, 0.75);
-  transform: translateY(-3px);
-}
-.avatar-placeholder span {
-  font-family: var(--font-condensed);
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  color: var(--gray-mid);
-  line-height: 1.5;
-}
-.avatar-placeholder small {
-  font-family: var(--font-condensed);
-  font-size: 13px;
-  color: rgba(168, 112, 112, 0.45);
-}
-
-/* Processing overlay */
-.avatar-processing {
-  position: absolute;
-  inset: 0;
-  background: rgba(13, 0, 0, 0.75);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-.avatar-processing-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid rgba(218, 41, 28, 0.2);
-  border-top-color: var(--red-primary);
-  border-radius: 50%;
-  animation: spin 0.75s linear infinite;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.avatar-processing-text {
-  font-family: var(--font-condensed);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--gray-mid);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* Action bar (change / remove) shown after image is loaded */
-.avatar-actions {
-  display: flex;
-  border-top: 1px solid rgba(218, 41, 28, 0.15);
-}
-.avatar-action-btn {
-  flex: 1;
-  padding: 8px 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  font-family: var(--font-condensed);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  background: transparent;
-  color: var(--gray-mid);
-  border: none;
-  transition: var(--transition);
-}
-.avatar-action-btn:first-child {
-  border-right: 1px solid rgba(218, 41, 28, 0.15);
-}
-.avatar-action-btn:hover {
-  background: rgba(218, 41, 28, 0.08);
-  color: var(--white);
-}
-.avatar-action-btn.danger:hover {
-  background: rgba(218, 41, 28, 0.15);
-  color: var(--red-mid);
-}
-.avatar-action-btn i {
-  font-size: 13px;
-}
-
-/* Size info text below zone */
-.avatar-size-info {
-  font-family: var(--font-condensed);
-  font-size: 13px;
-  color: rgba(168, 112, 112, 0.55);
-  margin-top: 5px;
-  min-height: 15px;
-  letter-spacing: 0.4px;
-  transition: color 0.2s;
-}
-.avatar-size-info.ok {
-  color: rgba(34, 197, 94, 0.7);
-}
-.avatar-size-info.warn {
-  color: rgba(251, 225, 34, 0.7);
-}
-.avatar-size-info.error {
-  color: rgba(232, 67, 67, 0.85);
-}
-
-/* URL fallback section */
-.avatar-url-fallback {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-/* ══════════════════════════════════════════ */
-
+/* Modal footer */
 .modal-footer {
   padding: 14px 20px;
   border-top: 1px solid rgba(218, 41, 28, 0.18);
@@ -1403,112 +1391,10 @@ table.players-table tbody td {
     transform: translateX(0);
   }
 }
+
 /* ══════════════════════════════════════════
-   COVER UPLOAD AREA (avatar — cloned from new-panel)
+   RESPONSIVE
 ══════════════════════════════════════════ */
-.cover-upload-area {
-  border: 2px dashed rgba(218, 41, 28, 0.3);
-  border-radius: 6px;
-  overflow: hidden;
-  transition: border-color var(--transition);
-  background: rgba(218, 41, 28, 0.04);
-}
-.cover-upload-area:hover,
-.cover-upload-area.dragover {
-  border-color: rgba(218, 41, 28, 0.7);
-  background: rgba(218, 41, 28, 0.08);
-}
-
-.cover-preview-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  cursor: pointer;
-  min-height: 120px;
-}
-.cover-preview-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-}
-.cover-preview-wrap:hover img {
-  transform: scale(1.03);
-}
-
-.cover-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 20px;
-  text-align: center;
-  color: rgba(218, 41, 28, 0.5);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-.cover-placeholder i {
-  font-size: 32px;
-  margin-bottom: 4px;
-}
-.cover-placeholder span {
-  font-family: var(--font-condensed);
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  color: var(--gray-mid);
-  line-height: 1.5;
-}
-.cover-placeholder small {
-  font-family: var(--font-condensed);
-  font-size: 13px;
-  color: rgba(168, 112, 112, 0.5);
-}
-
-.cover-actions {
-  display: flex;
-  gap: 0;
-  border-top: 1px solid rgba(218, 41, 28, 0.15);
-}
-.cover-action-btn {
-  flex: 1;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  font-family: var(--font-condensed);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  background: transparent;
-  color: var(--gray-mid);
-  border: none;
-  transition: var(--transition);
-}
-.cover-action-btn:first-child {
-  border-right: 1px solid rgba(218, 41, 28, 0.15);
-}
-.cover-action-btn:hover {
-  background: rgba(218, 41, 28, 0.08);
-  color: var(--white);
-}
-.cover-action-btn.danger:hover {
-  background: rgba(218, 41, 28, 0.15);
-  color: var(--red-mid);
-}
-.cover-action-btn i {
-  font-size: 13px;
-}
-/* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   :root {
     --sidebar-width: 64px;
@@ -1560,8 +1446,8 @@ table.players-table tbody td {
   .date-chip {
     display: none;
   }
-  .col-nat,
-  .col-pos {
+  .col-phone,
+  .col-nat {
     display: none;
   }
 }
@@ -1650,18 +1536,30 @@ table.players-table tbody td {
   .date-chip {
     display: none;
   }
-  .col-nat,
-  .col-pos,
-  .col-stats {
+  .col-joined,
+  .col-phone,
+  .col-nat {
     display: none;
   }
-  .players-toolbar {
+  .staff-toolbar {
     gap: 8px;
   }
   .search-wrap {
     max-width: 100%;
   }
-  .modal-body {
+  /* Modal full-screen on mobile */
+  .staff-modal-card {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  .staff-modal-layout {
+    grid-template-columns: 1fr;
+  }
+  .staff-modal-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(218, 41, 28, 0.15);
+  }
+  .form-row-2 {
     grid-template-columns: 1fr;
   }
   .pagination-bar {
@@ -1670,12 +1568,12 @@ table.players-table tbody td {
   .pagination-info {
     display: none;
   }
-  .avatar-preview-wrap {
+  .cover-preview-wrap {
     aspect-ratio: 16 / 9;
   }
 }
 @media (max-width: 480px) {
-  .col-status {
+  .col-role {
     display: none;
   }
   .toolbar-spacer {
@@ -1686,8 +1584,5 @@ table.players-table tbody td {
   }
   .btn-add {
     padding: 8px 12px;
-  }
-  .modal-body {
-    grid-template-columns: 1fr;
   }
 }

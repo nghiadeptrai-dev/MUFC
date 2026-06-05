@@ -2,7 +2,87 @@
    BIT FC DASHBOARD - MAIN JS
    ============================================================ */
 
+/* ============================================================
+   SPA ROUTER — THÊM MỚI, KHÔNG CHẠM CODE CŨ
+   ============================================================ */
+
+// MAP: data-page → đường dẫn file HTML (null = chưa có trang)
+const PAGE_MAP = {
+  dashboard:  null,
+  players:    'players-panel.html',
+  staff:      null,
+  matches:    null,
+  highlights: null,
+  news:       'new-panel.html',
+  gallery:    null,
+  trophies:   null,
+  settings:   null,
+};
+
+function navigateTo(page) {
+  const file = PAGE_MAP[page];
+
+  // Trang chưa xây dựng → toast
+  if (!file) {
+    if (page !== 'dashboard') {
+      _showSpaToast(`Trang <strong>${page}</strong> đang phát triển`, 'info');
+    }
+    return;
+  }
+
+  // Chuyển trang thật sự — giữ đúng CSS + JS của từng trang
+  window.location.href = file;
+}
+
+function _showSpaToast(msg, type = 'info') {
+  let wrap = document.getElementById('_spa_toast_wrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = '_spa_toast_wrap';
+    wrap.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;';
+    document.body.appendChild(wrap);
+  }
+  const colors = {
+    info:  { bg:'#1e293b', border:'rgba(251,225,34,.5)', icon:'ti-tool' },
+    success:{ bg:'#14532d', border:'#22c55e',            icon:'ti-circle-check' },
+    error: { bg:'#450a0a', border:'#ef4444',             icon:'ti-alert-circle' },
+  };
+  const c = colors[type] || colors.info;
+  const t = document.createElement('div');
+  t.style.cssText = `display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:8px;
+    min-width:240px;background:${c.bg};border:1px solid ${c.border};color:#f1f5f9;
+    font-size:13px;font-family:Barlow,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,.4);
+    animation:_spa_slideIn .25s ease;`;
+  t.innerHTML = `<i class="ti ${c.icon}" style="font-size:16px;flex-shrink:0"></i><span>${msg}</span>`;
+  wrap.appendChild(t);
+  setTimeout(() => { t.style.animation='_spa_fadeOut .25s ease forwards'; setTimeout(()=>t.remove(),250); }, 3000);
+}
+
+// CSS animations cho SPA
+(function() {
+  if (document.getElementById('_spa_css')) return;
+  const s = document.createElement('style');
+  s.id = '_spa_css';
+  s.textContent = `
+    @keyframes _spa_spin    { to { transform:rotate(360deg); } }
+    @keyframes _spa_slideIn { from { opacity:0;transform:translateX(20px); } to { opacity:1;transform:translateX(0); } }
+    @keyframes _spa_fadeOut { to   { opacity:0;transform:translateX(20px); } }
+  `;
+  document.head.appendChild(s);
+})();
+
+/* ============================================================
+   CODE GỐC — GIỮ NGUYÊN HOÀN TOÀN
+   ============================================================ */
+
+// Biến global để lưu trữ nội dung dashboard gốc
+let _dashboardHTML; 
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Cache HTML dashboard gốc để quay lại được
+  const contentEl = document.querySelector('.content');
+  if (contentEl) _dashboardHTML = contentEl.innerHTML;
+
   renderTopbar();
   renderNextMatch();
   renderStatCards();
@@ -203,7 +283,7 @@ function renderForm() {
 function renderStatBars() {
   const s = BITFC_DATA.teamStats;
   const bars = [
-    { label: 'Bàn thắng',  val: s.goalsFor,      max: 60,  display: s.goalsFor,     color: 'var(--red-primary)' },
+    { label: 'Bàn thắng',  val: s.goalsFor,     max: 60,  display: s.goalsFor,     color: 'var(--red-primary)' },
     { label: 'Bàn thua',   val: s.goalsAgainst,  max: 60,  display: s.goalsAgainst, color: '#60a5fa' },
     { label: 'Cú sút',     val: s.totalShots,    max: 250, display: s.totalShots,   color: 'rgba(251,225,34,0.65)' },
     { label: 'Kiểm soát',  val: s.possession,    max: 100, display: `${s.possession}%`, color: '#22c55e' }
@@ -328,12 +408,11 @@ function renderMedia() {
   }).join('');
 }
 
-/* ---- NAV ITEMS ---- */
+/* ---- NAV ITEMS — sửa để gọi SPA router ---- */
 function initNavItems() {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', function () {
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      this.classList.add('active');
+      navigateTo(this.dataset.page);
     });
   });
 }

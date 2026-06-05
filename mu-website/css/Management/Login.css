@@ -10,11 +10,13 @@
   --mb-black:  #0d0000;
   --mb-card:   #1a0000;
   --mb-gold:   #FBE122;
-  --mb-dim:    rgba(218,41,28,.6);
+  --mb-dim:    rgb(255, 255, 255);
   --mb-text:   #f5c0c0;
   --mb-ph:     rgba(218,41,28,.32);
   --mb-fd:     'Oswald', sans-serif;
   --mb-fc:     'Barlow Condensed', sans-serif;
+    --shadow-glow:     0 0 30px rgba(218, 41, 28, 0.35);
+
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -79,6 +81,9 @@ body {
   position: relative;
   overflow: hidden;
 }
+.login-header img {
+ max-width: 100px;
+}
 .login-header::before {
   content: '';
   position: absolute; inset: 0;
@@ -110,7 +115,10 @@ body {
 /* ── Card body ── */
 .login-card {
   background: var(--mb-card);
-  border: 1px solid rgba(218,41,28,.25);
+ box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.7),
+    var(--shadow-glow);
+  border: 1px solid rgba(218, 41, 28, 0.323);
   border-top: none;
   border-radius: 0 0 8px 8px;
   overflow: hidden;

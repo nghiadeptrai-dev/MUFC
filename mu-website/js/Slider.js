@@ -1,45 +1,101 @@
-// Cần đảm bảo object playersDetailData đã được khai báo trước đoạn code này.
+// Slider.js — ES Module, lấy dữ liệu cầu thủ từ Firebase
+import { listenAllPlayers } from "../controllers/PlayerController.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const track = document.getElementById('player-track');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
-  
-  if (!track || typeof playersDetailData === 'undefined') return;
 
-  // Chuyển object dữ liệu thành mảng để dễ xử lý vòng lặp
-  const players = Object.values(playersDetailData);
-  let currentIndex = Math.floor(players.length / 2); // Bắt đầu ở giữa mảng
+  if (!track) return;
 
-  // 1. Khởi tạo HTML cho các thẻ cầu thủ
-  track.innerHTML = players.map((player, index) => `
-    <div class="player-3d-card" data-index="${index}">
-      <div class="glass-card">
-        <div class="glass-card-bg"></div>
-        <div class="player-3d-number">
-          <div class="player-3d-number-inner">
-            <span>${player.number}</span>
+  // ── 0. Hiện loading state ──
+  track.innerHTML = '<p style="color:var(--gray-mid); text-align:center; width:100%; padding:40px 0;">Đang tải đội hình...</p>';
+
+  let currentIndex = -1; // -1 nghĩa là chưa khởi tạo
+  let players = [];
+  let cards = [];
+  let isFirstLoad = true;
+
+  // ── 1. Lắng nghe cầu thủ từ Firestore ──
+  listenAllPlayers((result) => {
+    if (!result || result.error || result.length === 0) {
+      track.innerHTML = '<p style="color:var(--red-mid); text-align:center; width:100%; padding:40px 0;">Không thể tải đội hình.</p>';
+      return;
+    }
+
+    // Lọc những cầu thủ active/injured/suspend (giống team-public)
+    const activeResult = result.filter(p => p.status === "active" || p.status === "injured" || p.status === "suspend");
+
+    // Chuyển Firestore data → format phù hợp slider
+    players = activeResult.map(p => ({
+      id:     p.id,
+      number: p.number ?? '',
+      name:   p.name   ?? 'Cầu thủ',
+      pos:    p.posLabel || p.pos || '',
+      img:    p.imgUrl  || 'assessts/logoBit.png',
+      alt:    p.name    || 'Cầu thủ',
+    }));
+
+    // Cố gắng giữ nguyên vị trí, nếu danh sách bị ngắn lại thì đưa về cuối
+    if (currentIndex === -1) {
+      currentIndex = Math.floor(players.length / 2);
+    } else if (currentIndex >= players.length) {
+      currentIndex = players.length - 1;
+    }
+
+    // ── 2. Khởi tạo HTML cho các thẻ cầu thủ ──
+    track.innerHTML = players.map((player, index) => `
+      <div class="player-3d-card" data-index="${index}">
+        <div class="glass-card">
+          <div class="glass-card-bg"></div>
+          <div class="player-3d-number">
+            <div class="player-3d-number-inner">
+              <span>${player.number}</span>
+            </div>
           </div>
-        </div>
-        <div class="player-3d-img-wrap">
-          <img src="${player.img}" alt="${player.alt}">
-        </div>
-        <div class="player-3d-info">
-          <div class="player-3d-info-inner">
-            <h3>${player.name}</h3>
-            <div class="player-3d-pos">
-              <div class="line"></div>
-              <p>${player.pos}</p>
+          <div class="player-3d-img-wrap">
+            <img src="${player.img}" alt="${player.alt}" loading="lazy" onerror="this.src='assessts/logoBit.png';">
+          </div>
+          <div class="player-3d-info">
+            <div class="player-3d-info-inner">
+              <h3>${player.name}</h3>
+              <div class="player-3d-pos">
+                <div class="line"></div>
+                <p>${player.pos}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `).join('');
 
-  const cards = document.querySelectorAll('.player-3d-card');
+    cards = document.querySelectorAll('.player-3d-card');
+    
+    // Khôi phục sự kiện click cho các thẻ
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        if (currentIndex !== index) {
+          currentIndex = index;
+          updateSlider();
+          resetAutoPlay();
+        } else {
+          const playerId = players[index].id;
+          window.location.href = `pages/player-detail.html?id=${playerId}`;
+        }
+      });
+    });
 
-  // 2. Hàm cập nhật hiệu ứng 3D Coverflow
+    if (!isFirstLoad) {
+      track.classList.remove("flash-update");
+      void track.offsetWidth;
+      track.classList.add("flash-update");
+    }
+    isFirstLoad = false;
+
+    updateSlider();
+  });
+
+  // ── 3. Hàm cập nhật hiệu ứng 3D Coverflow ──
   const updateSlider = () => {
     cards.forEach((card, index) => {
       const offset = index - currentIndex;
@@ -104,38 +160,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // 3. Xử lý sự kiện Click
+  // ── 4. Auto-play: tự chạy slider mỗi 4 giây ──
+  const AUTO_PLAY_DELAY = 4000;
+  let autoPlayTimer = null;
+
+  const startAutoPlay = () => {
+    stopAutoPlay();
+    autoPlayTimer = setInterval(() => {
+      currentIndex = (currentIndex + 1) % players.length; // Lặp vòng
+      updateSlider();
+    }, AUTO_PLAY_DELAY);
+  };
+
+  const stopAutoPlay = () => {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = null;
+    }
+  };
+
+  // Reset auto-play khi user tương tác
+  const resetAutoPlay = () => {
+    startAutoPlay();
+  };
+
+  // ── 5. Xử lý sự kiện Click ──
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateSlider();
-      }
+      currentIndex = (currentIndex - 1 + players.length) % players.length;
+      updateSlider();
+      resetAutoPlay();
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      if (currentIndex < players.length - 1) {
-        currentIndex++;
-        updateSlider();
-      }
+      currentIndex = (currentIndex + 1) % players.length;
+      updateSlider();
+      resetAutoPlay();
     });
   }
 
-  cards.forEach((card, index) => {
-    card.addEventListener('click', () => {
-      if (currentIndex !== index) {
-        currentIndex = index;
-        updateSlider();
-      } else {
-        // Nếu click vào thẻ đang active, chuyển hướng sang trang chi tiết
-        const slug = Object.keys(playersDetailData)[index];
-        window.location.href = `pages/player-detail.html?slug=${slug}`;
-      }
-    });
-  });
 
-  // Gọi hàm chạy lần đầu
+
+  // Gọi hàm chạy lần đầu + bắt đầu auto-play
   updateSlider();
+  startAutoPlay();
 });

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>None BIT FC - The Pride of Banking IT</title>
+  <title>BIT FC - The Pride of Banking IT</title>
   <link rel="icon" href="assessts/logoBit.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,7 @@
 </div> -->
   <!-- PRELOADER -->
   <div id="preloader">
-    <img class="pre-logo" src="assessts/logoBit.png" alt="BIT FC" />
+    <img class="pre-logo" src="assessts/logoBit.png" alt="NONE BIT FC" />
     <div class="pre-text">NONE BIT FC</div>
     <div class="pre-sub">The Pride of Banking IT</div>
     <div class="pre-bar-wrap">
@@ -39,8 +39,8 @@
   <!-- NAVBAR -->
   <nav id="navbar">
     <a href="index.html" class="nav-logo">
-      <img src="assessts/logoBit.png" alt="BIT FC Logo" />
-      <span>None BIT FC</span>
+      <img src="assessts/logoBit.png" alt="NONE BIT FC Logo" />
+      <span>NONE BIT FC</span>
     </a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Trang chủ</a></li>
@@ -48,7 +48,7 @@
       <li><a href="pages/gallery.html">Thư Viện</a></li>
       <li><a href="pages/history.html">Thành Tích</a></li>
       <li><a href="pages/news.html">Tin Tức</a></li>
-      <li><a href="pages/fixtures.html">Lịch Thi Đấu</a></li>
+      <li><a href="pages/Management/dashboard.html">Quản Lý</a></li>
       <li><a href="#contact">Liên Hệ</a></li>
     </ul>
     <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -61,7 +61,7 @@
     <a href="pages/gallery.html">Thư Viện</a>
     <a href="pages/history.html">Thành Tích</a>
     <a href="pages/news.html">Tin Tức</a>
-    <a href="pages/fixtures.html">Lịch Thi Đấu</a>
+    <a href="Login.html">Quản Lý</a>
     <a href="#contact">Liên Hệ</a>
   </div>
 
@@ -72,10 +72,10 @@
       <div class="hero-bg"></div>
       <div class="hero-particles"></div>
       <div class="hero-content">
-        <img class="hero-logo" src="assessts/logoBit.png" alt="BIT FC" />
+        <img class="hero-logo" src="assessts/logoBit.png" alt="NONE BIT FC" />
         <div class="hero-eyebrow">Est. 2010 · BIT FC, VIETNAM</div>
         <h1 class="hero-title">NONE <span>BIT</span><br /><span style="color:var(--white); font-size: 7rem;">ĐỘI BÓNG</span></h1>
-        <p class="hero-subtitle">BIT FC - The Pride of Banking IT</p>
+        <p class="hero-subtitle">BIT FC – The Pride of Banking IT</p>
         <div class="hero-actions">
           <a href="#about" class="btn btn-primary">Khám Phá Ngay</a>
           <a href="pages/team.html" class="btn btn-outline">Đội Hình</a>
@@ -97,17 +97,17 @@
 
         <!-- ── MATCH PANEL ── -->
         <div id="mb-p-match">
-          <div class="mb-card">
+          <div class="mb-card" id="mb-remark-card">
             <div class="mb-match-bar">
-              <div class="mb-bar-team">BIT FC</div>
+              <div class="mb-bar-team" id="rm-home-bar">BIT FC</div>
               <div class="mb-bar-vs">VS</div>
-              <div class="mb-bar-team mb-right">Khoa Học FC</div>
+              <div class="mb-bar-team mb-right" id="rm-away-bar">Khoa Học FC</div>
             </div>
             <div class="mb-matchup-row">
 
               <!-- Home -->
               <div class="mb-side">
-                <div class="mb-logo-circle mb-home">
+                <div class="mb-logo-circle mb-home" id="rm-home-logo-wrap">
                   <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="31" cy="31" r="29" fill="#DA291C"/>
                     <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
@@ -115,7 +115,7 @@
                     <text x="31" y="41" font-family="Oswald,sans-serif" font-size="10" fill="rgba(255,255,255,.75)" text-anchor="middle">FC</text>
                   </svg>
                 </div>
-                <div class="mb-t-name">BIT FC</div>
+                <div class="mb-t-name" id="rm-home-name">BIT FC</div>
               </div>
 
               <!-- Countdown -->
@@ -142,12 +142,12 @@
                     <div class="mb-cd-lbl">GIÂY</div>
                   </div>
                 </div>
-                <div class="mb-cd-date">Chủ Nhật, 14/06/2026<br/>15:30 · Sân ABC, Cầu Giấy</div>
+                <div class="mb-cd-date" id="rm-datetime">Chủ Nhật, 14/06/2026<br/>15:30 · Sân ABC, Cầu Giấy</div>
               </div>
 
               <!-- Away -->
               <div class="mb-side">
-                <div class="mb-logo-circle">
+                <div class="mb-logo-circle" id="rm-away-logo-wrap">
                   <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="31" cy="31" r="29" fill="#1a1a2e"/>
                     <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5" stroke-dasharray="4 3"/>
@@ -155,7 +155,7 @@
                     <text x="31" y="39" font-family="Oswald,sans-serif" font-size="9" fill="rgba(255,255,255,.65)" text-anchor="middle">HỌC FC</text>
                   </svg>
                 </div>
-                <div class="mb-t-name">Khoa Học FC</div>
+                <div class="mb-t-name" id="rm-away-name">Khoa Học FC</div>
               </div>
 
             </div>
@@ -362,7 +362,7 @@
       <div class="container">
         <div class="news-header">
           <div class="fade-in">
-            <span class="section-label">Nhịp Đập The Red Devils</span>
+            <span class="section-label">Nhịp Đập The Pride of Banking IT</span>
             <div class="gold-divider"></div>
             <h2 class="section-title">Tin Tức &amp; Cập Nhật</h2>
           </div>
@@ -373,7 +373,7 @@
             <div class="news-card-body">
               <div class="news-tag">Báo Cáo Trận Đấu</div>
               <h3>Man United ngược dòng kịch tính 3-2 trong Derby Manchester</h3>
-              <p>Một đêm không thể quên tại Old Trafford khi The Red Devils lội ngược dòng ngoạn mục trước Man City...</p>
+              <p>Một đêm không thể quên tại Old Trafford khi The Pride of Banking IT lội ngược dòng ngoạn mục trước Man City...</p>
             </div>
             <div class="news-card-footer">
               <span class="news-date">20 Th11, 2024</span>
@@ -406,7 +406,7 @@
             <div class="news-card-body">
               <div class="news-tag">Cập Nhật Đội Hình</div>
               <h3>Garnacho và Rashford trở lại tập luyện trước vòng đấu tới</h3>
-              <p>Tin vui cho The Red Devils khi hai ngôi sao tốc độ đã hồi phục và sẵn sàng ra sân.</p>
+              <p>Tin vui cho The Pride of Banking IT khi hai ngôi sao tốc độ đã hồi phục và sẵn sàng ra sân.</p>
             </div>
             <div class="news-card-footer">
               <span class="news-date">17 Th11, 2024</span>
@@ -512,8 +512,8 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/Slider.js"></script>
-  <script src="js/match_board.js"></script>
+  <script type="module" src="js/Slider.js"></script>
+  <script type="module" src="js/match_board.js"></script>
 
 </body>
 </html>

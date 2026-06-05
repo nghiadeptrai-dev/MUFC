@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chi Tiết Tin Tức – BIT FC</title>
+  <title>Chi Tiết BHL – BIT FC</title>
   <link rel="icon" href="../assessts/logoBit.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/pages.css" />
+  <link rel="stylesheet" href="../css/staff-profile.css" />
 </head>
 <body>
   <div id="preloader">
     <img class="pre-logo" src="../assessts/logoBit.png" alt="NONE BIT FC" />
     <div class="pre-text">NONE BIT FC</div>
-    <div class="pre-sub">Chi Tiết Tin Tức</div>
+    <div class="pre-sub">Chi Tiết Ban Huấn Luyện</div>
     <div class="pre-bar-wrap"><div class="pre-bar"></div></div>
   </div>
 
@@ -23,17 +25,18 @@
     </a>
     <ul class="nav-links">
       <li><a href="../index.html">Trang chủ</a></li>
-      <li><a href="team.html">Đội Hình</a></li>
+      <li><a href="team.html" class="active">Đội Hình</a></li>
       <li><a href="gallery.html">Thư Viện</a></li>
       <li><a href="history.html">Thành Tích</a></li>
-      <li><a href="news.html" class="active">Tin Tức</a></li>
+      <li><a href="news.html">Tin Tức</a></li>
       <li><a href="../index.html#contact">Liên Hệ</a></li>
     </ul>
     <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </nav>
+
   <div class="mobile-nav">
     <a href="../index.html">Trang chủ</a>
-    <a href="team.html">Đội Hình</a>
+    <a href="team.html" class="active">Đội Hình</a>
     <a href="gallery.html">Thư Viện</a>
     <a href="history.html">Thành Tích</a>
     <a href="news.html">Tin Tức</a>
@@ -41,18 +44,13 @@
   </div>
 
   <main>
-    <section class="news-detail-page">
+    <section class="staff-profile-page">
       <div class="container">
-        <a href="news.html" class="btn btn-outline back-link">← Quay lại Tin Tức</a>
+        <a href="team.html" class="btn btn-outline back-link">← Quay lại Đội Hình</a>
         
-        <div id="news-detail" class="news-detail-card fade-in">
-          <div class="news-detail-skeleton">
-            <div class="news-detail-image"></div>
-            <div class="news-detail-copy">
-              <span class="section-label">Tin Tức</span>
-              <h1 class="section-title">Đang tải tin tức...</h1>
-              <p>Vui lòng chờ hoặc quay lại trang tin tức để xem các bài viết khác.</p>
-            </div>
+        <div id="staff-detail" class="player-profile-container fade-in">
+          <div style="text-align:center; padding: 100px 0; color: var(--gray-mid);">
+            <h2>Đang tải dữ liệu...</h2>
           </div>
         </div>
 
@@ -84,6 +82,6 @@
   </footer>
 
   <script src="../js/main.js"></script>
-  <script type="module" src="../js/news-detail-public.js"></script>
+  <script type="module" src="../js/staff-detail-public.js"></script>
 </body>
 </html>
