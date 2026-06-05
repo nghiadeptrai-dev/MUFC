@@ -330,29 +330,10 @@
             <div class="gold-divider"></div>
             <h2 class="section-title">Thư Viện Ảnh</h2>
           </div>
-          <a href="pages/gallery.html" class="btn btn-outline fade-in">Xem Tất Cả</a>
+          <a href="pages/gallery.html?filter=photo" class="btn btn-outline fade-in">Xem Tất Cả</a>
         </div>
-        <div class="gallery-preview-grid">
-          <div class="gallery-preview-item fade-in">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Old_Trafford_inside_20060726_1.jpg/1280px-Old_Trafford_inside_20060726_1.jpg" alt="Old Trafford" loading="lazy" />
-            <div class="gallery-item-overlay"><span>Nhà hát của những giấc mơ</span></div>
-          </div>
-          <div class="gallery-preview-item fade-in">
-            <img src="https://img.youtube.com/vi/M_GElv27grU/maxresdefault.jpg" alt="Champions League" loading="lazy" />
-            <div class="gallery-item-overlay"><span>Đêm Champions League</span></div>
-          </div>
-          <div class="gallery-preview-item fade-in">
-            <img src="https://img.youtube.com/vi/5QZgNgcDK60/maxresdefault.jpg" alt="Highlight" loading="lazy" />
-            <div class="gallery-item-overlay"><span>Khoảnh khắc vàng</span></div>
-          </div>
-          <div class="gallery-preview-item fade-in">
-            <img src="https://img.youtube.com/vi/tUg0m6THbgU/maxresdefault.jpg" alt="Bàn thắng đẹp" loading="lazy" />
-            <div class="gallery-item-overlay"><span>Những bàn thắng đẳng cấp</span></div>
-          </div>
-          <div class="gallery-preview-item fade-in">
-            <img src="https://img.youtube.com/vi/Pkjl3et0tPY/maxresdefault.jpg" alt="Kỹ thuật" loading="lazy" />
-            <div class="gallery-item-overlay"><span>Kỹ thuật cá nhân</span></div>
-          </div>
+        <div class="gallery-preview-grid" id="home-photos-grid">
+          <!-- Ảnh sẽ được tự động tải từ JS (home-photos.js) -->
         </div>
       </div>
     </section>
@@ -473,6 +454,7 @@
   <script type="module" src="js/Slider.js"></script>
   <script type="module" src="js/match_board.js"></script>
   <script type="module" src="js/home-news.js"></script>
+  <script type="module" src="js/home-photos.js"></script>
 
 </body>
 </html>

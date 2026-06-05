@@ -104,7 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── 3. Hàm cập nhật hiệu ứng 3D Coverflow ──
   const updateSlider = () => {
     cards.forEach((card, index) => {
-      const offset = index - currentIndex;
+      let offset = index - currentIndex;
+      
+      // Xử lý offset theo vòng tròn (infinite loop)
+      const half = Math.floor(players.length / 2);
+      if (offset > half) {
+        offset -= players.length;
+      } else if (offset < -half) {
+        offset += players.length;
+      }
+      
       const absOffset = Math.abs(offset);
       
       let translateX = 0;

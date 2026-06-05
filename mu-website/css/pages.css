@@ -307,6 +307,32 @@
   color: var(--white);
 }
 
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px; height: 50px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--white);
+  font-size: 1.5rem;
+  transition: all var(--transition);
+  z-index: 2001;
+}
+
+.lightbox-nav:hover {
+  background: var(--red-primary);
+  border-color: var(--red-primary);
+  color: var(--white);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.btn-prev { left: 1.5rem; }
+.btn-next { right: 1.5rem; }
+
 /* ---- HISTORY PAGE ---- */
 .history-stats {
   display: flex;
@@ -905,7 +931,17 @@ a.team-card .team-card-img {
   .history-body { grid-template-columns: 1fr; gap: 3rem; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  .lightbox-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+  }
+  .btn-prev { left: 0.5rem; }
+  .btn-next { right: 0.5rem; }
+}
+
+@media (max-width: 700px) {
   .news-detail-grid { grid-template-columns: 1fr; }
   .player-detail-grid { grid-template-columns: 1fr; }
   .player-detail-meta { grid-template-columns: 1fr; }
