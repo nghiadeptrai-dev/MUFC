@@ -3,7 +3,7 @@ const newsDetailData = {
     tag: 'Official',
     date: '09/04/2026',
     title: 'Thầy Vũ Trọng Sinh chính thức giữ ghế Huấn luyện viên trưởng None BIT FC!',
-    img: '../assessts/Thay_VTS.jpg',
+    img: '../assessts/News1.jpg',
     intro: 'None BIT FC vừa chính thức công bố danh sách Ban huấn luyện mới. Thầy Vũ Trọng Sinh sẽ là thuyền trưởng chèo lái con thuyền None BIT FC trong chiến dịch này.',
     content: [
       'Sự xuất hiện của thầy Vũ Trọng Sinh trên băng ghế chỉ đạo được kỳ vọng sẽ đem lại sự kỷ luật, chiều sâu chiến thuật và điểm tựa tinh thần vững chắc cho các cầu thủ.',
@@ -16,8 +16,8 @@ const newsDetailData = {
     tag: 'Match Report',
     date: '30/04/2026',
     title: 'Hủy diệt "Lớp Học Thầy Văn" 10-0, BIT khẳng định sức mạnh tuyệt đối',
-    img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80',
-    intro: 'Một cơn mưa bàn thắng không tưởng đã được các chàng trai áo đen-trắng dội xuống sân La Thành, mang về chiến thắng hủy diệt đầy thuyết phục.',
+    img: '../assessts/News2.jpg',
+    intro: 'Một cơn mưa bàn thắng không tưởng đã được các chàng trai áo đen-trắng dội xuống sân La Thành, mang về chiến thắng hủy diệt đầy thuyết phục cho None BIT FC.',
     content: [
       'Lối chơi ban bật cự ly ngắn hiện đại mang đậm bản sắc BIT đã bóp nghẹt mọi không gian phản kháng của đối phương ngay từ những phút đầu tiên.',
       'Các cầu thủ tấn công liên tục thay đổi vị trí thông minh khiến hàng thủ đối phương hoàn toàn hỗn loạn và liên tiếp nhận bàn thua.',
@@ -27,9 +27,9 @@ const newsDetailData = {
   },
   'chien-thang-khoa-tai-chinh': {
     tag: 'ITDE Open Cup',
-    date: '04/05/2026',
+    date: '04/06/2026',
     title: 'Khởi đầu thuận lợi: BIT đả bại CTV Khoa Tài Chính với tỷ số 5-2',
-    img: '../assessts/Tran1.jpg',
+    img: '../assessts/News3.jpg',
     intro: 'Dù đối thủ chơi áp sát quyết liệt, chiến thuật hợp lý của thầy Vũ Trọng Sinh cùng sự tỏa sáng của các trụ cột trung tuyến đã giúp BIT giành trọn vẹn 3 điểm.',
     content: [
       'Trận mở màn bảng B chiến dịch ITDE Open Cup diễn ra vô cùng căng thẳng khi CTV Khoa Tài Chính chủ động chơi áp sát và không ngại va chạm.',
@@ -55,7 +55,7 @@ const newsDetailData = {
     tag: 'Analysis',
     date: '04/06/2026',
     title: 'Góc Chiến Thuật: Sơ đồ nào tối ưu cho HLV Vũ Trọng Sinh ở lượt trận tới?',
-    img: 'https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=1200&q=80',
+    img: '../assessts/News5.jpg',
     intro: 'Sự cơ động của khu trung tuyến đang mở ra nhiều phương án pressing tầm cao vũ bão cho None BIT FC.',
     content: [
       'Với lực lượng đồng đều hiện tại, HLV Vũ Trọng Sinh đang có trong tay nhiều sự lựa chọn chất lượng ở cả 3 tuyến.',
