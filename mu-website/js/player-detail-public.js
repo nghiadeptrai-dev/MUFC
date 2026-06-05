@@ -25,7 +25,7 @@ function renderDetail(p) {
   const imgUrl = p.imgUrl || defaultImg;
 
   // Lấy chữ cái đầu làm logo làm chìm ở góc thẻ
-  const teamWatermark = "MUFC";
+  const teamWatermark = "NONE BIT FC";
 
   detail.innerHTML = `
     <div class="profile-top-grid">
@@ -33,6 +33,10 @@ function renderDetail(p) {
       <div class="profile-hero-card">
         <div class="profile-hero-number">${p.number || ''}</div>
         <img src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='${defaultImg}';" />
+        ${p.pos ? `<div class="profile-pos-badge">${p.pos.toUpperCase()}</div>` : ''}
+        <div class="profile-club-logo">
+          <img src="../assessts/logoBit.png" alt="BIT FC" />
+        </div>
         <div class="profile-hero-overlay"></div>
         <div class="profile-hero-text">
           <span>${teamWatermark}</span>
@@ -43,7 +47,7 @@ function renderDetail(p) {
       <div class="profile-info-section">
         <div class="profile-badge">${p.posLabel || p.pos}</div>
         <h1 class="profile-name">${p.name}</h1>
-        <div class="profile-subtitle">THE PRIDE OF MANCHESTER</div>
+        <div class="profile-subtitle">Not Old New Energy BIT FC</div>
 
         <div class="profile-basic-grid">
           <div class="basic-card">

@@ -100,7 +100,7 @@
   letter-spacing: 0.45em;
   text-transform: uppercase;
   color: var(--gray-mid);
-  margin-top: 1.2rem;
+  margin-top: 2rem;
   opacity: 0;
   animation: fadeInUp 0.8s ease 0.8s forwards;
 }
@@ -435,7 +435,7 @@ background:
 
 .player-3d-info h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 6vw, 2.2rem);
+  font-size: clamp(1.4rem, 6vw, 2rem);
   color: var(--white);
   line-height: 1.1;
   text-transform: uppercase;

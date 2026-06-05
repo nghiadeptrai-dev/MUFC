@@ -103,6 +103,7 @@
 
 /* Logo circles */
 .mb-logo-circle {
+  padding: 0.8rem;
   width: 78px; height: 78px; border-radius: 50%; overflow: hidden;
   border: 2px solid rgba(218,41,28,.45); background: var(--mb-card);
   display: flex; align-items: center; justify-content: center;
@@ -225,7 +226,8 @@
 .mb-rc-comp { font-size: .6rem; letter-spacing: .15em; color: rgba(218,41,28,.75); margin-bottom: 9px; font-weight: 600; text-transform: uppercase; }
 .mb-rc-body { display: flex; align-items: center; gap: 6px; }
 .mb-rc-logo {
-  width: 34px; height: 34px; border-radius: 50%; background: var(--mb-black);
+  padding: 0.5rem;
+  width: 40px; height: 40px; border-radius: 50%; background: var(--mb-black);
   border: 1px solid rgba(218,41,28,.25);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;
 }

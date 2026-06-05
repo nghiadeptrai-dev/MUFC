@@ -196,8 +196,8 @@ img {
 .nav-links a {
   font-family: var(--font-condensed);
   font-weight: 600;
-  font-size: 0.82rem;
-  letter-spacing: 0.15em;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.5rem 0.9rem;
   border-radius: 3px;
@@ -488,6 +488,40 @@ footer {
   border-color: var(--red-primary);
   color: var(--red-primary);
   transform: translateY(-2px);
+}
+
+/* Slanted button styles */
+.btn-slanted {
+  transform: skewX(-15deg);
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary.btn-slanted:hover {
+  transform: skewX(-15deg) translateY(-2px);
+}
+
+.btn-outline.btn-slanted:hover {
+  transform: skewX(-15deg) translateY(-2px);
+  background: rgba(218, 41, 28, 0.1);
+}
+
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transform: skewX(15deg);
+}
+
+.btn-slanted .arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-size: 1.1em;
+}
+
+.btn-slanted:hover .arrow {
+  transform: translateX(4px);
 }
 
 .gold-divider {
