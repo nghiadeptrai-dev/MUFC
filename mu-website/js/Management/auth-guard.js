@@ -13,7 +13,7 @@
  *   4. Nếu ĐÃ đăng nhập    → hiện trang + gắn user vào window.__currentUser
  */
 
-import { onAuthChange, logout } from "../../controllers/Authenticationcontroller.js";
+import { onAuthChange, logout } from "../../controllers/AuthenticationController.js";
 
 const LOGIN_URL = "/mu-website/Login.html"; // ← đổi nếu path khác
 

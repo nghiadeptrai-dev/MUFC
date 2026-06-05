@@ -12,7 +12,7 @@ import {
   loginWithFacebook,
   resetPassword,
   onAuthChange,
-} from "../../controllers/Authenticationcontroller.js";
+} from "../../controllers/AuthenticationController.js";
 
 // ─── CONFIG ──────────────────────────────────────────────
 const DEFAULT_REDIRECT = "/mu-website/pages/Management/dashboard.html";
