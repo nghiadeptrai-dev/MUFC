@@ -36,23 +36,20 @@
 
 html {
   scroll-behavior: smooth;
-background:
-  linear-gradient(
-    180deg,
-    var(--black) 0%,
-    rgba(139, 0, 0, 0.08) 50%,
-    var(--black) 100%
-  ) center/cover no-repeat fixed;
-
+  background: linear-gradient(180deg, var(--black) 0%, rgba(139, 0, 0, 0.08) 50%, var(--black) 100%) center/cover no-repeat fixed;
+}
+html.has-video, body.has-video {
+  background: transparent !important;
 }
 
 body {
   font-family: var(--font-body);
-background: rgb(0, 0, 0);
+  background: rgb(0, 0, 0);
   color: var(--white);
   overflow-x: hidden;
   cursor: default;
 }
+
 a {
   text-decoration: none;
   color: inherit;
@@ -599,4 +596,60 @@ footer {
   0% { filter: brightness(1); }
   30% { filter: brightness(1.6) contrast(1.1); }
   100% { filter: brightness(1); }
+}
+/* ============================================================
+   BACKGROUND VIDEO & OVERLAY STYLES
+   ============================================================ */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
+
+#bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    rgba(139, 0, 0, 0) 0%,
+    rgba(139, 0, 0, 0.35) 25%,
+    rgba(13, 0, 0, 0.95) 75%,
+    rgba(13, 0, 0, 0.95) 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+#mute-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+#mute-btn:hover {
+  background: rgba(218, 41, 28, 0.8);
+  border-color: rgba(218, 41, 28, 1);
+  transform: scale(1.1);
 }

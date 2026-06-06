@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="has-video">
 
 <head>
   <meta charset="UTF-8" />
@@ -8,24 +8,24 @@
   <link rel="icon" href="assessts/logoBit.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@300;400;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/home.css" />
   <link rel="stylesheet" href="css/match_board.css" />
 </head>
 
-<body>
-<!-- <div class="video-container">
-  <video autoplay muted loop playsinline class="bg-video">
-    <source src="duong-dan-video-cua-ban.mp4" type="video/mp4">
-    Trình duyệt của bạn không hỗ trợ thẻ video.
+<body class="has-video">
+  <!-- BACKGROUND VIDEO & OVERLAY -->
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="assessts/bg-main.mp4" type="video/mp4">
   </video>
+  <div id="bg-overlay"></div>
 
-  <div class="content">
-    <h1>None Bit FC</h1>
-    <p>DNA Công Nghệ - Phá Đảo Sân Phủi</p>
-  </div>
-</div> -->
+  <button id="mute-btn" aria-label="Bật/Tắt âm thanh">🔇</button>
+
+
   <!-- PRELOADER -->
   <div id="preloader">
     <img class="pre-logo" src="assessts/logoBit.png" alt="NONE BIT FC" />
@@ -77,7 +77,8 @@
         <h1 class="hero-title">NONE <span>BIT </span>FC</h1>
         <p class="hero-subtitle">BIT FC – NOT OLD NEW ENERGY</p>
         <div class="hero-actions">
-          <a href="#about" class="btn btn-primary btn-slanted"><span class="btn-text">KHÁM PHÁ NGAY <span class="arrow">&rarr;</span></span></a>
+          <a href="#about" class="btn btn-primary btn-slanted"><span class="btn-text">KHÁM PHÁ NGAY <span
+                class="arrow">&rarr;</span></span></a>
           <a href="pages/team.html" class="btn btn-outline btn-slanted"><span class="btn-text">ĐỘI HÌNH</span></a>
         </div>
       </div>
@@ -91,8 +92,8 @@
 
         <!-- TABS -->
         <div class="mb-tab-wrap">
-          <button class="mb-tb mb-left"  id="mb-t-match" onclick="mbSw('match')">4EVEREST CUP · 2026</button>
-          <button class="mb-tb mb-right" id="mb-t-std"   onclick="mbSw('std')">VUA PHÁ LƯỚI</button>
+          <button class="mb-tb mb-left" id="mb-t-match" onclick="mbSw('match')">4EVEREST CUP · 2026</button>
+          <button class="mb-tb mb-right" id="mb-t-std" onclick="mbSw('std')">VUA PHÁ LƯỚI</button>
         </div>
 
         <!-- ── MATCH PANEL ── -->
@@ -109,10 +110,13 @@
               <div class="mb-side">
                 <div class="mb-logo-circle mb-home" id="rm-home-logo-wrap">
                   <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="31" cy="31" r="29" fill="#DA291C"/>
-                    <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
-                    <text x="31" y="29" font-family="Oswald,sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">BIT</text>
-                    <text x="31" y="41" font-family="Oswald,sans-serif" font-size="10" fill="rgba(255,255,255,.75)" text-anchor="middle">FC</text>
+                    <circle cx="31" cy="31" r="29" fill="#DA291C" />
+                    <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5"
+                      stroke-dasharray="4 3" />
+                    <text x="31" y="29" font-family="Oswald,sans-serif" font-size="14" font-weight="700" fill="#fff"
+                      text-anchor="middle">BIT</text>
+                    <text x="31" y="41" font-family="Oswald,sans-serif" font-size="10" fill="rgba(255,255,255,.75)"
+                      text-anchor="middle">FC</text>
                   </svg>
                 </div>
                 <div class="mb-t-name" id="rm-home-name">BIT FC</div>
@@ -142,17 +146,20 @@
                     <div class="mb-cd-lbl">GIÂY</div>
                   </div>
                 </div>
-                <div class="mb-cd-date" id="rm-datetime">Chủ Nhật, 14/06/2026<br/>15:30 · Sân ABC, Cầu Giấy</div>
+                <div class="mb-cd-date" id="rm-datetime">Chủ Nhật, 14/06/2026<br />15:30 · Sân ABC, Cầu Giấy</div>
               </div>
 
               <!-- Away -->
               <div class="mb-side">
                 <div class="mb-logo-circle" id="rm-away-logo-wrap">
                   <svg viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="31" cy="31" r="29" fill="#1a1a2e"/>
-                    <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5" stroke-dasharray="4 3"/>
-                    <text x="31" y="27" font-family="Oswald,sans-serif" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">KHOA</text>
-                    <text x="31" y="39" font-family="Oswald,sans-serif" font-size="9" fill="rgba(255,255,255,.65)" text-anchor="middle">HỌC FC</text>
+                    <circle cx="31" cy="31" r="29" fill="#1a1a2e" />
+                    <circle cx="31" cy="31" r="23" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5"
+                      stroke-dasharray="4 3" />
+                    <text x="31" y="27" font-family="Oswald,sans-serif" font-size="11" font-weight="700" fill="#fff"
+                      text-anchor="middle">KHOA</text>
+                    <text x="31" y="39" font-family="Oswald,sans-serif" font-size="9" fill="rgba(255,255,255,.65)"
+                      text-anchor="middle">HỌC FC</text>
                   </svg>
                 </div>
                 <div class="mb-t-name" id="rm-away-name">Khoa Học FC</div>
@@ -224,8 +231,12 @@
             <span class="section-label">Câu Chuyện Của Chúng Tôi</span>
             <div class="gold-divider"></div>
             <h2 class="section-title">Hơn Cả Một<br />Câu Lạc Bộ</h2>
-            <p>Được thành lập bởi những anh em mang trong mình DNA công nghệ, None Bit FC đã vươn mình bứt phá khỏi những dòng code khô khan để trở thành một thế lực đáng gờm trên các mặt sân phủi và là biểu tượng của tinh thần chiến đấu không giới hạn.</p>
-            <p>Từ những trận cầu "giao lưu trà đá" thuở sơ khai đến những chiến dịch tăng tốc nảy lửa, mỗi trận đấu trên mặt cỏ nhân tạo — "Nhà hát của những gã du mục IT" — là một lần hệ thống được đẩy lên mức tối đa, nơi anh em kề vai sát cánh giải mã thế trận và những huyền thoại được sinh ra.</p>
+            <p>Được thành lập bởi những anh em mang trong mình DNA công nghệ, None Bit FC đã vươn mình bứt phá khỏi
+              những dòng code khô khan để trở thành một thế lực đáng gờm trên các mặt sân phủi và là biểu tượng của tinh
+              thần chiến đấu không giới hạn.</p>
+            <p>Từ những trận cầu "giao lưu trà đá" thuở sơ khai đến những chiến dịch tăng tốc nảy lửa, mỗi trận đấu trên
+              mặt cỏ nhân tạo — "Nhà hát của những gã du mục IT" — là một lần hệ thống được đẩy lên mức tối đa, nơi anh
+              em kề vai sát cánh giải mã thế trận và những huyền thoại được sinh ra.</p>
             <div class="about-stats">
               <div class="stat-item">
                 <div class="stat-number">2025</div>
@@ -267,67 +278,72 @@
     </section>
 
     <!-- TROPHIES -->
-   <section class="trophies-section">
-  <div class="container">
-    <div class="trophies-header fade-in">
-      <span class="section-label">Hào Quang</span>
-      <div class="gold-divider" style="margin:0.8rem auto;"></div>
-      <h2 class="section-title">Danh Hiệu Tiêu Biểu</h2>
-    </div>
+    <section class="trophies-section">
+      <div class="container">
+        <div class="trophies-header fade-in">
+          <span class="section-label">Hào Quang</span>
+          <div class="gold-divider" style="margin:0.8rem auto;"></div>
+          <h2 class="section-title">Danh Hiệu Tiêu Biểu</h2>
+        </div>
 
-    <div class="trophies-grid">
+        <div class="trophies-grid">
 
-      <div class="trophy-card fade-in">
-        <div class="trophy-year">2025</div>
-        <div class="trophy-info">
-          <h3>IB CUP 2025</h3>
-          <p>Giải đấu đầu tiên trong lịch sử NONE BIT FC. Đội bóng xuất sắc giành ngôi Á quân ngay mùa giải ra mắt.</p>
+          <div class="trophy-card fade-in">
+            <div class="trophy-year">2025</div>
+            <div class="trophy-info">
+              <h3>IB CUP 2025</h3>
+              <p>Giải đấu đầu tiên trong lịch sử NONE BIT FC. Đội bóng xuất sắc giành ngôi Á quân ngay mùa giải ra mắt.
+              </p>
+            </div>
+          </div>
+
+          <div class="trophy-card fade-in">
+            <div class="trophy-year">🥈</div>
+            <div class="trophy-info">
+              <h3>Á Quân Liên Tiếp</h3>
+              <p>Hai lần liên tiếp giành ngôi Á quân tại IB CUP 2025 và ITDE CUP 2026, khẳng định sự ổn định của tập
+                thể.</p>
+            </div>
+          </div>
+
+          <div class="trophy-card fade-in">
+            <div class="trophy-year">2026</div>
+            <div class="trophy-info">
+              <h3>ITDE CUP 2026</h3>
+              <p>Tiếp tục hành trình phát triển mạnh mẽ với vị trí Á quân, chứng minh sự trưởng thành vượt bậc của câu
+                lạc bộ.</p>
+            </div>
+          </div>
+
+          <div class="trophy-card fade-in">
+            <div class="trophy-year">🥇</div>
+            <div class="trophy-info">
+              <h3>4EVEREST CUP 2026</h3>
+              <p>Chức vô địch đầu tiên trong lịch sử NONE BIT FC, đánh dấu bước ngoặt vàng son của câu lạc bộ.</p>
+            </div>
+          </div>
+
+          <div class="trophy-card fade-in">
+            <div class="trophy-year">3</div>
+            <div class="trophy-info">
+              <h3>3 Chung Kết</h3>
+              <p>Liên tiếp góp mặt trong 3 trận chung kết lớn chỉ sau thời gian ngắn thành lập, thể hiện bản lĩnh thi
+                đấu đáng nể.</p>
+            </div>
+          </div>
+
+          <div class="trophy-card fade-in">
+            <div class="trophy-year">1</div>
+            <div class="trophy-info">
+              <h3>Chức Vô Địch</h3>
+              <p>Danh hiệu vô địch đầu tiên tại 4EVEREST CUP 2026 là minh chứng cho sự phát triển vượt bậc của đội bóng.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      <div class="trophy-card fade-in">
-        <div class="trophy-year">🥈</div>
-        <div class="trophy-info">
-          <h3>Á Quân Liên Tiếp</h3>
-          <p>Hai lần liên tiếp giành ngôi Á quân tại IB CUP 2025 và ITDE CUP 2026, khẳng định sự ổn định của tập thể.</p>
-        </div>
-      </div>
-
-      <div class="trophy-card fade-in">
-        <div class="trophy-year">2026</div>
-        <div class="trophy-info">
-          <h3>ITDE CUP 2026</h3>
-          <p>Tiếp tục hành trình phát triển mạnh mẽ với vị trí Á quân, chứng minh sự trưởng thành vượt bậc của câu lạc bộ.</p>
-        </div>
-      </div>
-
-      <div class="trophy-card fade-in">
-        <div class="trophy-year">🥇</div>
-        <div class="trophy-info">
-          <h3>4EVEREST CUP 2026</h3>
-          <p>Chức vô địch đầu tiên trong lịch sử NONE BIT FC, đánh dấu bước ngoặt vàng son của câu lạc bộ.</p>
-        </div>
-      </div>
-
-      <div class="trophy-card fade-in">
-        <div class="trophy-year">3</div>
-        <div class="trophy-info">
-          <h3>3 Chung Kết</h3>
-          <p>Liên tiếp góp mặt trong 3 trận chung kết lớn chỉ sau thời gian ngắn thành lập, thể hiện bản lĩnh thi đấu đáng nể.</p>
-        </div>
-      </div>
-
-      <div class="trophy-card fade-in">
-        <div class="trophy-year">1</div>
-        <div class="trophy-info">
-          <h3>Chức Vô Địch</h3>
-          <p>Danh hiệu vô địch đầu tiên tại 4EVEREST CUP 2026 là minh chứng cho sự phát triển vượt bậc của đội bóng.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- GALLERY PREVIEW -->
     <section class="gallery-preview-section">
@@ -391,7 +407,9 @@
               <div class="value"><a href="mailto:contact@nbitfc.vn">contact@nbitfc.vn</a></div>
             </div>
             <div style="margin-top:1.5rem;">
-              <div class="label" style="font-family:var(--font-condensed);font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gray-mid);margin-bottom:0.8rem;">Follow Us</div>
+              <div class="label"
+                style="font-family:var(--font-condensed);font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gray-mid);margin-bottom:0.8rem;">
+                Follow Us</div>
               <div class="footer-socials">
                 <a href="#" title="Facebook">f</a>
                 <a href="#" title="Instagram">in</a>
@@ -438,7 +456,8 @@
           <img src="assessts/logoBit.png" alt="NONE BIT FC" />
           <div class="footer-logo-text">NONE BIT FC<span>Not Old New Energy</span></div>
         </div>
-        <p class="footer-desc">Câu lạc bộ bóng đá sinh viên nhiệt huyết và đam mê, đại diện cho tinh thần "Không bao giờ cũ, luôn luôn mới" của tuổi trẻ.</p>
+        <p class="footer-desc">Câu lạc bộ bóng đá sinh viên nhiệt huyết và đam mê, đại diện cho tinh thần "Không bao giờ
+          cũ, luôn luôn mới" của tuổi trẻ.</p>
       </div>
       <div class="footer-col">
         <h4 class="footer-title">Thông Tin Liên Hệ</h4>
@@ -465,6 +484,7 @@
   <script type="module" src="js/match_board.js"></script>
   <script type="module" src="js/home-news.js"></script>
   <script type="module" src="js/home-photos.js"></script>
-
+  <script src="js/video-bg.js"></script>
 </body>
+
 </html>
